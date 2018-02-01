@@ -1,0 +1,3 @@
+CREATE DATABASE growthcap_users_prod;
+CREATE DATABASE growthcap_users_dev;
+CREATE DATABASE growthcap_users_test;

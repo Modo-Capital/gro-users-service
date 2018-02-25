@@ -1,4 +1,5 @@
 # project/api/auth.py
+import sys
 
 from flask import Blueprint, jsonify, request
 from sqlalchemy import exc, or_
@@ -16,12 +17,18 @@ auth_blueprint = Blueprint('auth', __name__)
 def register_user():
 	# Get Post Data
 	post_data = request.get_json()
+	print(post_data, file=sys.stdout)
+
+	# If there is any post data, response with error json object
 	if not post_data:
+		print("wtf")
 		response_object = {
 			'status': 'error',
 			'message': 'Invalid payload.'
 		}
 		return jsonify(response_object), 400
+
+	# getting username, email and password from post request
 	username = post_data.get('username')
 	email = post_data.get('email')
 	password = post_data.get('password')

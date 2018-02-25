@@ -31,7 +31,7 @@ $ . env/bin/activate
 (env)$ export APP_SETTINGS=project.config.DevelopmentConfig
 
 # Setting DATABASE_URL to local postgres user_dev
-(env)$  export DATABASE_URL=postgres://postgres:postgres@localhost:5432/growthcap_users_dev
+(env)$  export DATABASE_URL=postgres://postgres:postgres@localhost:5432/users_dev
 
 # Setting SERCRET_KEY 
 (env)$ export SECRET_KEY=my_precious
@@ -46,7 +46,7 @@ $ . env/bin/activate
 (env)$ python manage.py db upgrade
 
 # Spin up a Local Server and check in browser at http://127.0.0.1:5000/ 
-$ python manage.py server
+$ python manage.py runserver
 
 ```
 
@@ -63,7 +63,7 @@ $ . env/bin/activate
 (env)$ export APP_SETTINGS=project.config.TestingConfig
 
 # Setting DATABASE_URL to local postgres users_test
-(env)$ export DATABASE_TEST_URL=postgres://postgres:postgres@localhost:5432/growthcap_users_test
+(env)$ export DATABASE_TEST_URL=postgres://postgres:postgres@localhost:5432/users_test
 
 # Setting SERCRET_KEY 
 (env)$ export SECRET_KEY=my_precious

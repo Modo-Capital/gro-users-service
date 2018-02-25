@@ -121,23 +121,23 @@ class TestAuthBlueprint(BaseTestCase):
 	 		self.assertIn('error', data['status'])
 
 	# Test Registered User Login
-	# def test_registered_user_login(self):
-	# 	with self.client:
-	# 		add_user('test', 'test@test.com', 'test')
-	# 		response = self.client.post(
-	# 			'/auth/login',
-	# 			data=json.dumps(dict(
-	# 				email='test@test.com',
-	# 				password='test'
-	# 			)),
-	# 			content_type='application/json'
-	# 		)
-	# 		data = json.loads(response.data.decode())
-	# 		self.assertTrue(response.content_type == 'application/json')
-	# 		self.assertEqual(response.status_code, 200)
-	# 		self.assertTrue(data['status'] == 'success')
-	# 		self.assertTrue(data['message'] == 'Successfully logged in')
-	# 		self.assertTrue(data['auth_token']) 
+	def test_registered_user_login(self):
+		with self.client:
+			add_user('test', 'test@test.com', 'test')
+			response = self.client.post(
+				'/auth/login',
+				data=json.dumps(dict(
+					email='test@test.com',
+					password='test'
+				)),
+				content_type='application/json'
+			)
+			data = json.loads(response.data.decode())
+			self.assertTrue(response.content_type == 'application/json')
+			self.assertEqual(response.status_code, 200)
+			self.assertTrue(data['status'] == 'success')
+			self.assertTrue(data['message'] == 'Successfully logged in')
+			self.assertTrue(data['auth_token']) 
 			
 	# Test Not Registered User Login
 	def test_not_registered_user_login(self):

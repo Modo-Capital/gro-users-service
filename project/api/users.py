@@ -16,7 +16,7 @@ def ping_pong():
 		})
 
 # Adding New User to Database
-@users_blueprint.route('/api/1.0.0/users', methods=['POST'])
+@users_blueprint.route('/users', methods=['POST'])
 def add_user():
 	post_data = request.get_json()
 	# Return fail if recieve empty json object
@@ -60,7 +60,7 @@ def add_user():
 		return jsonify(response_object), 400
 
 # Get User by ID from Database
-@users_blueprint.route('/api/1.0.0/users/<user_id>', methods=['GET'])
+@users_blueprint.route('/users/<user_id>', methods=['GET'])
 def get_single_user(user_id):
 	""" Getting single user details """
 
@@ -88,7 +88,7 @@ def get_single_user(user_id):
 		return jsonify(response_object), 404
 
 # Get All Users from Database
-@users_blueprint.route('/api/1.0.0/users', methods=['GET'])
+@users_blueprint.route('/users', methods=['GET'])
 def get_all_users():
 	""" Get all users """
 	users = User.query.order_by(User.created_at.desc()).all()
@@ -97,6 +97,8 @@ def get_all_users():
 		user_object = {
 			'id':user.id,
 			'username': user.username,
+			'firstname': user.firstname,
+			'lastname': user.lastname,
 			'email':user.email,
 			'created_at':user.created_at
 		}

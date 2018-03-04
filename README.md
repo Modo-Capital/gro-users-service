@@ -1,16 +1,20 @@
 # GROWTH CAPITAL - Users Services #
 
 ### What is this repository for? ###
-* Email Endpoints for Early Access
-    - /email/signup
-    - /email/verify
-    - /email/send
-
-* Users Endpoints for Sign In, Sign Up, Sign Out and Status
+* Users Endpoints for Early Access
+    - /users/
+    - /users/<id>
+    
+* Companies Endpoint
+    - /companies/
+    - /companies/<id>
+    
+* Auths Endpoints for Sign In, Sign Up, Sign Out and Status
     - /auth/signup
     - /auth/signin
     - /auth/signout
     - /auth/status
+
 
 ### How do I get set up? ###
 

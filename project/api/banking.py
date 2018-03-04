@@ -1,9 +1,9 @@
 import os
 import datetime
 import plaid
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, Blueprint, render_template, request, jsonify
 
-banking_blueprint = Blueprint('bank',__name__)
+banking_blueprint = Blueprint('banking',__name__)
 
 PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
 PLAID_SECRET = os.getenv('PLAID_SECRET')
@@ -44,7 +44,7 @@ def accounts():
 
 # Bank Item Route
 banking_blueprint.route('/banking/item', methods=['GET', 'POST'])
-def item()
+def item():
     global access_token
     item_response = client.Item.get(access_token)
     institution_response = client.Institutions.get_by_id(item_response['item']['institution_id'])

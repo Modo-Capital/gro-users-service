@@ -103,7 +103,7 @@ def get_single_company(company_id):
 					'duns':company.duns,
 					'bank_account':company.bank_account, 
 					'accounting_account':company.accounting_account, 
-					'created_at':user.created_at
+					'created_at':company.created_at
 				}
 			}
 			return jsonify(response_object), 200

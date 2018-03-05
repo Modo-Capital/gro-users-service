@@ -4,17 +4,22 @@
 * Users Endpoints for Early Access
     - /users/
     - /users/<id>
-    
-* Companies Endpoint
-    - /companies/
-    - /companies/<id>
-    
+
 * Auths Endpoints for Sign In, Sign Up, Sign Out and Status
     - /auth/signup
     - /auth/signin
     - /auth/signout
     - /auth/status
-
+    -  
+* Companies Endpoints
+    - /companies/
+    - /companies/<id>
+    
+* Banking Endpoints
+    - /banking/get_access_token
+    - /banking/accounts
+    - /banking/transactions
+    - /banking/create_public_token
 
 ### How do I get set up? ###
 

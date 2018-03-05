@@ -40,7 +40,9 @@ def register_user():
 		if not user:
 			# add new user to db
 			new_user = User(
-				username=username, 
+				username=username,
+				first_name=first_name, 
+				last_name=last_name, 
 				email=email, 
 				password=password
 			)
@@ -164,6 +166,8 @@ def get_user_status():
 				'data': {
 					'id':user.id,
 					'username':user.username,
+					'first_name':user.first_name,
+					'last_name':user.last_name,
 					'email':user.email,
 					'active': user.active,
 					'created_at':user.created_at

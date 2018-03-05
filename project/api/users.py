@@ -30,13 +30,15 @@ def add_user():
 	username = post_data.get('username')
 	email = post_data.get('email')
 	password = post_data.get('password')
+	first_name = post_data.get('first_name')
+	last_name = post_data.get('last_name')
 
 	# Return fail when receiving duplicated email
 	try:
 		user = User.query.filter_by(email=email).first()
 		if not user:
 			# Add new users to database
-			db.session.add(User(username=username, email=email, password=password))
+			db.session.add(User(username=username, first_name=first_name, last_name=last_name, email=email, password=password))
 			db.session.commit()
 
 			# Return success response status and message
@@ -79,6 +81,8 @@ def get_single_user(user_id):
 				'status':'success',
 				'data': {
 					'username': user.username,
+					'first_name':user.first_name, 
+					'last_name':user.last_name,
 					'email':user.email,
 					'created_at':user.created_at
 				}
@@ -97,8 +101,8 @@ def get_all_users():
 		user_object = {
 			'id':user.id,
 			'username': user.username,
-			'firstname': user.firstname,
-			'lastname': user.lastname,
+			'first_name': user.first_name,
+			'last_name': user.last_name,
 			'email':user.email,
 			'created_at':user.created_at
 		}

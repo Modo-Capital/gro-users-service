@@ -62,8 +62,8 @@ def recreate_db():
 @manager.command
 def seed_db():
     """Seeds the database."""
-    db.session.add(User(username='troydo42', firstname="Troy", lastname="Do", email="delighted@troy.do", password="123"))
-    db.session.add(User(username='Hoang', firstname="Hoang", lastname="Do",email="hoangdov@gmail.com", password="456"))
+    db.session.add(User(username='troydo42', first_name="Troy", last_name="Do", email="delighted@troy.do", password="123"))
+    db.session.add(User(username='Hoang', first_name="Hoang", last_name="Do",email="hoangdov@gmail.com", password="456"))
     db.session.add(Company(company_name='Top Flight', ein='123', duns='456', bank_account='123', accounting_account='678'))
     db.session.add(Company(company_name='Do Inc', ein='000', duns='000', bank_account='000', accounting_account='000'))
 

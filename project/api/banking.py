@@ -3,25 +3,36 @@ import datetime
 import plaid
 from flask import Flask, Blueprint, render_template, request, jsonify
 
-banking_blueprint = Blueprint('banking',__name__)
+banking_blueprint = Blueprint('banking',__name__, static_folder='static', template_folder="template")
 
 PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
 PLAID_SECRET = os.getenv('PLAID_SECRET')
 PLAID_PUBLIC_KEY = os.getenv('PLAID_PUBLIC_KEY')
 
-PLAID_ENV = os.getenv('PLAID_ENV', 'sandbox')
+PLAID_ENV = os.getenv('PLAID_ENV', 'development')
 
 access_token = None
 
+client = plaid.Client(client_id = PLAID_CLIENT_ID, secret=PLAID_SECRET,
+                  public_key=PLAID_PUBLIC_KEY, environment=PLAID_ENV)
+# Ping Banking Route
+@banking_blueprint.route('/banking/ping', methods=['GET'])
+def ping():
+	response_object = {
+		'status':'success',
+		'message':'ping there'
+	}
+	return jsonify(response_object), 200
 
 # Main Banking Route
-banking_blueprint.route('/banking', methods=['POST'])
+@banking_blueprint.route('/banking', methods=['POST', 'GET'])
 def banking():
-	return render_template('banking.html', plaid_public_key=PLAID_PUBLIC_KEY, plaid_enviroment=PLAID_ENV )
+	print(PLAID_ENV)
+	return render_template('banking/banking.html', plaid_public_key=PLAID_PUBLIC_KEY, plaid_enviroment=PLAID_ENV)
 
 
 # Get Access Token Route
-banking_blueprint.route('/banking/get_access_token', methods=['POST'])
+@banking_blueprint.route('/banking/get_access_token', methods=['POST'])
 def get_access_token():
 	global access_token
 	public_token = request.form['public_token']
@@ -32,18 +43,18 @@ def get_access_token():
 
 	access_token = exchange_response['access_token']
 
-	return jsonify(exchange_response)
+	return jsonify(exchange_response), 200
 
 
 # Bank Account Route
-banking_blueprint.route('/banking/accounts', methods=['POST'])
+@banking_blueprint.route('/banking/accounts', methods=['GET'])
 def accounts():
     global access_token
     accounts = client.Auth.get(access_token)
     return jsonify(accounts)
 
 # Bank Item Route
-banking_blueprint.route('/banking/item', methods=['GET', 'POST'])
+@banking_blueprint.route('/banking/item', methods=['GET', 'POST'])
 def item():
     global access_token
     item_response = client.Item.get(access_token)
@@ -52,7 +63,7 @@ def item():
 
 
 # Bank Transaction Route@app.route("/accounts", methods=['GET'])
-banking_blueprint.route('/banking/transactions', methods=['GET'])
+@banking_blueprint.route('/banking/transactions', methods=['GET', 'POST'])
 def transactions():
   global access_token
   # Pull transactions for the last 30 days
@@ -67,7 +78,7 @@ def transactions():
   
  
 # Create public token
-banking_blueprint.route("/create_public_token", methods=['GET'])
+@banking_blueprint.route("/create_public_token", methods=['GET'])
 def create_public_token():
     global access_token
     # Create a one-time use public_token for the Item. This public_token can be used to

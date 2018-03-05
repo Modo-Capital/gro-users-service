@@ -5,7 +5,7 @@ from project.api.models import Company
 from project import db
 from sqlalchemy import exc
 
-companies_blueprint = Blueprint('companies', __name__, template_folder='./templates')
+companies_blueprint = Blueprint('companies', __name__, template_folder='templates')
 
 # Adding New Company to Database
 @companies_blueprint.route('/companies', methods=['POST'])

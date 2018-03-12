@@ -14,6 +14,30 @@ def ping_pong():
 		'status':'success',
 		'message':'pong!'
 		})
+# Get All Users from Database
+@users_blueprint.route('/users', methods=['GET'])
+def get_all_users():
+	""" Get all users """
+	users = User.query.order_by(User.created_at.desc()).all()
+	users_list = []
+	for user in users:
+		user_object = {
+			'id':user.id,
+			'username': user.username,
+			'status':user.status,
+			'first_name': user.first_name,
+			'last_name': user.last_name,
+			'email':user.email,
+			'created_at':user.created_at
+		}
+		users_list.append(user_object)
+	response_object = {
+		'status':'success',
+		'data':{	
+			'users':users_list
+		}
+	}
+	return jsonify(response_object), 200
 
 # Adding New User to Database
 @users_blueprint.route('/users', methods=['POST'])
@@ -28,6 +52,7 @@ def add_user():
 		return jsonify(response_object), 400
 
 	username = post_data.get('username')
+	status = post_data.get('status')
 	email = post_data.get('email')
 	password = post_data.get('password')
 	first_name = post_data.get('first_name')
@@ -38,7 +63,7 @@ def add_user():
 		user = User.query.filter_by(email=email).first()
 		if not user:
 			# Add new users to database
-			db.session.add(User(username=username, first_name=first_name, last_name=last_name, email=email, password=password))
+			db.session.add(User(username=username, status=status, first_name=first_name, last_name=last_name, email=email, password=password))
 			db.session.commit()
 
 			# Return success response status and message
@@ -90,28 +115,4 @@ def get_single_user(user_id):
 			return jsonify(response_object), 200
 	except ValueError:
 		return jsonify(response_object), 404
-
-# Get All Users from Database
-@users_blueprint.route('/users', methods=['GET'])
-def get_all_users():
-	""" Get all users """
-	users = User.query.order_by(User.created_at.desc()).all()
-	users_list = []
-	for user in users:
-		user_object = {
-			'id':user.id,
-			'username': user.username,
-			'first_name': user.first_name,
-			'last_name': user.last_name,
-			'email':user.email,
-			'created_at':user.created_at
-		}
-		users_list.append(user_object)
-	response_object = {
-		'status':'success',
-		'data':{	
-			'users':users_list
-		}
-	}
-	return jsonify(response_object), 200
 

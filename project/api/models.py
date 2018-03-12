@@ -61,6 +61,7 @@ class Company(db.Model):
 	__tablename__="companies"
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	company_name = db.Column(db.String(256), nullable=True)
+	user_id = db.Column(db.Integer, db.ForeignKey(User.id))
 	ein = db.Column(db.Integer, nullable=True)
 	duns = db.Column(db.Integer, nullable=True)
 	bank_account = db.Column(db.String, nullable=True)
@@ -69,8 +70,9 @@ class Company(db.Model):
 	admin = db.Column(db.Boolean(),default=False, nullable=False)
 	created_at = db.Column(db.DateTime, nullable=False)
 
-	def __init__(self, company_name, ein, duns, bank_account, accounting_account, created_at=datetime.datetime.utcnow()):
+	def __init__(self, company_name, user_id, ein, duns, bank_account, accounting_account, created_at=datetime.datetime.utcnow()):
 		self.company_name = company_name
+		self.user_id = user_id
 		self.ein = ein
 		self.duns = duns
 		self.bank_account = bank_account

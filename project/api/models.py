@@ -39,9 +39,7 @@ class User(db.Model):
     company = db.Column(db.Integer, db.ForeignKey(Company.id), default=0)
     created_at = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
-    admin = db.Column(db.Boolean(),default=False, nullable=False)
-    
-    
+    admin = db.Column(db.Boolean(),default=False, nullable=False)   
 
     def __init__(self, username, status, first_name, last_name, email, password, company, created_at=datetime.datetime.utcnow()):
         self.username = username

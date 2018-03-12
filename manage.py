@@ -9,6 +9,11 @@ from project import create_app, db
 from project.api.models import User, Company
 from flask_migrate import MigrateCommand
 
+## Admin Libraries
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
+
 # Code Coverage Testing
 COV = coverage.coverage(
     branch=True,
@@ -22,8 +27,16 @@ COV = coverage.coverage(
 COV.start()
 
 app = create_app()
+
+# Manager Configuration
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
+
+# Admin Configuration
+admin = Admin(app, name='Gro Admin', template_mode='bootstrap3')
+# Get All Users from Database
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Company, db.session))
 
 # Create Test
 @manager.command

@@ -5,6 +5,9 @@ from project.api.models import User
 from project import db
 from sqlalchemy import exc
 
+## Simple Auth 
+from flask_basicauth import BasicAuth
+
 users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 
 # Endpoint to Ping the IP
@@ -14,7 +17,7 @@ def ping_pong():
 		'status':'success',
 		'message':'pong!'
 		})
-# Get All Users from Database
+
 @users_blueprint.route('/users', methods=['GET'])
 def get_all_users():
 	""" Get all users """

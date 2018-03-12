@@ -3,17 +3,17 @@
 ### What is this repository for? ###
 * Users Endpoints for Early Access
     - /users/
-    - /users/<id>
+    - /users/{id}
 
 * Auths Endpoints for Sign In, Sign Up, Sign Out and Status
     - /auth/signup
     - /auth/signin
     - /auth/signout
     - /auth/status
-    -  
+
 * Companies Endpoints
     - /companies/
-    - /companies/<id>
+    - /companies/{id}
     
 * Banking Endpoints
     - /banking/get_access_token

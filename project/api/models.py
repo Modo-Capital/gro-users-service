@@ -4,6 +4,7 @@ import jwt
 
 from project import db, bcrypt
 from flask import current_app
+from flask_security import UserMixin, RoleMixin
 
 # Create Company Model in Database
 class Company(db.Model):
@@ -26,8 +27,23 @@ class Company(db.Model):
         self.accounting_account = accounting_account
         self.created_at = created_at
 
+# Define Role
+roles_users = db.Table('roles_users',
+    db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
+    db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+)
+
+class Role(db.Model, RoleMixin):
+    __tablename__ = "role"
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
+
+    def __str__(self):
+        return self.name
+
 # Create User Model in Database
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(128), nullable=False, unique=True)
@@ -37,13 +53,15 @@ class User(db.Model):
     email = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     company = db.Column(db.Integer, db.ForeignKey(Company.id), default=0)
+    role = db.relationship('Role', secondary=roles_users,backref=db.backref('users', lazy='dynamic'))
     created_at = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
     admin = db.Column(db.Boolean(),default=False, nullable=False)   
 
-    def __init__(self, username, status, first_name, last_name, email, password, company, created_at=datetime.datetime.utcnow()):
+    def __init__(self, username, role, status, first_name, last_name, email, password, company, created_at=datetime.datetime.utcnow()):
         self.username = username
         self.status = status
+        self.role = role
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
@@ -70,6 +88,24 @@ class User(db.Model):
             )
         except Exception as e:
             return e
+    # Flask-Login integration
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.id
+
+    # Required for administrative interface
+    def __unicode__(self):
+        return self.username
+    def __str__(self):
+        return self.email
 
     """Decodes the auth token - :param auth_token: - :return: integer|string"""
     @staticmethod

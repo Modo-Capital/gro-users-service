@@ -1,16 +1,17 @@
 # project/api/views.py
 
 from flask import Blueprint, jsonify, request, render_template
-from project.api.models import User
+from project.api.models import User, Role
 from project import db
 from sqlalchemy import exc
 
 ## Simple Auth 
 from flask_basicauth import BasicAuth
+from flask_security import Security, login_required
 
 users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 
-# Endpoint to Ping the IP
+
 @users_blueprint.route('/ping', methods=['GET'])
 def ping_pong():
 	return jsonify({

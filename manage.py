@@ -6,6 +6,7 @@ import coverage
 
 from flask_script import Manager
 from project import create_app, db
+from project.api import api
 from project.api.models import User, Company, roles_users, Role
 
 
@@ -34,6 +35,7 @@ COV = coverage.coverage(
 COV.start()
 
 app = create_app()
+api.init_app(app)
 
 # Manager Configuration
 manager = Manager(app)
@@ -72,7 +74,6 @@ class MyModelView(sqla.ModelView):
 # Get All Users from Database
 admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Company, db.session))
-
 
 
 

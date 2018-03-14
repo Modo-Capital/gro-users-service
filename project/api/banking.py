@@ -2,33 +2,42 @@ import os
 import datetime
 import plaid
 from flask import Flask, Blueprint, render_template, request, jsonify
+from flask_restplus import Namespace, Resource, fields
 
 banking_blueprint = Blueprint('banking',__name__, static_folder='static', template_folder="template")
 
+api = Namespace('banking', description='Banking related operations')
+### Preparing for PLAID Connection
 PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
 PLAID_SECRET = os.getenv('PLAID_SECRET')
 PLAID_PUBLIC_KEY = os.getenv('PLAID_PUBLIC_KEY')
-
 PLAID_ENV = os.getenv('PLAID_ENV', 'development')
-
 access_token = None
-
 client = plaid.Client(client_id = PLAID_CLIENT_ID, secret=PLAID_SECRET,
                   public_key=PLAID_PUBLIC_KEY, environment=PLAID_ENV)
+
 # Ping Banking Route
-@banking_blueprint.route('/banking/ping', methods=['GET'])
-def ping():
-	response_object = {
-		'status':'success',
-		'message':'ping there'
-	}
-	return jsonify(response_object), 200
+@api.route('/ping')
+class Ping(Resource):
+  '''Ping methods'''
+  @api.doc('Ping testing for Users')
+  def get(self):
+      return jsonify({
+          'status':'success',
+          'message':'pong!'
+      })
 
 # Main Banking Route
-@banking_blueprint.route('/banking', methods=['POST', 'GET'])
-def banking():
-	print(PLAID_ENV)
-	return render_template('banking/banking.html', plaid_public_key=PLAID_PUBLIC_KEY, plaid_enviroment=PLAID_ENV)
+@api.route('/')
+class Banking(Resource):
+  @api.doc('Get all banking data')
+  def get(self):
+  	print(PLAID_ENV)
+  	return jsonify({
+        'plaid_public_key': PLAID_PUBLIC_KEY,
+        'plaid_enviroment': PLAID_ENV
+      }
+    )
 
 
 # Get Access Token Route

@@ -81,10 +81,62 @@ $ . env/bin/activate
 $ python manage.py test
 ```
 
-### Contribution guidelines ###
-* Code Commit
+### Application Structure ###
+```bash
+├── env
+├── migrations
+├── project
+│   ├── __init__.py
+│   ├── config.py
+│   ├── api
+│   │   ├── __init__.py
+│   ├── auth
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── parameters.py
+│   │   ├── views.py
+│   ├── users
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── parameters.py
+│   │   ├── permissions.py
+│   │   ├── resources.py
+│   │   ├── schemas.py
+│   ├── companies
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── parameters.py
+│   │   ├── resources.py
+│   │   ├── schemas.py
+│   ├── banking
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── parameters.py
+│   │   ├── resources.py
+│   │   ├── schemas.py
+│   ├── accounting
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── parameters.py
+│   │   ├── resources.py
+│   │   ├── schemas.py
+│   ├── social_media
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   │   ├── parameters.py
+│   │   ├── resources.py
+│   │   ├── schemas.py
+│   ├── db
+│   ├── templates
+│   ├── tests
+├── travis.yml
+├── Dockerfile-local
+├── manage.py
+├── travis.yml
+├── requirements.txt
+└── .gitignore
+```
 
-* Code review 
 
 ### Who do I talk to? ###
 * Troy Do - troy@topflightapps.com

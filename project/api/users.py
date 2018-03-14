@@ -1,122 +1,118 @@
 # project/api/views.py
 
 from flask import Blueprint, jsonify, request, render_template
+from flask_restplus import Namespace, Resource, fields
 from project.api.models import User, Role
 from project import db
 from sqlalchemy import exc
 
-## Simple Auth 
-from flask_basicauth import BasicAuth
 from flask_security import Security, login_required
 
 users_blueprint = Blueprint('users', __name__, template_folder='./templates')
+api = Namespace('users', description='Users related operations')
 
+@api.route('/ping')
+class Ping(Resource):
+    '''Ping methods'''
+    @api.doc('ping_pong')
+    def get(self):
+        return jsonify({
+            'status':'success',
+            'message':'pong!'
+        })
 
-@users_blueprint.route('/ping', methods=['GET'])
-def ping_pong():
-	return jsonify({
-		'status':'success',
-		'message':'pong!'
-		})
+@api.route('/')
+class UsersList(Resource):
+    '''Get all users methods'''
+    @api.doc('get_all_users')
+    def get(self):
+        """ Get all users """
+        users = User.query.order_by(User.created_at.desc()).all()
+        users_list = []
+        for user in users:
+            user_object = {
+                'id':user.id,
+                'username': user.username,
+                'status':user.status,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email':user.email,
+                'created_at':user.created_at
+            }
+            users_list.append(user_object)
+        response = jsonify({
+            'status':'success',
+            'data':{    
+                'users':users_list
+            }
+        })
+        response.status_code = 200
+        return response
 
-@users_blueprint.route('/users', methods=['GET'])
-def get_all_users():
-	""" Get all users """
-	users = User.query.order_by(User.created_at.desc()).all()
-	users_list = []
-	for user in users:
-		user_object = {
-			'id':user.id,
-			'username': user.username,
-			'status':user.status,
-			'first_name': user.first_name,
-			'last_name': user.last_name,
-			'email':user.email,
-			'created_at':user.created_at
-		}
-		users_list.append(user_object)
-	response_object = {
-		'status':'success',
-		'data':{	
-			'users':users_list
-		}
-	}
-	return jsonify(response_object), 200
+    '''Create a new user methods'''
+    
+    @api.param('username', 'Username for user')
+    @api.param('status', 'User status among registered, applied, approved')
+    @api.param('first_name', 'User first name')
+    @api.param('last_name', 'last_name')
+    @api.param('email','User email')
+    @api.param('password','User password')
+    @api.doc('create_new_user')
+    def post(self, username):
+        # Return fail if recieve empty json object
+        if not user_data:
+            response = jsonify({
+                'status': 'fail',
+                'message': 'Invalid payload'
+            })
+            response.status_code = 400
+            return response
 
-# Adding New User to Database
-@users_blueprint.route('/users', methods=['POST'])
-def add_user():
-	post_data = request.get_json()
-	# Return fail if recieve empty json object
-	if not post_data:
-		response_object = {
-			'status': 'fail',
-			'message': 'Invalid payload'
-		}
-		return jsonify(response_object), 400
+        username = username
+        status = status
+        email = email
+        password = password
+        first_name = first_name
+        last_name = last_name
 
-	username = post_data.get('username')
-	status = post_data.get('status')
-	email = post_data.get('email')
-	password = post_data.get('password')
-	first_name = post_data.get('first_name')
-	last_name = post_data.get('last_name')
+        # Return fail when receiving duplicated email
+        try:
+            user = User.query.filter_by(email=email).first()
+            if not user:
+                # Add new users to database
+                db.session.add(User(username=username, status=status, first_name=first_name, last_name=last_name, email=email, password=password))
+                db.session.commit()
 
-	# Return fail when receiving duplicated email
-	try:
-		user = User.query.filter_by(email=email).first()
-		if not user:
-			# Add new users to database
-			db.session.add(User(username=username, status=status, first_name=first_name, last_name=last_name, email=email, password=password))
-			db.session.commit()
+                # Return success response status and message
+                response = jsonify({
+                    'status': 'success',
+                    'message': '%s was added!'%(email)
+                })   
+                response.status_code = 201
+                return response
+            else :
+                response = jsonify({
+                    'status': 'fail',
+                    'message': 'Sorry. That email already exists.'
+                })   
+                response.status_code = 400
+                return response
+        except (exc.IntegrityError, ValueError) as e:
+            db.session.rollback()
+            response = jsonify({
+                'status': 'fail',
+                'message': 'Invalid payload.'
+            })
+            response.status_code = 400
+            return response
 
-			# Return success response status and message
-			response_object = {
-				'status': 'success',
-				'message': '%s was added!'%(email)
-			}	
-			return jsonify(response_object), 201
-		else :
-			response_object = {
-				'status': 'fail',
-				'message': 'Sorry. That email already exists.'
-			}	
-			return jsonify(response_object), 400
-	except (exc.IntegrityError, ValueError) as e:
-		db.session.rollback()
-		response_object = {
-			'status': 'fail',
-			'message': 'Invalid payload.'
-		}
-		return jsonify(response_object), 400
-
-# Get User by ID from Database
-@users_blueprint.route('/users/<user_id>', methods=['GET'])
-def get_single_user(user_id):
-	""" Getting single user details """
-
-	# Default response object
-	response_object = {
-		'status':'fail',
-		'message':'User does not exist'
-	}
-
-	try:
-		user = User.query.filter_by(id=int(user_id)).first()
-		if not user:
-			return jsonify(response_object), 404
-		else:
-			response_object = {
-				'status':'success',
-				'data': {
-					'username': user.username,
-					'first_name':user.first_name, 
-					'last_name':user.last_name,
-					'email':user.email,
-					'created_at':user.created_at
-				}
-			}
-			return jsonify(response_object), 200
-	except ValueError:
-		return jsonify(response_object), 404
+## Get User by ID from Database
+@api.route('/<int:id>')
+@api.response(404, 'User not found')
+@api.param('id', 'The user identifier')
+class Single_User(Resource):
+    @api.doc('Get A Single User')
+    def get(self, id):
+        """ Getting single user details """
+        return DAO.get(id)
 

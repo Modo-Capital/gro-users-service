@@ -9,13 +9,13 @@ from sqlalchemy import exc
 from flask_security import Security, login_required
 
 users_blueprint = Blueprint('users', __name__, template_folder='./templates')
-api = Namespace('users', description='Users related operations')
+api = Namespace('users', description='Users create, view, update, delete')
 
 @api.route('/ping')
 class Ping(Resource):
-    '''Ping methods'''
     @api.doc('ping_pong')
     def get(self):
+        """Ping tesing users endpoints"""
         return jsonify({
             'status':'success',
             'message':'pong!'
@@ -49,18 +49,18 @@ class UsersList(Resource):
         response.status_code = 200
         return response
 
-    '''Create a new user methods'''
-    
+    """Create a new user methods"""
     @api.param('username', 'Username for user')
     @api.param('status', 'User status among registered, applied, approved')
     @api.param('first_name', 'User first name')
-    @api.param('last_name', 'last_name')
+    @api.param('last_name', 'User last name')
     @api.param('email','User email')
     @api.param('password','User password')
     @api.doc('create_new_user')
     def post(self, username):
-        # Return fail if recieve empty json object
+        """Create a new user"""
         if not user_data:
+            # Return fail if recieve empty json object
             response = jsonify({
                 'status': 'fail',
                 'message': 'Invalid payload'

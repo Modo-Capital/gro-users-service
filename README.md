@@ -1,15 +1,15 @@
 # GROWTH CAPITAL - Users Services #
 
 ### What is this repository for? ###
-* Users Endpoints for Early Access
-    - /users/
-    - /users/{id}
-
 * Auths Endpoints for Sign In, Sign Up, Sign Out and Status
     - /auth/signup
     - /auth/signin
     - /auth/signout
     - /auth/status
+
+* Users Endpoints for Early Access
+    - /users/
+    - /users/{id}
 
 * Companies Endpoints
     - /companies/
@@ -20,6 +20,12 @@
     - /banking/accounts
     - /banking/transactions
     - /banking/create_public_token
+
+* Accounting Endpoints
+
+
+* Social Media Endpoints
+
 
 ### How do I get set up? ###
 
@@ -59,7 +65,6 @@ $ python manage.py runserver
 
 ```
 
-
 * How to run tests
 ** Run test locally
 ```bash
@@ -80,63 +85,6 @@ $ . env/bin/activate
 # Run Test
 $ python manage.py test
 ```
-
-### Application Structure ###
-```bash
-├── env
-├── migrations
-├── project
-│   ├── __init__.py
-│   ├── config.py
-│   ├── api
-│   │   ├── __init__.py
-│   ├── auth
-│   │   ├── __init__.py
-│   │   ├── models.py
-│   │   ├── parameters.py
-│   │   ├── views.py
-│   ├── users
-│   │   ├── __init__.py
-│   │   ├── models.py
-│   │   ├── parameters.py
-│   │   ├── permissions.py
-│   │   ├── resources.py
-│   │   ├── schemas.py
-│   ├── companies
-│   │   ├── __init__.py
-│   │   ├── models.py
-│   │   ├── parameters.py
-│   │   ├── resources.py
-│   │   ├── schemas.py
-│   ├── banking
-│   │   ├── __init__.py
-│   │   ├── models.py
-│   │   ├── parameters.py
-│   │   ├── resources.py
-│   │   ├── schemas.py
-│   ├── accounting
-│   │   ├── __init__.py
-│   │   ├── models.py
-│   │   ├── parameters.py
-│   │   ├── resources.py
-│   │   ├── schemas.py
-│   ├── social_media
-│   │   ├── __init__.py
-│   │   ├── models.py
-│   │   ├── parameters.py
-│   │   ├── resources.py
-│   │   ├── schemas.py
-│   ├── db
-│   ├── templates
-│   ├── tests
-├── travis.yml
-├── Dockerfile-local
-├── manage.py
-├── travis.yml
-├── requirements.txt
-└── .gitignore
-```
-
 
 ### Who do I talk to? ###
 * Troy Do - troy@topflightapps.com

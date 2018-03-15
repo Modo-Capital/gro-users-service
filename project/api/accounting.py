@@ -1,12 +1,13 @@
 import requests
 from flask_restplus import Namespace, Resource 
 
-api = Namespace('accounting', description='Accounting API to interact with Intuit Online')
+api = Namespace('accounting', description='Connect and Get Accounting Data')
 
 
 @api.route('/intuit')
 class Intuit(Resource):
     def get(self):
+        """ Get accounting information """
         url = "https://sandbox-quickbooks.api.intuit.com/v3/company/%3C%3CEnter%20QuickBooks%20AccountId/RealmId%3E%3E/query"
         querystring = {"minorversion":"8"}
         payload = "Select * from Account STARTPOSITION 1 MAXRESULTS 5\n"

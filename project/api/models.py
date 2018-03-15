@@ -6,6 +6,30 @@ from project import db, bcrypt
 from flask import current_app
 from flask_security import UserMixin, RoleMixin
 
+
+# Create Token Model in Database
+class Token(db.Model):
+    __tablename__ = "access token"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    vendor = db.Column(db.String(256), nullable=False)
+    tokenType = db.Column(db.String(256), nullable=False)
+    refreshExpiry = db.Column(db.DateTime, nullable=False)
+    accessTokenExpiry = db.Column(db.DateTime, nullable=False)
+    accessToken = db.Column(db.String(256), nullable=False)
+    refreshToken = db.Column(db.String(256), nullable=False)
+    idToken = db.Column(db.String(256), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, vendor, tokenType, refreshExpiry, accessTokenExpiry, accessToken, refreshToken, idToken, created_at=datetime.datetime.utcnow()):
+        self.vendor = vendor
+        self.tokenType = tokenType
+        self.refreshExpiry = refreshExpiry
+        self.accessTokenExpiry = accessTokenExpiry
+        self.accessToken = accessToken
+        self.refreshToken = refreshToken
+        self.idToken = idToken
+        self.created_at = created_at
+
 # Create Company Model in Database
 class Company(db.Model):
     __tablename__="companies"

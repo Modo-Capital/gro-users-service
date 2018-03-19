@@ -26,11 +26,12 @@ class Register(Resource):
         # If there is any post data, response with error json object
         if not post_data:
             print("wtf")
-            response_object = {
+            response = jsonify({
                 'status': 'error',
                 'message': 'Invalid payload.'
-            }
-            return jsonify(response_object), 400
+            })
+            response.status_code = 400
+            return response
 
         # getting username, email and password from post request
         username = post_data.get('username')
@@ -55,27 +56,31 @@ class Register(Resource):
 
                 # create auth_token
                 auth_token = new_user.encode_auth_token(new_user.id)
-                response_object = {
+                response = jsonify({
                     'status': 'success',
                     'message': 'Successfully registered',
                     'auth_token': auth_token.decode()
-                }
-                return jsonify(response_object), 201
+                })
+                response.status_code = 201
+                return response
             else:
-                response_object = {
+                response = jsonify({
                     'status':'error', 
                     'message': 'Sorry. That user already exists.'
-                }
-                return jsonify(response_object),400
+                })
+
+                response.status_code = 400
+                return response
                 
         # handler errors
         except (exc.IntegrityError, ValueError) as e:
             db.session.rollback()
-            response_object = {
+            response = jsonify({
                 'status': 'error',
                 'message': 'Invalid payload.'
-            }
-            return jsonify(response_object), 400
+            })
+            response.status_code = 400
+            return response
 
 
 # Create Login API endpoint
@@ -87,11 +92,12 @@ class Login(Resource):
         # get post data
         post_data = request.get_json()
         if not post_data:
-            response_object = {
+            response = {
                 'status': 'error',
                 'message': 'Invalid payload.'
             }
-            return jsonify(response_object), 400
+            response.status_code = 400
+            return response
         email = post_data.get('email')
         password = post_data.get('password')
 
@@ -102,26 +108,29 @@ class Login(Resource):
             if user and bcrypt.check_password_hash(user.password, password):
                 auth_token = user.encode_auth_token(user.id)
                 if auth_token:
-                    response_object = {
+                    response = {
                         'status': 'success',
                         'message': 'Successfully logged in',
                         'auth_token': auth_token.decode()
                     }
-                    return jsonify(response_object), 200
+                    response.status_code = 200
+                    return response
             else :
-                response_object = {
+                response = {
                     'status': 'error', 
                     'message': 'User does not exist.'
                 }
-                return jsonify(response_object), 404
+                response.status_code = 404
+                return response
         # handle error
         except Exception as e:
             print(e)
-            response_object = {
+            response = {
                 'status': 'error',
                 'message': 'Try again.'
             }
-            return jsonify(response_object), 500
+            response.status_code = 500
+            return response
 
 
 # Create Logout API endpoint
@@ -139,25 +148,29 @@ class Logout(Resource):
             auth_token = auth_header.split(" ")[1]
             resp = User.decode_auth_token(auth_token)
             if not isinstance(resp, str):
-                response_object = {
+                response = {
                     'status':'success', 
                     'message':'Successfully logged out.'
                 }
-                return jsonify(response_object), 200
+
+                response.status_code = 200
+                return response
             else:
-                response_object = {
+                response = {
                     'status':'error', 
                     'message': resp
                 }
-                return jsonify(response_object), 401
+                response.status_code = 401
+                return response
 
         # handle error
         else:
-            response_object = {
+            response = {
                 'status ': 'error',
                 'message': 'Invalid token. Please login again.'
             }
-            return jsonify(response_object), 403
+            response.status_code = 403
+            return response
 
 ## Create Status API endpoint
 @api.route('/status')
@@ -174,7 +187,7 @@ class Status(Resource):
             resp = User.decode_auth_token(auth_token)
             if not isinstance(resp, str):
                 user = User.query.filter_by(id=resp).first()
-                response_object = {
+                response = {
                     'status':'success', 
                     'data': {
                         'id':user.id,
@@ -186,21 +199,24 @@ class Status(Resource):
                         'created_at':user.created_at
                     }
                 }
-                return jsonify(response_object), 200
-            response_object = {
+                response.status_code = 200
+                return response
+            response = {
                 'status':'error',
                 'message': resp
             }
-            return jsonify(response_object), 401
+            response.status_code = 401
+            return response
         
         # handle error
         else:
-            response_object = {
+            response = {
                 'status':'error',
                 'message':'Provide a valid auth token.'
 
             }
-            return jsonify(response_object), 401
+            response.status_code = 401
+            return response
 
     
 

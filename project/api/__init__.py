@@ -9,6 +9,8 @@ from .users import api as users
 from .companies import api as companies
 from .banking import api as banking
 from .accounting import api as accounting
+from .social_media import api as social_media
+from .gro_scores import api as gro_scores
 
 ### Define API with restplus.api
 api = Api (
@@ -23,3 +25,5 @@ api.add_namespace(users)
 api.add_namespace(companies)
 api.add_namespace(accounting)
 api.add_namespace(banking)
+api.add_namespace(social_media)
+api.add_namespace(gro_scores)

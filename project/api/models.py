@@ -66,6 +66,19 @@ class Role(db.Model, RoleMixin):
     def __str__(self):
         return self.name
 
+# Create Gro Score Model in Database
+class Gro_Score(db.Model):
+    __tablename__ = "gro score"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    company = db.Column(db.Integer, db.ForeignKey(Company.id), default=0)
+    score = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, company, score, created_at=datetime.datetime.utcnow()):
+        self.company = company
+        self.score = score
+        self.created_at = created_at
+
 # Create User Model in Database
 class User(db.Model, UserMixin):
     __tablename__ = "users"

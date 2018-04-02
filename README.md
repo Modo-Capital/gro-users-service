@@ -46,7 +46,7 @@ $ . env/bin/activate
 (env)$ export APP_SETTINGS=project.config.DevelopmentConfig
 
 # Setting DATABASE_URL to local postgres user_dev
-(env)$ export DATABASE_URL=postgres://postgres:postgres@localhost:5432/users_dev
+(env)$ export DATABASE_URL=postgres://postgres:postgres@localhost:5431/users_dev
 
 # Setting SERCRET_KEY 
 (env)$ export SECRET_KEY=my_precious

@@ -18,3 +18,4 @@ flask-migrate==2.0.4
 flask-bcrypt==0.7.1
 pyjwt==1.5.0
 plaid-python==2.2.0
+Authlib-0.6

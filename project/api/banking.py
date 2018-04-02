@@ -1,13 +1,24 @@
-import os
-import datetime
-import plaid
+# project/api/banking.py
+
+import os               # Importing local variable via os later
+import datetime         # Importing datetime for 
+
+
+import plaid            # Importing plaid for banking data
+
+# Importing Flask related libraries for rending templates
 from flask import Flask, Blueprint, render_template, request, jsonify
+
+# Importing Restplus for API features
 from flask_restplus import Namespace, Resource, fields
 
+# Creating banking routing
 banking_blueprint = Blueprint('banking',__name__, static_folder='static', template_folder="template")
 
+# Declaring API endppint for banking operations
 api = Namespace('banking', description='Connect and Get Banking Data')
-### Preparing for PLAID Connection
+
+# Preparing for PLAID Connections
 PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
 PLAID_SECRET = os.getenv('PLAID_SECRET')
 PLAID_PUBLIC_KEY = os.getenv('PLAID_PUBLIC_KEY')

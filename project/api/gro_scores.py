@@ -12,22 +12,42 @@ class Score(Resource):
     @api.doc('get_gro_score')
     def get(self, company_id):
         """Get current gro score"""
-        return "Getting current gro score", 200
+        response = jsonify({
+          'status':'success',
+          'message':'Getting current gro score for company %s'%(company_id)
+        })
+        response.status_code = 200
+        return response
     
     @api.doc('create_gro_score')
     def post(self, company_id):
         """Create new gro score"""
-        return "Creating new gro score", 200
+        response = jsonify({
+          'status':'success',
+          'message':'Getting current gro score for company %s'%(company_id)
+        })
+        response.status_code = 200
+        return response
 
     @api.doc('update_gro_score')
     def put(self, company_id):
         """Update current gro score"""
-        return "Updating current gro score", 200
+        response = jsonify({
+          'status':'success',
+          'message':'Updating current gro score for company %s'%(company_id)
+        })
+        response.status_code = 200
+        return response
     
     @api.doc('delete_gro_score')
     def delete(self, company_id):
         """Delete current gro score"""
-        return "Deleting current gro score", 200
+        response = jsonify({
+          'status':'success',
+          'message':'Deleting current gro score for company %s'%(company_id)
+        })
+        response.status_code = 200
+        return response
 
 
 

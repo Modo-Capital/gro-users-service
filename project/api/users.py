@@ -57,7 +57,7 @@ class UsersList(Resource):
     @api.param('email','User email')
     @api.param('password','User password')
     @api.doc('create_new_user')
-    def post(self, username):
+    def post(self, user_data):
         """Create a new user"""
         if not user_data:
             # Return fail if recieve empty json object

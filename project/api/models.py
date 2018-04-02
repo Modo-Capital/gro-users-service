@@ -7,6 +7,19 @@ from flask import current_app
 from flask_security import UserMixin, RoleMixin
 
 
+# Create Client Application Model in Database
+
+# class Client(db.Model):
+#     # name of the client application detail
+#     name = db.Column(db.String(40))
+#     description = db.Column(db.String(400))
+
+#     user_id = db.Column(db.ForeignKey('users.id'))
+#     user = db.relationship('User')
+
+#     client_id = db.Column(db.String(40), primary_key=True)
+#     client_secret = db.Column(db.String)
+
 # Create Token Model in Database
 class Token(db.Model):
     __tablename__ = "access token"

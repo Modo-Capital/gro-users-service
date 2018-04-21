@@ -19,6 +19,9 @@ auth_fields = api.model('Auth', {
     'password': fields.String(description="User password", required=True)
 })
 
+parser = api.parser()
+parser.add_argument('Authorization', type=str, location='header')
+
 # Create registration API endpoint
 @api.route('/register')
 class Register(Resource):
@@ -155,30 +158,29 @@ class Login(Resource):
 # Create Logout API endpoint
 @api.route('/logout')
 class Logout(Resource):
-    @api.doc('logout')
+    @api.doc(parser=parser)
     def post(self):
         """ Logout Existing User """
-        
-        auth_header = request.headers.get('Authorization')
+        auth_header = request.headers.get('Auth-Token')
         # get auth token
-        
+        print(request.headers)
         if auth_header: 
             print(auth_header)
-            auth_token = auth_header.split(" ")[1]
+            auth_token = auth_header
             resp = User.decode_auth_token(auth_token)
             if not isinstance(resp, str):
-                response = {
+                response = jsonify({
                     'status':'success', 
                     'message':'Successfully logged out.'
-                }
+                })
 
                 response.status_code = 200
                 return response
             else:
-                response = {
+                response = jsonify({
                     'status':'error', 
                     'message': resp
-                }
+                })
                 response.status_code = 401
                 return response
 

@@ -130,11 +130,9 @@ def seed_db():
     """Seeds the database."""
     db.session.add(Company(company_name='Top Flight', ein='123', duns='456', bank_account='123', accounting_account='678'))
     db.session.add(Company(company_name='Do Inc', ein='000', duns='000', bank_account='000', accounting_account='000'))
-    db.session.add(Role(name="user", description="regular registered user"))
-    db.session.add(Role(name="super_user", description="administrative user"))
-    # db.session.add(User(username='troydo42', role=, first_name="Troy", last_name="Do", email="delighted@troy.do", password="123", company=1, status="registered"))
-    # db.session.add(User(username='Hoang', role=[user], first_name="Hoang", last_name="Do",email="hoangdov@gmail.com", password="456", company=2, status="registered", ))
-    # db.session.commit()
+    db.session.add(User(email="delighted@troy.do", password="12345678", status="registered", admin=False))
+    db.session.add(User(email="hoangdov@gmail.com", password="87654321", status="registered", admin=True))
+    db.session.commit()
 
 if __name__ == '__main__':
   manager.run()

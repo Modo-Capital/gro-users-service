@@ -1,4 +1,6 @@
-FROM python:2.7.10
+FROM python:3.6.0
+
+EXPOSE 5000
 
 # set working directory
 RUN mkdir -p /usr/src/app

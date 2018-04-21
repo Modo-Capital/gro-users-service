@@ -6,26 +6,33 @@ from flask_restplus import Namespace, Resource, fields
 from sqlalchemy import exc, or_
 
 from project.api.models import User
-from project import db, bcrypt
+from project import bcrypt, db
 
 import time
 
 auth_blueprint = Blueprint('auth', __name__)
 api = Namespace('auth', description='Register, Login, Logout and Get Status for Users')
 
+
+auth_fields = api.model('Auth', {
+    'email': fields.String(description="User email", required=True),
+    'password': fields.String(description="User password", required=True)
+})
+
 # Create registration API endpoint
 @api.route('/register')
 class Register(Resource):
-    @api.doc('register_user')
+    @api.expect(auth_fields)
+    # @api.doc('register_user')
     def post(self):
         """ Register New User """
         # Get Post Data
+        print(request)
         post_data = request.get_json()
-        print(post_data, file=sys.stdout)
 
-        # If there is any post data, response with error json object
-        if not post_data:
-            print("wtf")
+        # If there is not any post data, response with error json object
+        if  not post_data:
+            print(post_data.get('email'), post_data.get('password'))
             response = jsonify({
                 'status': 'error',
                 'message': 'Invalid payload.'
@@ -34,20 +41,25 @@ class Register(Resource):
             return response
 
         # getting username, email and password from post request
-        username = post_data.get('username')
+        # username = post_data.get('username')
         email = post_data.get('email')
         password = post_data.get('password')
+        status = 'registered'
+        admin = False
+        # first_name = post_data.get('first_name')
+        # last_name  = post_data.get('last_name')
+        # company = post_data.get()
 
         try:
             # checking for existing user
             user = User.query.filter(
-                or_(User.username == username, User.email == email)).first()
+                or_(User.email == email)).first()
             if not user:
                 # add new user to db
                 new_user = User(
-                    username=username,
-                    first_name=first_name, 
-                    last_name=last_name, 
+                    # username=username,
+                    admin=admin, 
+                    status=status, 
                     email=email, 
                     password=password
                 )
@@ -56,6 +68,7 @@ class Register(Resource):
 
                 # create auth_token
                 auth_token = new_user.encode_auth_token(new_user.id)
+                print(auth_token)
                 response = jsonify({
                     'status': 'success',
                     'message': 'Successfully registered',
@@ -86,50 +99,56 @@ class Register(Resource):
 # Create Login API endpoint
 @api.route('/login')
 class Login(Resource):
-    @api.doc('login')
+    # @api.doc('login')
+    @api.expect(auth_fields)
     def post(self):
         """ Login Existing User """
-        # get post data
         post_data = request.get_json()
-        if not post_data:
-            response = {
+        if post_data is None:
+            print(post_data.get('email'), post_data.get('password'))
+            response = jsonify({
                 'status': 'error',
                 'message': 'Invalid payload.'
-            }
+            })
             response.status_code = 400
             return response
+        
         email = post_data.get('email')
         password = post_data.get('password')
+        print('Users email are %s and password is %s'%(email,password))
 
         # check if login matching one of existing users
         try:
             # fetch the user data
+            print("FETCHING DATA from user %s FROM DATABASES"%(email))
             user = User.query.filter_by(email=email).first()
             if user and bcrypt.check_password_hash(user.password, password):
                 auth_token = user.encode_auth_token(user.id)
+                userId = user.uid
                 if auth_token:
-                    response = {
+                    response = jsonify({
                         'status': 'success',
                         'message': 'Successfully logged in',
-                        'auth_token': auth_token.decode()
-                    }
+                        'auth_token': auth_token.decode(),
+                        'userId':userId,
+                    })
                     response.status_code = 200
                     return response
             else :
-                response = {
+                response = jsonify({
                     'status': 'error', 
-                    'message': 'User does not exist.'
-                }
-                response.status_code = 404
+                    'message': 'User does not exist or wrong password', 
+                })
+                response.status_code = 400
                 return response
         # handle error
         except Exception as e:
             print(e)
-            response = {
+            response = jsonify({
                 'status': 'error',
-                'message': 'Try again.'
-            }
-            response.status_code = 500
+                'message': 'Try again. Maybe Decryption issue',
+                'status_code': 500
+            })
             return response
 
 
@@ -165,10 +184,10 @@ class Logout(Resource):
 
         # handle error
         else:
-            response = {
+            response = jsonify({
                 'status ': 'error',
                 'message': 'Invalid token. Please login again.'
-            }
+            })
             response.status_code = 403
             return response
 
@@ -178,7 +197,6 @@ class Status(Resource):
     @api.doc('status')
     def post(self):
         """ Current User Status """
-        
         auth_header = request.headers.get('Authorization') 
         # get auth token
         
@@ -210,11 +228,11 @@ class Status(Resource):
         
         # handle error
         else:
-            response = {
+            response = jsonify({
                 'status':'error',
                 'message':'Provide a valid auth token.'
 
-            }
+            })
             response.status_code = 401
             return response
 

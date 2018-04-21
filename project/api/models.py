@@ -5,6 +5,9 @@ import jwt
 from project import db, bcrypt
 from flask import current_app
 from flask_security import UserMixin, RoleMixin
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import text as sa_text
+import uuid
 
 
 # Create Client Application Model in Database
@@ -47,6 +50,7 @@ class Token(db.Model):
 class Company(db.Model):
     __tablename__="companies"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    uid = db.Column(db.String(), nullable=False)
     company_name = db.Column(db.String(256), nullable=True)
     ein = db.Column(db.Integer, nullable=True)
     duns = db.Column(db.Integer, nullable=True)
@@ -56,8 +60,9 @@ class Company(db.Model):
     admin = db.Column(db.Boolean(),default=False, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, company_name, ein, duns, bank_account, accounting_account, created_at=datetime.datetime.utcnow()):
+    def __init__(self, company_name, ein, duns, bank_account, accounting_account, created_at=datetime.datetime.utcnow(),uid=str(uuid.uuid4())):
         self.company_name = company_name
+        self.uid = uid
         self.ein = ein
         self.duns = duns
         self.bank_account = bank_account
@@ -96,28 +101,40 @@ class Gro_Score(db.Model):
 class User(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(128), nullable=False, unique=True)
-    status = db.Column(db.String(128), nullable=False)
-    first_name = db.Column(db.String(128), nullable=True)
-    last_name = db.Column(db.String(128), nullable=True)
+    uid = db.Column(db.String(), nullable=False)
     email = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
-    company = db.Column(db.Integer, db.ForeignKey(Company.id), default=0)
-    role = db.relationship('Role', secondary=roles_users,backref=db.backref('users', lazy='dynamic'))
+    admin = db.Column(db.Boolean(),default=False, nullable=False) 
+    status = db.Column(db.String(128), nullable=False)
+    username = db.Column(db.String(128), nullable=True, unique=True)
+    profile = db.Column(db.String(), nullable=True, default='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg/440px-Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg')
+    first_name = db.Column(db.String(128), nullable=True)
+    last_name = db.Column(db.String(128), nullable=True)
+    birthday = db.Column(db.DateTime, nullable=True)
+    driverLicense = db.Column(db.String(10), nullable=True)
+    ssn = db.Column(db.Integer, nullable=True)
+    company = db.Column(db.Integer, db.ForeignKey(Company.id), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
-    admin = db.Column(db.Boolean(),default=False, nullable=False)   
+    
 
-    def __init__(self, username, role, status, first_name, last_name, email, password, company, created_at=datetime.datetime.utcnow()):
-        self.username = username
-        self.status = status
-        self.role = role
-        self.first_name = first_name
-        self.last_name = last_name
+    def __init__(self, email, password, status, admin, created_at=datetime.datetime.utcnow(), uid=str(uuid.uuid4())):
         self.email = email
         self.password = bcrypt.generate_password_hash(password, current_app.config.get('BCRYPT_LOG_ROUNDS'))
-        self.company = company
+        self.status = status
+        self.admin = admin
+        self.uid = uid
         self.created_at = created_at
+    # def __init__(self, username, status, first_name, email, password, company, admin, created_at=datetime.datetime.utcnow()):
+    #     self.username = username
+    #     self.status = status
+    #     self.first_name = first_name
+    #     self.last_name = last_name
+    #     self.email = email
+    #     self.password = bcrypt.generate_password_hash(password, current_app.config.get('BCRYPT_LOG_ROUNDS'))
+    #     self.company = company
+    #     self.created_at = created_at
+    #     self.admin = admin
 
     # Generate Auth Token
     def encode_auth_token(self, user_id):

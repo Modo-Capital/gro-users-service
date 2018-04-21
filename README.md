@@ -46,7 +46,7 @@ $ . env/bin/activate
 (env)$ export APP_SETTINGS=project.config.DevelopmentConfig
 
 # Setting DATABASE_URL to local postgres user_dev
-(env)$ export DATABASE_URL=postgres://postgres:postgres@localhost:5431/users_dev
+(env)$ export DATABASE_URL=postgres://postgres:postgres@localhost:5432/users_dev
 
 # Setting SERCRET_KEY 
 (env)$ export SECRET_KEY=my_precious
@@ -85,6 +85,29 @@ $ . env/bin/activate
 # Run Test
 $ python manage.py test
 ```
+
+
+* How to run and deploy with Docker
+** Docker Build and Run Locally
+```
+$ docker build -t troydo42/gro-users .
+$ docker run -p 8888:5000 troydo42/gro-users
+$ docker run -e APP_SETTINGS=project.config.ProductionConfig -e DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users -d -p 8888:5000 troydo42/gro-users
+
+$ docker run -it troydo42/gro-users bash
+$ export APP_SETTINGS=project.config.ProductionConfig
+$ export DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users
+
+```
+
+** Docker Deploy on AWS
+
+```
+$ docker build -t troydo42/gro-users .
+$ docker run --publish 8888:5000 --detach troydo42/gro-users
+
+```
+
 
 ### Who do I talk to? ###
 * Troy Do - troy@topflightapps.com

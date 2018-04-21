@@ -11,6 +11,17 @@ from flask_security import Security, login_required
 users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 api = Namespace('users', description='Users create, view, update, delete')
 
+user = api.model('User', {
+    'username':fields.String(description='Username for user', required=True),
+    'status':fields.String(description='User status among registered, applied, approved', required=True),
+    'first_name':fields.String(description='User first name', required=True),
+    'last_name':fields.String(description = 'User last name', required=True),
+    'email':fields.String(description='User email', required=True),
+    'password':fields.String(description='User password', required=True),
+    'company':fields.Integer(description='company', required=True), 
+    'admin':fields.Boolean(description='User are admin or not', required=True)
+})
+
 @api.route('/ping')
 class Ping(Resource):
     @api.doc('ping_pong')
@@ -50,14 +61,10 @@ class UsersList(Resource):
         return response
 
     """Create a new user methods"""
-    @api.param('username', 'Username for user')
-    @api.param('status', 'User status among registered, applied, approved')
-    @api.param('first_name', 'User first name')
-    @api.param('last_name', 'User last name')
-    @api.param('email','User email')
-    @api.param('password','User password')
-    @api.doc('create_new_user')
-    def post(self, user_data):
+    @api.expect(user)
+    def post(self):
+        user_data = request.json
+        print(user_data)
         """Create a new user"""
         if not user_data:
             # Return fail if recieve empty json object
@@ -68,19 +75,22 @@ class UsersList(Resource):
             response.status_code = 400
             return response
 
-        username = username
-        status = status
-        email = email
-        password = password
-        first_name = first_name
-        last_name = last_name
+        
+        admin = user_data['admin']
+        status = user_data['status']
+        email = user_data['email']
+        password = user_data['password']
+        # username = user_data['username']
+        # first_name = user_data['first_name']
+        # last_name = user_data['last_name']
+        # company = user_data['company']
 
         # Return fail when receiving duplicated email
         try:
             user = User.query.filter_by(email=email).first()
             if not user:
                 # Add new users to database
-                db.session.add(User(username=username, status=status, first_name=first_name, last_name=last_name, email=email, password=password))
+                db.session.add(User(email=email, password=password, status=status, admin=admin))
                 db.session.commit()
 
                 # Return success response status and message
@@ -106,13 +116,31 @@ class UsersList(Resource):
             response.status_code = 400
             return response
 
-## Get User by ID from Database
-@api.route('/<int:id>')
+## Get User by UID from Database
+@api.route('/<string:uid>')
 @api.response(404, 'User not found')
-@api.param('id', 'The user identifier')
+@api.param('uid', 'The user identifier')
 class Single_User(Resource):
     @api.doc('Get A Single User')
-    def get(self, id):
+    def get(self, uid):
         """ Getting single user details """
-        return DAO.get(id)
+        userData = User.query.filter_by(uid=uid).first()
+        if not userData:
+            response = jsonify({
+                'status':'fail',
+                'message': 'Fail to pull user data',
+                'status_code': 401
+            })
+        else:
+            response = jsonify({
+                'status': 'success',
+                'message': 'Successful pull user data',
+                'data': {
+                    'first_name':userData.first_name,
+                    'last_name':userData.last_name,
+                    'email':userData.email,
+                },
+                'status_code': 200
+            })    
+        return response
 

@@ -22,6 +22,9 @@ user = api.model('User', {
     'admin':fields.Boolean(description='User are admin or not', required=True)
 })
 
+parser = api.parser()
+parser.add_argument('Auth-Token', type=str, location='header')
+
 @api.route('/ping')
 class Ping(Resource):
     @api.doc('ping_pong')
@@ -122,25 +125,50 @@ class UsersList(Resource):
 @api.param('uid', 'The user identifier')
 class Single_User(Resource):
     @api.doc('Get A Single User')
+    @api.doc(parser=parser)
     def get(self, uid):
-        """ Getting single user details """
-        userData = User.query.filter_by(uid=uid).first()
-        if not userData:
-            response = jsonify({
-                'status':'fail',
-                'message': 'Fail to pull user data',
-                'status_code': 401
-            })
+        # Authenticate using Auth-Token
+        auth_header = request.headers.get('Auth-Token')
+        if auth_header: 
+            print(auth_header)
+            auth_token = auth_header
+            resp = User.decode_auth_token(auth_token)
+            if not isinstance(resp, str):
+                """ Getting single user details """
+                userData = User.query.filter_by(uid=uid).first()
+                if not userData:
+                    response = jsonify({
+                        'status':'fail',
+                        'message': 'Fail to pull user data',
+                        'status_code': 401
+                    })
+                else:
+                    response = jsonify({
+                        'status': 'success',
+                        'message': 'Successful pull user data',
+                        'data': {
+                            'first_name':userData.first_name,
+                            'last_name':userData.last_name,
+                            'email':userData.email,
+                        },
+                        'status_code': 200
+                    })    
+                return response
+            else:
+                response = jsonify({
+                    'status':'error', 
+                    'message': resp
+                })
+                response.status_code = 401
+                return response
+
+        # handle error
         else:
             response = jsonify({
-                'status': 'success',
-                'message': 'Successful pull user data',
-                'data': {
-                    'first_name':userData.first_name,
-                    'last_name':userData.last_name,
-                    'email':userData.email,
-                },
-                'status_code': 200
-            })    
-        return response
+                'status ': 'error',
+                'message': 'Invalid token. Please login again.'
+            })
+            response.status_code = 403
+            return response
+
 

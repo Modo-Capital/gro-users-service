@@ -20,7 +20,8 @@ auth_fields = api.model('Auth', {
 })
 
 parser = api.parser()
-parser.add_argument('Authorization', type=str, location='header')
+parser.add_argument('Auth-Token', type=str, location='headers')
+parser.add_argument('UID', type=str, location='headers')
 
 # Create registration API endpoint
 @api.route('/register')
@@ -126,8 +127,8 @@ class Login(Resource):
             print("FETCHING DATA from user %s FROM DATABASES"%(email))
             user = User.query.filter_by(email=email).first()
             if user and bcrypt.check_password_hash(user.password, password):
-                auth_token = user.encode_auth_token(user.id)
                 userId = user.uid
+                auth_token = user.encode_auth_token(user.uid)
                 if auth_token:
                     response = jsonify({
                         'status': 'success',
@@ -161,14 +162,15 @@ class Logout(Resource):
     @api.doc(parser=parser)
     def post(self):
         """ Logout Existing User """
+        # Authenticate using Auth-Token
         auth_header = request.headers.get('Auth-Token')
-        # get auth token
+        uid = request.headers.get('UID')
         print(request.headers)
         if auth_header: 
-            print(auth_header)
             auth_token = auth_header
+            print("Here is our token: %s"%(auth_token))
             resp = User.decode_auth_token(auth_token)
-            if not isinstance(resp, str):
+            if resp == uid:
                 response = jsonify({
                     'status':'success', 
                     'message':'Successfully logged out.'
@@ -179,7 +181,7 @@ class Logout(Resource):
             else:
                 response = jsonify({
                     'status':'error', 
-                    'message': resp
+                    'message': 'Invalid UID or Auth-Token'
                 })
                 response.status_code = 401
                 return response
@@ -196,35 +198,31 @@ class Logout(Resource):
 ## Create Status API endpoint
 @api.route('/status')
 class Status(Resource):
-    @api.doc('status')
+    @api.doc(parser=parser)
     def post(self):
         """ Current User Status """
-        auth_header = request.headers.get('Authorization') 
+        auth_header = request.headers.get('Auth-Token')
+        uid = request.headers.get('UID')
         # get auth token
         
         if auth_header:
-            auth_token = auth_header.split(" ")[1]
+            auth_token = auth_header
             resp = User.decode_auth_token(auth_token)
-            if not isinstance(resp, str):
-                user = User.query.filter_by(id=resp).first()
-                response = {
+
+            if resp == uid:
+                user = User.query.filter_by(uid=resp).first()
+                response = jsonify({
                     'status':'success', 
                     'data': {
-                        'id':user.id,
-                        'username':user.username,
-                        'first_name':user.first_name,
-                        'last_name':user.last_name,
-                        'email':user.email,
-                        'active': user.active,
-                        'created_at':user.created_at
+                        'status':user.status
                     }
-                }
+                })
                 response.status_code = 200
                 return response
-            response = {
+            response = jsonify({
                 'status':'error',
                 'message': resp
-            }
+            })
             response.status_code = 401
             return response
         

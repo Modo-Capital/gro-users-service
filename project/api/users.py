@@ -23,7 +23,7 @@ user = api.model('User', {
 })
 
 parser = api.parser()
-parser.add_argument('Auth-Token', type=str, location='header')
+parser.add_argument('Auth-Token', type=str, location='headers')
 
 @api.route('/ping')
 class Ping(Resource):
@@ -122,18 +122,17 @@ class UsersList(Resource):
 ## Get User by UID from Database
 @api.route('/<string:uid>')
 @api.response(404, 'User not found')
-@api.param('uid', 'The user identifier')
 class Single_User(Resource):
-    @api.doc('Get A Single User')
     @api.doc(parser=parser)
     def get(self, uid):
         # Authenticate using Auth-Token
         auth_header = request.headers.get('Auth-Token')
         if auth_header: 
-            print(auth_header)
             auth_token = auth_header
+            print("AUTH TOKEN: %s"%(decode_auth_token))
             resp = User.decode_auth_token(auth_token)
-            if not isinstance(resp, str):
+            print("RESP : %s"%(resp))
+            if resp == uid:
                 """ Getting single user details """
                 userData = User.query.filter_by(uid=uid).first()
                 if not userData:

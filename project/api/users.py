@@ -129,7 +129,7 @@ class Single_User(Resource):
         auth_header = request.headers.get('Auth-Token')
         if auth_header: 
             auth_token = auth_header
-            print("AUTH TOKEN: %s"%(decode_auth_token))
+            print("AUTH TOKEN: %s"%(auth_token))
             resp = User.decode_auth_token(auth_token)
             print("RESP : %s"%(resp))
             if resp == uid:
@@ -149,6 +149,10 @@ class Single_User(Resource):
                             'first_name':userData.first_name,
                             'last_name':userData.last_name,
                             'email':userData.email,
+                            'profile':userData.profile,
+                            'driver_license':userData.driverLicense,
+                            'ssn':userData.ssn,
+                            'birthday':userData.birthday 
                         },
                         'status_code': 200
                     })    

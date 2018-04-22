@@ -66,6 +66,7 @@ $ python manage.py runserver
 ```
 
 * How to run tests
+
 ** Run test locally
 ```bash
 # Setting localDB variable
@@ -88,6 +89,7 @@ $ python manage.py test
 
 
 * How to run and deploy with Docker
+
 ** Docker Build and Run Locally
 ```
 $ docker build -t troydo42/gro-users .

@@ -125,16 +125,6 @@ class User(db.Model, UserMixin):
         self.admin = admin
         self.uid = uid
         self.created_at = created_at
-    # def __init__(self, username, status, first_name, email, password, company, admin, created_at=datetime.datetime.utcnow()):
-    #     self.username = username
-    #     self.status = status
-    #     self.first_name = first_name
-    #     self.last_name = last_name
-    #     self.email = email
-    #     self.password = bcrypt.generate_password_hash(password, current_app.config.get('BCRYPT_LOG_ROUNDS'))
-    #     self.company = company
-    #     self.created_at = created_at
-    #     self.admin = admin
 
     # Generate Auth Token
     def encode_auth_token(self, user_id):

@@ -174,4 +174,9 @@ class Single_User(Resource):
             response.status_code = 403
             return response
 
+    @api.expect(user)
+    @api.doc(parser=parser)
+    def put(self, uid):
+        pass
+
 

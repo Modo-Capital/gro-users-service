@@ -129,7 +129,6 @@ def recreate_db():
 def seed_db():
     """Seeds the database."""
     db.session.add(Company(company_name='Top Flight', ein='123', duns='456', bank_account='123', accounting_account='678'))
-    db.session.add(Company(company_name='Do Inc', ein='000', duns='000', bank_account='000', accounting_account='000'))
     db.session.add(User(email="delighted@troy.do", password="12345678", status="registered", admin=False))
     db.session.add(User(email="hoangdov@gmail.com", password="87654321", status="registered", admin=True))
     db.session.commit()

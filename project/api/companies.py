@@ -11,7 +11,7 @@ api = Namespace('companies', description='Companies create, view, update, delete
 
 # Adding New Company to Database
 @api.route('/')
-class Company(Resource):
+class CompaniesList(Resource):
 	@api.doc('get_all_companies')
 	def get(self):
 		""" Get all companies """
@@ -19,8 +19,15 @@ class Company(Resource):
 		companies_list = []
 		for company in companies:
 			company_object = {
-				'id':company.id,
+				'uid':company.uid,
 				'company_name': company.company_name,
+				'address':company.address,
+				'city':company.city,
+				'state':company.state,
+			    'zipcode':company.zipcode,
+			    'loan_amount_applied':company.loan_amount_applied,
+			    'loan_type':company.loan_type,
+			    'loan_reason':company.loan_reason,
 				'ein': company.ein,
 				'duns': company.duns,
 				'bank_account':company.bank_account,
@@ -29,13 +36,14 @@ class Company(Resource):
 			}
 			companies_list.append(company_object)
 
-		response_object = {
+		response_object = jsonify({
 			'status':'success',
 			'data':{	
 				'companies':companies_list
 			}
-		}
-		return jsonify(response_object), 200
+		})
+		response_object.status_code = 200
+		return response_object
 
 	@api.doc('create_a_company')
 	def post(self, data):
@@ -85,26 +93,28 @@ class Company(Resource):
 
 
 # Get Company by ID from Database
-@api.route('/<int:id>')
+@api.route('/<string:uid>')
 @api.response(404, 'Company not found')
-@api.param('id', 'The company identifier')
+@api.param('uid', 'The company unique identifier')
 class Single_Company(Resource):
 	@api.doc('Get a Single Company')
-	def get(self, id):
+	def get(self, uid):
 		""" Getting single company details """
 
 		# Default response object
-		response_object = {
+		response_object = jsonify({
 			'status':'fail',
 			'message':'Company does not exist'
-		}
+		})
 
 		try:
-			company = Company.query.filter_by(id=int(id)).first()
+			print("GETTING DATA on %s from database"%(uid))
+			company = Company.query.filter_by(uid=uid).first()
 			if not company:
-				return jsonify(response_object), 404
+				response_object.status_code = 404
+				return response_object
 			else:
-				response_object = {
+				response_object = jsonify({
 					'status':'success',
 					'data': {
 						'company_name': company.company_name,
@@ -114,10 +124,12 @@ class Single_Company(Resource):
 						'accounting_account':company.accounting_account, 
 						'created_at':company.created_at
 					}
-				}
-				return jsonify(response_object), 200
+				})
+				response_object.status_code = 200
+				return response_object
 		except ValueError:
-			return jsonify(response_object), 404
+			response_object.status_code = 404
+			return response_object
 
 
 

@@ -93,13 +93,7 @@ $ python manage.py test
 ** Docker Build and Run Locally
 ```
 $ docker build -t troydo42/gro-users .
-$ docker run -p 8888:5000 troydo42/gro-users
-$ docker run -e APP_SETTINGS=project.config.ProductionConfig -e DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users -d -p 8888:5000 troydo42/gro-users
-
-$ docker run -it troydo42/gro-users bash
-$ export APP_SETTINGS=project.config.DevelopmentConfig
-$ export DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users
-$ export SECRET_KEY=gradeALoan
+$ docker run -e APP_SETTINGS=project.config.ProductionConfig -e DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users -e SECRET_KEY=gradeALoan -d -p 8888:5000 troydo42/gro-users
 
 ```
 

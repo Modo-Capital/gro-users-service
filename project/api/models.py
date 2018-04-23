@@ -10,16 +10,14 @@ from sqlalchemy import text as sa_text
 import uuid
 
 
-# Create Client Application Model in Database
+# Create Client Application Model for API Keys in Database
 
-# class Client(db.Model):
+# class ClientApp(db.Model):
 #     # name of the client application detail
 #     name = db.Column(db.String(40))
 #     description = db.Column(db.String(400))
-
-#     user_id = db.Column(db.ForeignKey('users.id'))
+#     user_uid = db.Column(db.ForeignKey('users.uid'))
 #     user = db.relationship('User')
-
 #     client_id = db.Column(db.String(40), primary_key=True)
 #     client_secret = db.Column(db.String)
 
@@ -49,8 +47,8 @@ class Token(db.Model):
 # Create Company Model in Database
 class Company(db.Model):
     __tablename__="companies"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    uid = db.Column(db.String(), nullable=False)
+    id = db.Column(db.Integer, autoincrement=True)
+    uid = db.Column(db.String(), primary_key=True, nullable=False)
     company_name = db.Column(db.String(256), nullable=True)
     address = db.Column(db.String(), nullable=True)
     city = db.Column(db.String(), nullable=True)
@@ -68,13 +66,13 @@ class Company(db.Model):
     admin = db.Column(db.Boolean(),default=False, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, company_name, ein, duns, bank_account, accounting_account, created_at=datetime.datetime.utcnow(),uid=str(uuid.uuid4())):
+    def __init__(self, company_name, address, city, state, zipcode, created_at=datetime.datetime.utcnow(),uid=str(uuid.uuid4())):
         self.company_name = company_name
+        self.address = address
+        self.city = city
+        self.state = state
+        self.zipcode = zipcode
         self.uid = uid
-        self.ein = ein
-        self.duns = duns
-        self.bank_account = bank_account
-        self.accounting_account = accounting_account
         self.created_at = created_at
 
 # Define Role
@@ -96,7 +94,7 @@ class Role(db.Model, RoleMixin):
 class Gro_Score(db.Model):
     __tablename__ = "gro score"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    company = db.Column(db.Integer, db.ForeignKey(Company.id), default=0)
+    company = db.Column(db.String, db.ForeignKey(Company.uid), default=0)
     score = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
 
@@ -121,7 +119,7 @@ class User(db.Model, UserMixin):
     birthday = db.Column(db.DateTime, nullable=True)
     driverLicense = db.Column(db.String(10), nullable=False, default="42424242AA")
     ssn = db.Column(db.Integer, nullable=False,default=42424242)
-    company = db.Column(db.Integer, db.ForeignKey(Company.id), nullable=True)
+    company = db.Column(db.String, db.ForeignKey(Company.uid), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
     
@@ -163,12 +161,10 @@ class User(db.Model, UserMixin):
     def is_anonymous(self):
         return False
 
-    def get_id(self):
-        return self.id
+    def get_uid(self):
+        return self.uid
 
     # Required for administrative interface
-    def __unicode__(self):
-        return self.username
     def __str__(self):
         return self.email
 

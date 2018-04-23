@@ -128,7 +128,7 @@ def recreate_db():
 @manager.command
 def seed_db():
     """Seeds the database."""
-    db.session.add(Company(company_name='Top Flight', ein='123', duns='456', bank_account='123', accounting_account='678'))
+    db.session.add(Company(company_name='Top Flight', address='1968 S. Coast Hwy #592', city='Laguna Beach',state='CA', zipcode='92651'))
     db.session.add(User(email="delighted@troy.do", password="12345678", status="registered", admin=False))
     db.session.add(User(email="hoangdov@gmail.com", password="87654321", status="registered", admin=True))
     db.session.commit()

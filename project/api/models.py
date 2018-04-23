@@ -51,9 +51,9 @@ class Company(db.Model):
     __tablename__="companies"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uid = db.Column(db.String(), nullable=False)
-    company_name = db.Column(db.String(256), nullable=True)
     ein = db.Column(db.Integer, nullable=True)
     duns = db.Column(db.Integer, nullable=True)
+    company_name = db.Column(db.String(256), nullable=True)
     bank_account = db.Column(db.String, nullable=True)
     accounting_account = db.Column(db.String, nullable=True)
     active = db.Column(db.Boolean(), default=True, nullable=False)
@@ -103,7 +103,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uid = db.Column(db.String(), nullable=False)
     email = db.Column(db.String(128), nullable=False, unique=True)
-    password = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(300), nullable=False)
     admin = db.Column(db.Boolean(),default=False, nullable=False) 
     status = db.Column(db.String(128), nullable=False)
     username = db.Column(db.String(128), nullable=True, unique=True)
@@ -120,7 +120,7 @@ class User(db.Model, UserMixin):
 
     def __init__(self, email, password, status, admin, created_at=datetime.datetime.utcnow(), uid=str(uuid.uuid4())):
         self.email = email
-        self.password = bcrypt.generate_password_hash(password, current_app.config.get('BCRYPT_LOG_ROUNDS'))
+        self.password = bcrypt.generate_password_hash(password, current_app.config.get('BCRYPT_LOG_ROUNDS')).decode('utf-8') 
         self.status = status
         self.admin = admin
         self.uid = uid

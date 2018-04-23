@@ -13,7 +13,6 @@ import time
 auth_blueprint = Blueprint('auth', __name__)
 api = Namespace('auth', description='Register, Login, Logout and Get Status for Users')
 
-
 auth_fields = api.model('Auth', {
     'email': fields.String(description="User email", required=True),
     'password': fields.String(description="User password", required=True)
@@ -71,7 +70,7 @@ class Register(Resource):
                 db.session.commit()
 
                 # create auth_token
-                auth_token = new_user.encode_auth_token(new_user.id)
+                auth_token = new_user.encode_auth_token(new_user.uid)
                 print(auth_token)
                 response = jsonify({
                     'status': 'success',
@@ -126,6 +125,8 @@ class Login(Resource):
             # fetch the user data
             print("FETCHING DATA from user %s FROM DATABASES"%(email))
             user = User.query.filter_by(email=email).first()
+            print(user.password)
+            print(password)
             if user and bcrypt.check_password_hash(user.password, password):
                 userId = user.uid
                 auth_token = user.encode_auth_token(user.uid)

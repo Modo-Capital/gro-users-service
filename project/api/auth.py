@@ -151,7 +151,7 @@ class Login(Resource):
             print(e)
             response = jsonify({
                 'status': 'error',
-                'message': 'Try again. Maybe Decryption issue',
+                'message': 'Please check your email or password. Try again.',
                 'status_code': 500
             })
             return response

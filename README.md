@@ -101,7 +101,7 @@ $ docker run -e APP_SETTINGS=project.config.ProductionConfig -e DATABASE_URL=pos
 
 ```
 $ docker build -t troydo42/gro-users .
-$ docker run --publish 8888:5000 --detach troydo42/gro-users
+$ eb setenv APP_SETTINGS=project.config.ProductionConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan
 
 ```
 

@@ -201,11 +201,12 @@ class Single_User(Resource):
                     print("OUR new DATA is %s"%(put_data))
                     for key in put_data.keys():
                         userData.key = put_data['%s'%(key)]
-                    db.session.add(userData)
+                        print(userData.key)
                     db.session.commit()
                     response = jsonify({
                         'status':'success', 
-                        'message': 'Successfully update user profile'
+                        'message': 'Successfully update user profile',
+                        'update':put_data
                     })
                     response.status_code = 200
                     return response

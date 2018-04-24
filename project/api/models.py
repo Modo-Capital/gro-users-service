@@ -124,11 +124,10 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean(), default=True, nullable=False)
     
 
-    def __init__(self, email, password, status, admin, created_at=datetime.datetime.utcnow(), uid=str(uuid.uuid4())):
+    def __init__(self, email, password, status, created_at=datetime.datetime.utcnow(), uid=str(uuid.uuid4())):
         self.email = email
         self.password = bcrypt.generate_password_hash(password, current_app.config.get('BCRYPT_LOG_ROUNDS')).decode('utf-8') 
         self.status = status
-        self.admin = admin
         self.uid = uid
         self.created_at = created_at
 

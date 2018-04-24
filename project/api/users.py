@@ -23,6 +23,12 @@ user = api.model('User', {
     'ssn':fields.Integer(description="User Social Security Number", required=False),
     'company':fields.Integer(description='Company EIN Number', required=False)
 })
+new_user = api.model('New User', {
+    'email': fields.String(description="User email", required=True),
+    'password': fields.String(description="User password", required=True)
+})
+
+
 
 parser = api.parser()
 parser.add_argument('Auth-Token', type=str, location='headers')
@@ -67,7 +73,7 @@ class UsersList(Resource):
         return response
 
     """Create a new user methods"""
-    @api.expect(user)
+    @api.expect(new_user)
     def post(self):
         user_data = request.json
         print(user_data)
@@ -81,28 +87,22 @@ class UsersList(Resource):
             response.status_code = 400
             return response
 
-        
-        admin = user_data['admin']
-        status = user_data['status']
-        email = user_data['email']
-        password = user_data['password']
-        # username = user_data['username']
-        # first_name = user_data['first_name']
-        # last_name = user_data['last_name']
-        # company = user_data['company']
+        newUser = User(email=user_data['email'],password=user_data['password'], status='registered')
+        # for key in user_data.keys():
+        #     newUser.key = user_data['%s'%(key)]
 
         # Return fail when receiving duplicated email
         try:
-            user = User.query.filter_by(email=email).first()
+            user = User.query.filter_by(email=newUser.email).first()
             if not user:
                 # Add new users to database
-                db.session.add(User(email=email, password=password, status=status, admin=admin))
+                db.session.add(newUser)
                 db.session.commit()
 
                 # Return success response status and message
                 response = jsonify({
                     'status': 'success',
-                    'message': '%s was added!'%(email)
+                    'message': '%s was added!'%(newUser.email)
                 })   
                 response.status_code = 201
                 return response

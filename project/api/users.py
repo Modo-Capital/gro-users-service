@@ -87,7 +87,7 @@ class UsersList(Resource):
             response.status_code = 400
             return response
 
-        newUser = User(email=user_data['email'],password=user_data['password'], status='registered')
+        newUser = User(email=user_data['email'],password=user_data['password'], status='registered', admin=False)
         # for key in user_data.keys():
         #     newUser.key = user_data['%s'%(key)]
 

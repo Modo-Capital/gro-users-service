@@ -198,26 +198,9 @@ class Single_User(Resource):
                     })
                     return response
                 else:
-                    print(
-                        userData.profile,
-                        userData.email,
-                        userData.admin,
-                        userData.password, 
-                        userData.first_name
-                    )
-
                     print("OUR new DATA is %s"%(put_data))
-                    adminStatus = put_data['admin']
-                    userData.email = put_data['email'],
-                    userData.status = put_data['status'],
-                    userData.username = put_data['username'],
-                    userData.profile = put_data['profile'],
-                    userData.first_name = put_data['first_name'],
-                    userData.last_name = put_data['last_name'],
-                    userData.birthday = put_data['birthday'],
-                    userData.driverLicense = put_data['driverLicense'],
-                    userData.ssn = put_data['ssn']
-                    userData.company = put_data['company']
+                    for key in put_data.keys():
+                        userData.key = put_data['%s'%(key)]
                     db.session.add(userData)
                     db.session.commit()
                     response = jsonify({

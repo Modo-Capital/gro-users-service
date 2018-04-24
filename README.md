@@ -53,6 +53,7 @@ $ docker run -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=po
 
 ```
 $ docker build -t troydo42/gro-users .
+$ docker push troydo42/gro-users
 $ eb setenv APP_SETTINGS=project.config.ProductionConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan
 
 ```

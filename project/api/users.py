@@ -153,7 +153,7 @@ class Single_User(Resource):
                             'profile':userData.profile,
                             'driver_license':userData.driverLicense,
                             'ssn':userData.ssn,
-                            'birthday':userData.birthday 
+                            'birthday':userData.birthday.strftime("%Y-%M-%d")
                         },
                         'status_code': 200
                     })    
@@ -199,8 +199,11 @@ class Single_User(Resource):
                     print("Setting email for %s"%(uid))
                     for key, value in put_data.items():
                         print("Updating %s with %s "%(key,value))
-                        setattr(userData, key, value) 
-
+                        if key == "password":
+                            encryptedValue = bcrypt.generate_password_hash(value, current_app.config.get('BCRYPT_LOG_ROUNDS')).decode('utf-8')
+                            setattr(userData, key, encryptedValue)
+                        else:
+                            setattr(userData, key, value)     
                     db.session.add(userData)
                     try:
                         db.session.commit()

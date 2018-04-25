@@ -74,8 +74,6 @@ class Company(db.Model):
         self.zipcode = zipcode
         self.uid = str(uuid.uuid4())
         self.created_at = datetime.datetime.utcnow()
-
-# Define Role
 roles_users = db.Table('roles_users',
     db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
     db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
@@ -116,7 +114,7 @@ class User(db.Model, UserMixin):
     profile = db.Column(db.String(), nullable=True, default='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg/440px-Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg')
     first_name = db.Column(db.String(128), nullable=False, default="First Name")
     last_name = db.Column(db.String(128), nullable=False, default="Last Name")
-    birthday = db.Column(db.DateTime, nullable=True)
+    birthday = db.Column(db.Date, nullable=True)
     driverLicense = db.Column(db.String(10), nullable=False, default="42424242AA")
     ssn = db.Column(db.Integer, nullable=False,default=42424242)
     company = db.Column(db.String, db.ForeignKey(Company.uid), nullable=True)

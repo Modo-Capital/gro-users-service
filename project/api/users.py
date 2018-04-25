@@ -21,14 +21,12 @@ user = api.model('User', {
     'birthday':fields.DateTime(description="User birthday", required=False),
     'driverLicense':fields.String(description="User driver license", required=False),
     'ssn':fields.Integer(description="User Social Security Number", required=False),
-    'company':fields.Integer(description='Company EIN Number', required=False)
+    'company':fields.String(description='Company UID', required=False)
 })
 new_user = api.model('New User', {
     'email': fields.String(description="User email", required=True),
     'password': fields.String(description="User password", required=True)
 })
-
-
 
 parser = api.parser()
 parser.add_argument('Auth-Token', type=str, location='headers')

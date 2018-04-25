@@ -33,32 +33,6 @@
 
 ** Run Application on Local Host
 
-```
-$ . env/bin/activate
-$ export APP_SETTINGS=project.config.DevelopmentConfig
-$ export DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users
-$ export SECRET_KEY=gradeALoan
-$ python manage.py runserver
-
-```
-
-** Docker Build and Run Locally
-```
-$ docker build -t troydo42/gro-users .
-$ docker run -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users -e SECRET_KEY=gradeALoan -d -p 8888:5000 troydo42/gro-users
-
-```
-
-** Docker Deploy on AWS
-
-```
-$ docker build -t troydo42/gro-users .
-$ docker push troydo42/gro-users
-$ eb setenv APP_SETTINGS=project.config.ProductionConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan
-
-```
-** Run project locally
-
 ```bash
 # Setting up virtual enviroment
 $ virtualenv -p python3.6 env
@@ -83,8 +57,24 @@ $ python manage.py runserver
 
 ```
 
-* How to run tests
+** Docker Build and Run Locally
+```
+$ docker build -t troydo42/gro-users .
+$ docker run -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users -e SECRET_KEY=gradeALoan -d -p 8888:5000 troydo42/gro-users
 
+```
+
+** Docker Deploy on AWS
+
+```
+$ docker build -t troydo42/gro-users .
+$ docker push troydo42/gro-users
+$ eb setenv APP_SETTINGS=project.config.ProductionConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan
+
+```
+
+
+* How to run tests
 ** Run test locally
 ```bash
 # Setting localDB variable

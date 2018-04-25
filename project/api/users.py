@@ -153,7 +153,7 @@ class Single_User(Resource):
                             'profile':userData.profile,
                             'driver_license':userData.driverLicense,
                             'ssn':userData.ssn,
-                            'birthday':userData.birthday.strftime("%Y-%M-%d")
+                            'birthday':userData.birthday.strftime("%Y-%m-%d")
                         },
                         'status_code': 200
                     })    

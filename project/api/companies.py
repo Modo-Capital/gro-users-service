@@ -16,6 +16,40 @@ company_fields = api.model('New Company', {
     'state':fields.String(description="State", required=True), 
     'zipcode':fields.Integer(description="Zipcode", required=True)
 })
+# __tablename__="companies"
+#     id = db.Column(db.Integer, autoincrement=True)
+#     uid = db.Column(db.String(), primary_key=True, nullable=False)
+#     company_name = db.Column(db.String(256), nullable=True)
+#     address = db.Column(db.String(), nullable=True)
+#     city = db.Column(db.String(), nullable=True)
+#     state = db.Column(db.String(), nullable=True)
+#     zipcode = db.Column(db.Integer, nullable=True)
+#     loan_amount_applied = db.Column(db.Integer, nullable=True)
+#     loan_type = db.Column(db.String(), nullable=True)
+#     loan_reason = db.Column(db.String(), nullable=True)
+#     ein = db.Column(db.Integer, nullable=True)
+#     duns = db.Column(db.Integer, nullable=True)
+#     bank_account = db.Column(db.String, nullable=True)
+#     accounting_account = db.Column(db.String, nullable=True)
+#     loan_approved = db.Column(db.Integer, nullable=True)
+#     active = db.Column(db.Boolean(), default=True, nullable=False)
+#     admin = db.Column(db.Boolean(),default=False, nullable=False)
+#     created_at = db.Column(db.DateTime, nullable=False)
+company = api.model('Company', {
+    'company_name': fields.String(description="Company Name", required=False),
+    'address': fields.String(description="Company Business Address", required=False),
+    'city': fields.String(description="City", required=False),
+    'state':fields.String(description="State", required=False), 
+    'zipcode':fields.Integer(description="Zipcode", required=False),
+    'loan_amount_applied':fields.Integer(description="Loan amount applied", required=False),
+    'loan_type':fields.String(description="Loan Type", required=False),
+    'loan_reason':fields.String(description="Loan Reason", required=False),
+    'ein':fields.Integer(description="Company Employer identification Number EIN", required=False),
+    'duns':fields.Integer(description="Company DUNS Number", required=False),
+    'bank_account':fields.String(description="Bank Account Information", required=False),
+    'accounting_account':fields.String(description="Company DUNS Number", required=False),
+    'loan_approved':fields.Integer(description="Company DUNS Number", required=False)
+})
 
 # Adding New Company to Database
 @api.route('/')
@@ -143,6 +177,39 @@ class Single_Company(Resource):
         except ValueError:
             response_object.status_code = 404
             return response_object
+
+    @api.expect(company)
+    def put(self, uid):
+        put_data = request.get_json()
+        print("REQUEST DATA: %s"%(put_data))
+        companyData = Company.query.filter_by(uid=uid).first()
+        print(companyData)
+        if not companyData:
+            response = jsonify({
+                'status':'fail',
+                'message': 'Fail to pull user data',
+                'status_code': 401
+            })
+            return response
+        else:
+            print("Setting uod for %s"%(uid))
+            for key, value in put_data.items():
+                print("Updating %s with %s "%(key,value))
+                setattr(companyData, key, value)     
+                
+            db.session.add(companyData)
+            try:
+                db.session.commit()
+            except:
+                db.session.rollback()
+                raise
+            response = jsonify({
+                'status':'success', 
+                'message': 'Successfully update company profile',
+                'update':  put_data
+            })
+            response.status_code = 200
+            return response
 
 
 

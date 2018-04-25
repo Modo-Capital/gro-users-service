@@ -57,16 +57,8 @@ class CompaniesList(Resource):
     @api.expect(company_fields)
     def post(self):
         """ Create a new company """
-        post_data = request.get_json()
-        # Return fail if recieve empty json object
-        if not post_data:
-            response_object = jsonify({
-                'status': 'fail',
-                'message': 'Invalid payload'
-            })
-            response_object.status_code = 400
-            return response_object
-
+        post_data = request.json
+        print("POSTDATA: %s"%(post_data))
         company_name = post_data.get('company_name')
         address = post_data.get('address')
         city = post_data.get('city')
@@ -96,10 +88,11 @@ class CompaniesList(Resource):
                 response_object.status_code = 400   
                 return response_object
         except (exc.IntegrityError, ValueError) as e:
+            print(e)
             db.session.rollback()
             response_object = jsonify({
                 'status': 'fail',
-                'message': 'Invalid payload.'
+                'message': 'Invalid payload.',
             })
             response_object.status_code = 400
             return response_object

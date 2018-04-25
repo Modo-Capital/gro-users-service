@@ -75,7 +75,7 @@ class UsersList(Resource):
     """Create a new user methods"""
     @api.expect(new_user)
     def post(self):
-        user_data = request.json
+        user_data = request.get_json()
         print(user_data)
         """Create a new user"""
         if not user_data:
@@ -181,7 +181,7 @@ class Single_User(Resource):
     def put(self, uid):
         auth_header = request.headers.get('Auth-Token')
         put_data = request.get_json()
-        print(put_data)
+        print("REQUEST DATA: %s"%(put_data))
         if auth_header: 
             auth_token = auth_header
             print("AUTH TOKEN: %s"%(auth_token))
@@ -198,15 +198,21 @@ class Single_User(Resource):
                     })
                     return response
                 else:
-                    print("OUR new DATA is %s"%(put_data))
-                    for key in put_data.keys():
-                        userData.key = put_data['%s'%(key)]
-                        print(userData.key)
-                    db.session.commit()
+                    print("Setting email for %s"%(uid))
+                    for key, value in put_data.items():
+                        print("Updating %s with %s "%(key,value))
+                        setattr(userData, key, value) 
+
+                    db.session.add(userData)
+                    try:
+                        db.session.commit()
+                    except:
+                        db.session.rollback()
+                        raise
                     response = jsonify({
                         'status':'success', 
                         'message': 'Successfully update user profile',
-                        'update':put_data
+                        'update':  put_data
                     })
                     response.status_code = 200
                     return response

@@ -150,10 +150,16 @@ class Single_User(Resource):
                             'first_name':userData.first_name,
                             'last_name':userData.last_name,
                             'email':userData.email,
+                            'admin':userData.admin,
+                            'status':userData.status,
+                            'username':userData.username,
                             'profile':userData.profile,
+                            'ssn':userData.ssn, 
+                            'created_at':userData.created_at,
                             'driver_license':userData.driverLicense,
                             'ssn':userData.ssn,
-                            'birthday':userData.birthday.strftime("%Y-%m-%d")
+                            'birthday':userData.birthday.strftime("%Y-%m-%d"),
+                            'company':userData.company
                         },
                         'status_code': 200
                     })    

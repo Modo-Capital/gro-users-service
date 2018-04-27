@@ -106,11 +106,20 @@ class CompaniesList(Resource):
                 # Add new companies to database
                 db.session.add(Company(company_name=company_name, address=address, city=city, state=state, zipcode=zipcode))
                 db.session.commit()
+                newCompany = Company.query.filter_by(company_name=company_name).first()
 
                 # Return success response status and message
                 response_object = jsonify({
                     'status': 'success',
-                    'message': '%s was added!'%(company_name)
+                    'message': '%s was added!'%(company_name),
+                    'data': {
+                        "uid":newCompany.uid,
+                        "company_name":newCompany.company_name,
+                        "address":newCompany.address,
+                        "city":newCompany.city,
+                        "state":newCompany.state,
+                        "zipcode":newCompany.zipcode
+                    }
                 })
                 response_object.status_code = 201
                 return response_object

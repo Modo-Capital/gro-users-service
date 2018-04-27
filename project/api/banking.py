@@ -11,6 +11,7 @@ from flask import Flask, Blueprint, render_template, request, jsonify
 
 # Importing Restplus for API features
 from flask_restplus import Namespace, Resource, fields
+from project.api.models import User
 
 # Creating banking routing
 banking_blueprint = Blueprint('banking',__name__, static_folder='static', template_folder="template")
@@ -26,6 +27,13 @@ PLAID_ENV = os.getenv('PLAID_ENV', 'development')
 access_token = None
 client = plaid.Client(client_id = PLAID_CLIENT_ID, secret=PLAID_SECRET,
                   public_key=PLAID_PUBLIC_KEY, environment=PLAID_ENV)
+
+
+token = api.model('Token', {
+    'uid':fields.String(description="User UID"),
+    'public_token':fields.String(description="User Public Token or Access Token")
+})
+
 
 # Ping Banking Route
 @api.route('/ping')
@@ -53,18 +61,35 @@ class Banking(Resource):
 
 
 # Get Access Token Route
-@api.route('/get_access_token')
+@api.route('/send_public_token')
+@api.response(404, 'Invalid public token')
 class Access_token(Resource):
-    def get_access_token():
+    @api.expect(token)
+    def post(self):
         """Get Access Token"""
         global access_token
-        public_token = request.form['public_token']
-        exchange_response = client.Item.public_token.exchange(public_token)
-        print('public_token: '+public_token)
-        print('access_token: '+ exchange_response['access_token'])
-        print('item ID' + exchange_response['item_id'])
-        access_token = exchange_response['access_token']
-        return jsonify(exchange_response), 200
+        print("REQUEST is %s"%(request))
+        post_data = request.get_json()
+        print("DATA is %s"%(post_data))
+        public_token = post_data['public_token']
+        if not public_token:
+            response = {
+              "message":"missing Public Token", 
+              "status":"fail"
+            }
+            response.status_code = 401
+        else:
+            exchange_response = client.Item.public_token.exchange(public_token)
+            print('public_token: '+public_token)
+            print('access_token: '+ exchange_response['access_token'])
+            print('item ID' + exchange_response['item_id'])
+            access_token = exchange_response['access_token']
+            response = jsonify({
+                'status':'success',
+                'data': exchange_response
+            })
+            response.status_code = 200 
+        return response
 
 
 # Bank Account Route
@@ -72,9 +97,18 @@ class Access_token(Resource):
 class Accounts(Resource):
     def get(self):
         """Getting Bank Account Information"""
-        global access_token
+        access_token = "access-sandbox-f181e344-ac4b-47a9-a299-d5695110a4a0"
         accounts = client.Auth.get(access_token)
-        return jsonify(accounts)
+        if not accounts:
+            response = jsonify({
+                'status':'fail',
+                'messsage':'Cant not pull users account, check access token'
+            })
+            response.status_code = 401
+        else:
+            response = jsonify(accounts)
+            response.status_code = 200
+        return response
 
 # Bank Item Route
 @api.route('/item')

@@ -21,6 +21,13 @@ import uuid
 #     client_id = db.Column(db.String(40), primary_key=True)
 #     client_secret = db.Column(db.String)
 
+
+# Create Banking Transaction
+class Transaction(db.Model):
+    __tablename__ = "transactions"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    
+
 # Create Token Model in Database
 class Token(db.Model):
     __tablename__ = "access token"
@@ -118,6 +125,7 @@ class User(db.Model, UserMixin):
     driverLicense = db.Column(db.String(10), nullable=False, default="42424242AA")
     ssn = db.Column(db.Integer, nullable=False,default=42424242)
     company = db.Column(db.String, db.ForeignKey(Company.uid), nullable=True)
+    plaid_access_token = db.Column(db.String(), nullable=True)
     created_at = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
     

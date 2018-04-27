@@ -72,6 +72,7 @@ class Access_token(Resource):
         post_data = request.get_json()
         print("DATA is %s"%(post_data))
         public_token = post_data['public_token']
+        uid = post_data['uid']
         if not public_token:
             response = {
               "message":"missing Public Token", 
@@ -84,8 +85,13 @@ class Access_token(Resource):
             print('access_token: '+ exchange_response['access_token'])
             print('item ID' + exchange_response['item_id'])
             access_token = exchange_response['access_token']
+            user = User.query.filter_by(uid=uid).first()
+            user.plaid_access_token = access_token
+            db.session.add(user)
+            db.session.commit()
             response = jsonify({
                 'status':'success',
+                'userID': uid,
                 'data': exchange_response
             })
             response.status_code = 200 
@@ -93,11 +99,12 @@ class Access_token(Resource):
 
 
 # Bank Account Route
-@api.route('/accounts')
+@api.route('/accounts/<string:uid>')
 class Accounts(Resource):
     def get(self):
         """Getting Bank Account Information"""
-        access_token = "access-sandbox-f181e344-ac4b-47a9-a299-d5695110a4a0"
+        user = User.query.filter_by(uid=uid).first()
+        access_token = user.plaid_access_token
         accounts = client.Auth.get(access_token)
         if not accounts:
             response = jsonify({
@@ -111,41 +118,62 @@ class Accounts(Resource):
         return response
 
 # Bank Item Route
-@api.route('/item')
+@api.route('/item/<string:uid>')
 class Item(Resource):
     def get(self):
         """ Get Banking Item Information """
-        global access_token
+        user = User.query.filter_by(uid=uid).first()
+        access_token = user.plaid_access_token
         item_response = client.Item.get(access_token)
         institution_response = client.Institutions.get_by_id(item_response['item']['institution_id'])
-        return jsonify({'item': item_response['item'], 'institution': institution_response['institution']})
+        response = jsonify({
+            'status':'sucess',
+            'data': {
+                'item': item_response['item'],
+                'institution': institution_response['institution']
+            }
+        })
+        response.status_code = 200
+        return response
 
 
 # Bank Transaction Route@app.route("/accounts", methods=['GET'])
-@api.route('/transactions')
+@api.route('/transactions/<string:uid>')
 class Transactions(Resource):
     def get(self):
         """Getting Transactions Information"""
-        global access_token
+        user = User.query.filter_by(uid=uid).first()
+        access_token = user.plaid_access_token
         
         # Pull transactions for the last 30 days
         start_date = "{:%Y-%m-%d}".format(datetime.datetime.now() + datetime.timedelta(-30))
         end_date = "{:%Y-%m-%d}".format(datetime.datetime.now())
 
         try:
-            response = client.Transactions.get(access_token, start_date, end_date)
-            return jsonify(response)
+            response = jsonfiy({
+                'status':'success',
+                'data': client.Transactions.get(access_token, start_date, end_date),
+            })
+            response.status_code = 200
+            return response
         except plaid.errors.PlaidError as e:
-            return jsonify({'error': {'error_code': e.code, 'error_message': str(e)}})
-  
+            response = jsonify({
+                'error': {'error_code': e.code, 'error_message': str(e)}
+            })
+            return response
  
 # Create public token
-@api.route("/create_public_token")
+@api.route("/create_public_token/<string:uid>")
 class Public_token(Resource):
     def get(self):
         """ Create Public Token """
-        global access_token
+        user = User.query.filter_by(uid=uid).first()
+        access_token = user.plaid_access_token
         # Create a one-time use public_token for the Item. This public_token can be used to
         # initialize Link in update mode for the user.
-        response = client.Item.public_token.create(access_token)
-        return jsonify(response)   
+        response = jsonify({
+            'status':'success',
+            'data': client.Item.public_token.create(access_token)
+        })
+        response.status_code = 200
+        return response

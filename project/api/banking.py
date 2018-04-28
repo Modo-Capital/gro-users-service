@@ -177,3 +177,5 @@ class Public_token(Resource):
         })
         response.status_code = 200
         return response
+
+        # -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users -e SECRET_KEY=gradeALoan -e PLAID_CLIENT_ID=5a9591e08d9239244b8063ad -e PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 -e PLAID_ENV=sandbox -e PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82

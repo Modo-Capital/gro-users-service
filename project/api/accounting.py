@@ -177,7 +177,7 @@ class companyInfo(Resource):
         print(data['realmId'], data['access_token'], data['uid'])
         user = User.query.filter_by(uid=data['uid']).first()
         user.quickbook_access_token = data['access_token']
-        user.quickbooks_id = data['realmId']
+        user.quickbook_id = data['realmId']
         db.session.add(user)
         db.session.commit()
         route = 'https://sandbox-quickbooks.api.intuit.com/v3/company/{0}/companyinfo/{0}'.format(data['realmId'])

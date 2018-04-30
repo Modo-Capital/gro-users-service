@@ -3,39 +3,34 @@ import json
 import requests
 import random
 import base64
-from quickbooks import Oauth2SessionManager
-from project.api.QuickbookOAuth2Config import OAuth2Config
+import os
+import json
 
-from flask import Blueprint, jsonify, request, render_template, redirect
+from flask import Blueprint, jsonify, request, render_template, redirect, session
 from flask_restplus import Namespace, Resource, reqparse, fields
 
-from project.api.models import Token
+from project.api.models import Token, User, Document
 from project import db
 
-REDIRECT_URI = 'http://localhost:5000/accounting/authCodeHandler'
+REDIRECT_URI =  os.getenv('REDIRECT_URI')
 ACCOUNTING_SCOPE = 'com.intuit.quickbooks.accounting'
 CLIENT_ID = 'Q0LH8ItSo4cZCuka8OAiXdbdea5k5vzWRaytOSeplNroZ4jYQi'
 CLIENT_SECRET = 'E5FYXGrL85Xm0UqkqXntZQIMlU3hlP6fhvoUEJQ4'
 SANDBOX_QBO_BASEURL = 'https://sandbox-quickbooks.api.intuit.com'
 
-
-
-
 api = Namespace('accounting', description='Connect and Get Accounting Data')
+
+document_fields = api.model('Document', {
+  'uid':fields.String(description="User UID", required=True),
+  'name':fields.String(description="Document Name", required=True),
+  'link':fields.String(description="Document Name", required=True)
+})
+
 company_fields = api.model('Company', {
+    'uid':fields.String(description="User UID", required=True),
     'realmId': fields.String(description="Realm Id", required=True),
     'access_token': fields.String(description="Access Token", required=True)
 })
-
-
-session_manager = Oauth2SessionManager(
-    sandbox=True,
-    client_id='Q0LH8ItSo4cZCuka8OAiXdbdea5k5vzWRaytOSeplNroZ4jYQi',
-    client_secret='E5FYXGrL85Xm0UqkqXntZQIMlU3hlP6fhvoUEJQ4',
-    base_url='http://localhost:5000/',
-)
-
-callback_url = 'http://localhost:5000/accounting/authCodeHandler'  # Quickbooks will send the response to this url
 
 def getRandomString(length, allowed_chars='abcdefghijklmnopqrstuvwxyz' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'):
     return ''.join(random.choice(allowed_chars) for i in range(length))
@@ -73,6 +68,29 @@ def getDiscoveryDocument():
     return discovery_doc_json
 
 
+@api.route('/uploadDocuments')
+class Upload(Resource):
+    @api.expect(document_fields)
+    def post(self):
+        data = request.get_json()
+        uid = data['uid']
+        document_name = data['name']
+        document_link = data['link']
+        user = User.query.filter_by(uid=data['uid']).first()
+        document = Document(user=user,name=document_name, link=document_link)
+        db.session.add(document)
+        db.session.commit()
+        response_object = jsonify({
+            'status':'success',
+            'data': {
+                'user':uid,
+                'document name':document_name,
+                'document link': document_link
+            }
+        })
+        return response_object
+
+
 @api.route('/recon')
 class Recon(Resource):
     def get(self):
@@ -97,7 +115,7 @@ class Connecting(Resource):
         url += '?' + urllib.parse.urlencode(params)
         response_object = jsonify({
             'status':'success',
-            'message': 'Successfully receive access token',
+            'message': 'Successfully connecting to Quickbooks',
             'data': url
         })
         response_object.status_code = 200
@@ -122,9 +140,9 @@ class Authorization(Resource):
         payload = {
                 'grant_type': 'authorization_code',
                 'code': auth_code,
-                'redirect_uri': 'http://localhost:5000/accounting/authCodeHandler'
+                'redirect_uri': REDIRECT_URI
         }
-
+        print(payload)
         r = requests.post(token_endpoint, data=payload, headers=headers)
         data = json.loads(r.text)
         print("OUR TOKEN RESPONSE ARE: %s"%(data))
@@ -134,7 +152,6 @@ class Authorization(Resource):
                  'messsage': 'Not getting access code',
                  'data': data
             })
-            response_object.status_code = 401
         else:
             response_object = jsonify({
                  'status':'success',
@@ -148,8 +165,8 @@ class Authorization(Resource):
                      'realmId':realmId
                  }
             })
-            response_object.status_code = 200
-        return response_object
+        access_token = data['access_token']
+        return redirect('http://dev.gro.capital/quickbooks?status=success&message=ok&access_token=%s&realmId=%s'%(access_token, realmId),code=302)
 
 @api.route('/apiCall/companyInfo')
 class companyInfo(Resource):
@@ -157,7 +174,12 @@ class companyInfo(Resource):
     def post(self):
         """ Making a specific API call """
         data = request.get_json()
-        print(data['realmId'], data['access_token'])
+        print(data['realmId'], data['access_token'], data['uid'])
+        user = User.query.filter_by(uid=data['uid']).first()
+        user.quickbook_access_token = data['access_token']
+        user.quickbooks_id = data['realmId']
+        db.session.add(user)
+        db.session.commit()
         route = 'https://sandbox-quickbooks.api.intuit.com/v3/company/{0}/companyinfo/{0}'.format(data['realmId'])
         print(route)
         auth_header = 'Bearer ' + data['access_token']
@@ -217,7 +239,7 @@ class ProfitAndLoss(Resource):
     def post(self):
         """ Making a specific API call """
         data = request.get_json()
-        print(data['realmId'], data['access_token'])
+        print(data['realmId'], data['access_token'], data['uid'])
         route = 'https://sandbox-quickbooks.api.intuit.com/v3/company/{0}/reports/ProfitAndLoss?minorversion=4'.format(data['realmId'])
         print(route)
         auth_header = 'Bearer ' + data['access_token']

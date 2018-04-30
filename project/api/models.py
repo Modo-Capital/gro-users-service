@@ -21,12 +21,6 @@ import uuid
 #     client_id = db.Column(db.String(40), primary_key=True)
 #     client_secret = db.Column(db.String)
 
-
-# Create Banking Transaction
-
-class Transaction(db.Model):
-    __tablename__ = "transactions"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     
 
 # Create Token Model in Database
@@ -82,6 +76,7 @@ class Company(db.Model):
         self.zipcode = zipcode
         self.uid = str(uuid.uuid4())
         self.created_at = datetime.datetime.utcnow()
+
 roles_users = db.Table('roles_users',
     db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
     db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
@@ -127,6 +122,9 @@ class User(db.Model, UserMixin):
     ssn = db.Column(db.Integer, nullable=False,default=42424242)
     company = db.Column(db.String, db.ForeignKey(Company.uid), nullable=True)
     plaid_access_token = db.Column(db.String(), nullable=True)
+    quickbook_access_token = db.Column(db.String(), nullable=True)
+    quickbook_id = db.Column(db.String(), nullable=True)
+    documents = db.relationship("Document", backref="business_user", cascade="all, delete-orphan", lazy='dynamic')
     created_at = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
     
@@ -184,9 +182,31 @@ class User(db.Model, UserMixin):
             return 'Signature expired. Please log in again.'
         except jwt.InvalidTokenError:
             return 'Invalid token. Please login again.'
+    def __repr__(self):
+        return '<User %r>' % self.uid
 
 
+# Create Documents
+class Document(db.Model):
+    __tablename__="documents"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False)
+    link = db.Column(db.String, nullable=False)
+    user_id =  db.Column(db.Integer, db.ForeignKey('users.id'))
+    user =  db.relationship('User')
 
+    def __init__(self, name, link, user):
+        self.user = user
+        self.name = name
+        self.link = link
+
+    def __repr__(self):
+        return '<Document %r>' % self.id
+
+# Create Banking Transaction
+class Transaction(db.Model):
+    __tablename__ = "transactions"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
 
 

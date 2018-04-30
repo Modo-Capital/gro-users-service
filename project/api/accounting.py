@@ -158,11 +158,11 @@ class makeApiCall(Resource):
         """ Making a specific API call """
         data = request.get_json()
         print(data['realmId'], data['access_token'])
-        route = '/v3/company/{0}/companyinfo/{0}'.format(data['realmId'])
+        route = 'https://sandbox-quickbooks.api.intuit.com/v3/company/{0}/companyinfo/{0}'.format(data['realmId'])
         print(route)
         auth_header = 'Bearer ' + data['access_token']
         headers = {'Authorization': auth_header, 'accept': 'application/json'}
-        r = requests.get('https://sandbox-quickbooks.api.intuit.com' + route, headers=headers)
+        r = requests.get(route, headers=headers)
         print("COMPANY RESPONSE: %s"%(r.text))
         status_code = r.status_code
         if status_code != 200:

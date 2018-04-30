@@ -1,25 +1,32 @@
 import urllib
+import json
 import requests
 import random
+import base64
 from quickbooks import Oauth2SessionManager
 from project.api.QuickbookOAuth2Config import OAuth2Config
 
 from flask import Blueprint, jsonify, request, render_template, redirect
-from flask_restplus import Namespace, Resource, reqparse
+from flask_restplus import Namespace, Resource, reqparse, fields
 
 from project.api.models import Token
 from project import db
-
-
 
 REDIRECT_URI = 'http://localhost:5000/accounting/authCodeHandler'
 ACCOUNTING_SCOPE = 'com.intuit.quickbooks.accounting'
 CLIENT_ID = 'Q0LH8ItSo4cZCuka8OAiXdbdea5k5vzWRaytOSeplNroZ4jYQi'
 CLIENT_SECRET = 'E5FYXGrL85Xm0UqkqXntZQIMlU3hlP6fhvoUEJQ4'
+SANDBOX_QBO_BASEURL = 'https://sandbox-quickbooks.api.intuit.com'
+
 
 
 
 api = Namespace('accounting', description='Connect and Get Accounting Data')
+company_fields = api.model('Company', {
+    'realmId': fields.String(description="Realm Id", required=True),
+    'access_token': fields.String(description="Access Token", required=True)
+})
+
 
 session_manager = Oauth2SessionManager(
     sandbox=True,
@@ -32,6 +39,9 @@ callback_url = 'http://localhost:5000/accounting/authCodeHandler'  # Quickbooks 
 
 def getRandomString(length, allowed_chars='abcdefghijklmnopqrstuvwxyz' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'):
     return ''.join(random.choice(allowed_chars) for i in range(length))
+
+def stringToBase64(s):
+    return base64.b64encode(bytes(s, 'utf-8')).decode()
 
 def getSecretKey():
     chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
@@ -62,6 +72,7 @@ def getDiscoveryDocument():
         jwks_uri=discovery_doc_json['jwks_uri'])
     return discovery_doc_json
 
+
 @api.route('/recon')
 class Recon(Resource):
     def get(self):
@@ -71,7 +82,6 @@ class Recon(Resource):
             'data':discoveryDocument
         })
         return response_object
-
 
 @api.route('/connectToQuickbooks')
 class Connecting(Resource):
@@ -102,28 +112,65 @@ class Authorization(Resource):
         parser.add_argument('code', type=str)
         parser.add_argument('realmId', type=str)
         data = parser.parse_args()
-        print(data['code'])
-        session_manager.get_access_tokens(data['code'])
-        access_token = session_manager.access_token
-        print(access_token)
-        if not access_token:
+        print("Auth Code are:%s"%data['code'])
+        auth_code = data['code']
+        realmId = data['realmId']
+        token_endpoint = 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer'
+        auth_header = 'Basic ' + stringToBase64(CLIENT_ID + ':' + CLIENT_SECRET)
+        headers = {'Accept': 'application/json', 'content-type': 'application/x-www-form-urlencoded',
+                   'Authorization': auth_header}
+        payload = {
+                'grant_type': 'authorization_code',
+                'code': auth_code,
+                'redirect_uri': 'http://localhost:5000/accounting/authCodeHandler'
+        }
+
+        r = requests.post(token_endpoint, data=payload, headers=headers)
+        data = json.loads(r.text)
+        print("OUR TOKEN RESPONSE ARE: %s"%(data))
+        if r.status_code == 400:
             response_object = jsonify({
                  'status':'fail',
-                 'messsage': 'Not getting access token',
+                 'messsage': 'Not getting access code',
                  'data': data
             })
             response_object.status_code = 401
         else:
             response_object = jsonify({
                  'status':'success',
-                 'message': 'Successfully receive access token',
+                 'message': 'Successfully receive and save code',
                  'data': {
-                     'access_token':access_token,
-                     'request_data':data
+                     'refresh_token_expires_in':data['x_refresh_token_expires_in'],
+                     'refresh_token':data['refresh_token'],
+                     'access_token':data['access_token'],
+                     'token_type':data['token_type'],
+                     'expires_in':data['expires_in'],
+                     'realmId':realmId
                  }
             })
             response_object.status_code = 200
         return response_object
+
+@api.route('/apiCall/company_info')
+class makeApiCall(Resource):
+    @api.expect(company_fields)
+    def post(self):
+        """ Making a specific API call """
+        data = request.get_json()
+        print(data['realmId'], data['access_token'])
+        route = '/v3/company/{0}/companyinfo/{0}'.format(data['realmId'])
+        print(route)
+        auth_header = 'Bearer ' + data['access_token']
+        headers = {'Authorization': auth_header, 'accept': 'application/json'}
+        r = requests.get('https://sandbox-quickbooks.api.intuit.com' + route, headers=headers)
+        print("COMPANY RESPONSE: %s"%(r.text))
+        status_code = r.status_code
+        if status_code != 200:
+            response = ''
+            return response, status_code
+        response = json.loads(r.text)
+        return response, status_code
+
 
 @api.route('/connected')
 class Connected(Resource):
@@ -134,18 +181,6 @@ class Disconnect(Resource):
     def get(self):
         """ Disconnect from Quick Book Online """
         return "Disconnected from Quickbook", 200
-
-@api.route('/apiCall')
-class apiCall(Resource):
-    def get(self):
-        """ List all available APIs """
-        return "Listing available APIs", 200
-
-@api.route('/apiCall/<string:method>')
-class makeApiCall(Resource):
-    def get(self, method):
-        """ Making a specific API call """
-        return "Making %s API call"%(method), 200
 
 @api.route('/refreshTokenCall')
 class refreshToken(Resource):

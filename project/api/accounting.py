@@ -171,14 +171,54 @@ class companyInfo(Resource):
         response = json.loads(r.text)
         return response, status_code
 
-@api.route('/apiCall/balanceSheet')
-class balanceSheet(Resource):
+@api.route('/apiCall/BalanceSheet')
+class BalanceSheet(Resource):
     @api.expect(company_fields)
     def post(self):
         """ Making a specific API call """
         data = request.get_json()
         print(data['realmId'], data['access_token'])
         route = 'https://sandbox-quickbooks.api.intuit.com/v3/company/{0}/reports/BalanceSheet?minorversion=4'.format(data['realmId'])
+        print(route)
+        auth_header = 'Bearer ' + data['access_token']
+        headers = {'Authorization': auth_header, 'accept': 'application/json'}
+        r = requests.get(route, headers=headers)
+        print("COMPANY RESPONSE: %s"%(r.text))
+        status_code = r.status_code
+        if status_code != 200:
+            response = ''
+            return response, status_code
+        response = json.loads(r.text)
+        return response, status_code
+
+@api.route('/apiCall/CashFlow')
+class CashFlow(Resource):
+    @api.expect(company_fields)
+    def post(self):
+        """ Making a specific API call """
+        data = request.get_json()
+        print(data['realmId'], data['access_token'])
+        route = 'https://sandbox-quickbooks.api.intuit.com/v3/company/{0}/reports/CashFlow?minorversion=4'.format(data['realmId'])
+        print(route)
+        auth_header = 'Bearer ' + data['access_token']
+        headers = {'Authorization': auth_header, 'accept': 'application/json'}
+        r = requests.get(route, headers=headers)
+        print("COMPANY RESPONSE: %s"%(r.text))
+        status_code = r.status_code
+        if status_code != 200:
+            response = ''
+            return response, status_code
+        response = json.loads(r.text)
+        return response, status_code
+
+@api.route('/apiCall/ProfitAndLoss')
+class ProfitAndLoss(Resource):
+    @api.expect(company_fields)
+    def post(self):
+        """ Making a specific API call """
+        data = request.get_json()
+        print(data['realmId'], data['access_token'])
+        route = 'https://sandbox-quickbooks.api.intuit.com/v3/company/{0}/reports/ProfitAndLoss?minorversion=4'.format(data['realmId'])
         print(route)
         auth_header = 'Bearer ' + data['access_token']
         headers = {'Authorization': auth_header, 'accept': 'application/json'}

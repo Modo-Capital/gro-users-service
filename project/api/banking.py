@@ -11,6 +11,7 @@ from flask import Flask, Blueprint, render_template, request, jsonify
 
 # Importing Restplus for API features
 from flask_restplus import Namespace, Resource, fields
+from project import db
 from project.api.models import User
 
 # Creating banking routing
@@ -55,7 +56,8 @@ class Banking(Resource):
         print(PLAID_ENV)
         return jsonify({
             'plaid_public_key': PLAID_PUBLIC_KEY,
-            'plaid_enviroment': PLAID_ENV
+            'plaid_enviroment': PLAID_ENV, 
+            'plaid_client_id':  PLAID_CLIENT_ID
         }
     )
 
@@ -67,7 +69,6 @@ class Access_token(Resource):
     @api.expect(token)
     def post(self):
         """Get Access Token"""
-        global access_token
         print("REQUEST is %s"%(request))
         post_data = request.get_json()
         print("DATA is %s"%(post_data))

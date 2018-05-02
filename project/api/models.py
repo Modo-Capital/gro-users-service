@@ -64,6 +64,7 @@ class Company(db.Model):
     bank_account = db.Column(db.String, nullable=True)
     accounting_account = db.Column(db.String, nullable=True)
     loan_approved = db.Column(db.Integer, nullable=True)
+    gro_scores = db.relationship("Gro_Score", backref="company_score", cascade="all, delete-orphan", lazy='dynamic')
     active = db.Column(db.Boolean(), default=True, nullable=False)
     admin = db.Column(db.Boolean(),default=False, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
@@ -76,6 +77,20 @@ class Company(db.Model):
         self.zipcode = zipcode
         self.uid = str(uuid.uuid4())
         self.created_at = datetime.datetime.utcnow()
+
+# Create Gro Score Model in Database
+class Gro_Score(db.Model):
+    __tablename__ = "gro score"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    score = db.Column(db.Integer, default=0)
+    company_uid =  db.Column(db.String, db.ForeignKey('companies.uid'))
+    company =  db.relationship('Company')
+    created_at = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, company, company_uid, score, created_at=datetime.datetime.utcnow()):
+        self.company = company
+        self.score = score
+        self.created_at = created_at
 
 roles_users = db.Table('roles_users',
     db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
@@ -90,19 +105,6 @@ class Role(db.Model, RoleMixin):
 
     def __str__(self):
         return self.name
-
-# Create Gro Score Model in Database
-class Gro_Score(db.Model):
-    __tablename__ = "gro score"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    company = db.Column(db.String, db.ForeignKey(Company.uid), default=0)
-    score = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
-
-    def __init__(self, company, score, created_at=datetime.datetime.utcnow()):
-        self.company = company
-        self.score = score
-        self.created_at = created_at
 
 # Create User Model in Database
 class User(db.Model, UserMixin):

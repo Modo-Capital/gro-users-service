@@ -10,10 +10,6 @@ from flask_restplus import Namespace, Resource, reqparse, fields
 from project import db
 from project.api.models import User, Token
 
-from oauthlib.oauth2 import BackendApplicationClient
-from requests_oauthlib import OAuth2Session
-from requests_oauthlib.compliance_fixes import linkedin_compliance_fix
-
 authorization_code_url = 'https://www.linkedin.com/oauth/v2/authorization'
 access_token_url = 'https://www.linkedin.com/oauth/v2/accessToken'
 redirect_url = 'http://localhost:5000/social_media/linkedin/handler'
@@ -27,9 +23,6 @@ linkedin_fields = api.model('Linkedin API Call Fields', {
     # 'uid': fields.String(description='User UID of this Linkedin Account'),
     'accessToken':fields.String(description='Linkedin access token')
 })
-
-linkedin = OAuth2Session(linkedin_client_id, redirect_uri=redirect_url)
-linkedin = linkedin_compliance_fix(linkedin)
 
 
 def stringToBase64(s):

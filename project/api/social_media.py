@@ -12,7 +12,7 @@ from project.api.models import User, Token
 
 authorization_code_url = 'https://www.linkedin.com/oauth/v2/authorization'
 access_token_url = 'https://www.linkedin.com/oauth/v2/accessToken'
-redirect_url = 'http://localhost:5000/social_media/linkedin/handler'
+redirect_url = 'https://apis.gro.capital/social_media/linkedin/handler'
 
 linkedin_client_id = '865hf6la2lsblz'
 linkedin_client_secret = '5XqpRPihzKJx1lFj'
@@ -59,7 +59,7 @@ class LinkedinConnect(Resource):
     def get(self):
         url = authorization_code_url
         params = {
-            'redirect_uri': 'http://localhost:5000/social_media/linkedin/handler',
+            'redirect_uri': 'https://apis.gro.capital/social_media/linkedin/handler',
             'response_type': 'code', 
             'state': get_CSRF_token(request), 
             'client_id': linkedin_client_id
@@ -109,7 +109,7 @@ class LinkedinHandler(Resource):
         response_object.status_code = 200
         print(response_object)
         # return response_object
-        return redirect('http://dev.gro.capital/quickbooks?status=success&message=ok&access_token=%s'%(access_token), code=302)
+        return redirect('https://dev.gro.capital/quickbooks?status=success&message=ok&access_token=%s'%(access_token), code=302)
 
 @api.route('/linkedin/userInfo')
 class LinkedinInfo(Resource):

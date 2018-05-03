@@ -167,7 +167,7 @@ class Authorization(Resource):
             })
             print("ACCUNTING: %s"%(response_object.data))
         access_token = data['access_token']
-        return redirect('http://dev.gro.capital/quickbooks?status=success&message=ok&access_token=%s&realmId=%s'%(access_token, realmId),code=302)
+        return redirect('https://dev.gro.capital/quickbooks?status=success&message=ok&access_token=%s&realmId=%s'%(access_token, realmId),code=302)
 
 @api.route('/apiCall/companyInfo')
 class companyInfo(Resource):

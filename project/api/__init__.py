@@ -1,7 +1,5 @@
 #project/api/__init__.py
-
 from flask_restplus import Api
-
 
 ### Importing Namespaces
 from .auth import api as auth
@@ -11,6 +9,13 @@ from .banking import api as banking
 from .accounting import api as accounting
 from .social_media import api as social_media
 from .gro_scores import api as gro_scores
+from flask import url_for
+
+@property
+def specs_url(self):
+	return url_for(self.endpoint('specs'), _external=True, _scheme='https')
+
+Api.specs_url = specs_url
 
 ### Define API with restplus.api
 api = Api (
@@ -18,7 +23,6 @@ api = Api (
     title='Gro Users API', 
     description="Gro User Restful API"
 )
-
 
 api.add_namespace(auth)
 api.add_namespace(users)

@@ -12,7 +12,7 @@ from flask import Flask, Blueprint, render_template, request, jsonify
 # Importing Restplus for API features
 from flask_restplus import Namespace, Resource, fields
 from project import db
-from project.api.models import User
+from project.api.models import User, Bank_Account
 
 # Creating banking routing
 banking_blueprint = Blueprint('banking',__name__, static_folder='static', template_folder="template")
@@ -102,19 +102,46 @@ class Access_token(Resource):
 # Bank Account Route
 @api.route('/accounts/<string:uid>')
 class Accounts(Resource):
-    def get(self):
+    def get(self, uid):
         """Getting Bank Account Information"""
         user = User.query.filter_by(uid=uid).first()
         access_token = user.plaid_access_token
-        accounts = client.Auth.get(access_token)
-        if not accounts:
+        banking_data = client.Auth.get(access_token)
+        print(banking_data)
+        account_name = banking_data["accounts"][0]['official_name']
+        account_type = banking_data["accounts"][0]['subtype']
+        account_balance = banking_data["accounts"][0]['balances']['current']
+        account_number =  banking_data["numbers"][0]['account']
+        routing_number =  banking_data["numbers"][0]['routing']
+        print("YOUR ACCOUNT: %s - %s"%(account_name, account_type))
+        print("YOUR BALANCE: %s"%(account_balance))
+        if not banking_data:
             response = jsonify({
                 'status':'fail',
                 'messsage':'Cant not pull users account, check access token'
             })
             response.status_code = 401
         else:
-            response = jsonify(accounts)
+            account = Bank_Account.query.filter_by(account_number=account_number, routing_number=routing_number).first()
+            if not account:
+                account = Bank_Account(name=account_name, user=user, account_type =account_type, account_number=account_number, routing_number=routing_number, balance=account_balance)
+                db.session.add(account)
+                db.session.commit()
+            else:
+                account.balance = account_balance
+                db.session.add(account)
+                db.session.commit()
+            response = jsonify({
+                'status':'success',
+                'message':'Successfully pull banking data',
+                'data': {
+                    'account_name':account_name,
+                    'account_type':account_type,
+                    'account_balance':account_balance,
+                    'account_number':account_number,
+                    'routing_number':routing_number
+                }
+            })
             response.status_code = 200
         return response
 
@@ -178,3 +205,6 @@ class Public_token(Resource):
         })
         response.status_code = 200
         return response
+
+# Plaid Development Access Token
+# access-development-72e66b84-0096-436c-b04f-e8920241c710

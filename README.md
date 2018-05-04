@@ -49,14 +49,8 @@ $ . env/bin/activate
 # Install Dependencies
 (env)$ pip install -r requirements.txt
 
-# Setting APP_SETTINGS to DevelopmentConfig
-(env)$ export APP_SETTINGS=project.config.DevelopmentConfig
-
-# Setting DATABASE_URL to local postgres user_dev
-(env)$ export DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users
-
-# Setting SERCRET_KEY 
-(env)$ export SECRET_KEY=gradeALoan
+# Setting APP_SETTINGS to DevelopmentConfig, Database and SecretKey
+(env)$ export APP_SETTINGS=project.config.DevelopmentConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan
 
 # Spin up a Local Server and check in browser at http://127.0.0.1:5000/ 
 $ python manage.py runserver
@@ -66,7 +60,7 @@ $ python manage.py runserver
 ** Docker Build and Run Locally
 ```
 $ docker build -t troydo42/gro-users .
-$ docker run -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users -e SECRET_KEY=gradeALoan -e PLAID_CLIENT_ID=5a9591e08d9239244b8063ad -e PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 -e PLAID_ENV=sandbox -e PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82 -e REDIRECT_URI=http://gro-apis.us-east-1.elasticbeanstalk.com/accounting/authCodeHandler -d -p 8888:5000 troydo42/gro-users
+$ docker run -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users -e SECRET_KEY=gradeALoan -e PLAID_CLIENT_ID=5a9591e08d9239244b8063ad -e PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 -e PLAID_ENV=sandbox -e PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82 -e REDIRECT_URI=https://apis/gro.capital/accounting/authCodeHandler -d -p 8888:5000 troydo42/gro-users
 
 ```
 
@@ -75,7 +69,7 @@ $ docker run -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=po
 ```
 $ docker build -t troydo42/gro-users .
 $ docker push troydo42/gro-users
-$ eb setenv APP_SETTINGS=project.config.DevelopmentConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan PLAID_CLIENT_ID=5a9591e08d9239244b8063ad PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 PLAID_ENV=sandbox PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82
+$ eb setenv APP_SETTINGS=project.config.DevelopmentConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan PLAID_CLIENT_ID=5a9591e08d9239244b8063ad PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 PLAID_ENV=development PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82
 REDIRECT_URI=http://gro-apis.us-east-1.elasticbeanstalk.com/accounting/authCodeHandler
 ```
 
@@ -104,3 +98,8 @@ $ python manage.py test
 
 ### Who do I talk to? ###
 * Troy Do - troy@topflightapps.com
+
+ "account": "6754311302",
+      "account_id": "EVVAkoyz4rsqZqZa7egAC6aPx0PxjPhNNpq8v",
+      "routing": "062201601",
+      "wire_routing": null

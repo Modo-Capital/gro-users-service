@@ -21,8 +21,6 @@ import uuid
 #     client_id = db.Column(db.String(40), primary_key=True)
 #     client_secret = db.Column(db.String)
 
-    
-
 # Create Token Model in Database
 class Token(db.Model):
     __tablename__ = "access token"
@@ -131,6 +129,8 @@ class User(db.Model, UserMixin):
     plaid_access_token = db.Column(db.String(), nullable=True)
     quickbook_access_token = db.Column(db.String(), nullable=True)
     quickbook_id = db.Column(db.String(), nullable=True)
+    bank_accounts = db.relationship("Bank_Account", backref="business_user", cascade="all, delete-orphan", lazy='dynamic')
+    # accounting_reports = db.relationship("Accounting_Reports", backref="business_user", cascade="all, delete-orphan", lazy='dynamic')
     documents = db.relationship("Document", backref="business_user", cascade="all, delete-orphan", lazy='dynamic')
     created_at = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
@@ -209,6 +209,26 @@ class Document(db.Model):
 
     def __repr__(self):
         return '<Document %r>' % self.id
+
+# Create Banking Accounts
+class Bank_Account(db.Model):
+    __tablename__ = "bank_accounts"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User')
+    name = db.Column(db.String, nullable=False)
+    account_type = db.Column(db.String, nullable=False)
+    account_number = db.Column(db.Numeric, nullable=False)
+    routing_number = db.Column(db.Numeric, nullable=False)
+    balance = db.Column(db.Float, nullable=False)
+
+    def __init__(self, user, name, account_type, account_number, routing_number, balance):
+        self.user = user
+        self.name = name
+        self.account_type = account_type
+        self.account_number = account_number
+        self.routing_number = routing_number
+        self.balance = balance
 
 # Create Banking Transaction
 class Transaction(db.Model):

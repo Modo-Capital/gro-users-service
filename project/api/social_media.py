@@ -149,7 +149,10 @@ class LinkedinInfo(Resource):
 
                 ## Checking if new user is added and update with linkedin access token
                 current_user = User.query.filter_by(email=newUser.email).first()
-                current_user.linkedin_access_token = data['access_token']
+                current_user.linkedin_access_token = data['accessToken']
+                current_user.profile = profile
+                current_user.first_name = firstName
+                current_user.last_name = lastName
                 db.session.add(current_user)
                 db.session.commit()
 
@@ -219,16 +222,23 @@ class FacebookInfo(Resource):
         print(data)
         access_token = data['accessToken']
         facebook_uid = data['facebook_uid']
+
+        ### Getting Basic Profile Info
         basic_route = "https://graph.facebook.com/v3.0/%s?fields=first_name,last_name,email&access_token=%s"%(facebook_uid,access_token)
         r = requests.get(basic_route)
         basic_profile = json.loads(r.text)
+
         print("BASIC PROFILE RESPONSE: %s - %s - %s"%(basic_profile['email'], basic_profile['first_name'],basic_profile['last_name']))
         status_code = r.status_code
         if status_code != 200:
             response = ''
             return response, status_code
-        # response = json.loads(basic_profile)
+
+        ### Getting Facebook Pic
+        pic_route = "https://graph.facebook.com/v2.12/%s/picture?height=500&access_token=%s"%(facebook_uid,access_token)
+        r2 = requests.get(pic_route, allow_redirects=False)
         email = basic_profile['email']
+        picture_url = r2.headers['Location']
         first_name = basic_profile['first_name']
         last_name = basic_profile['last_name']
         password = access_token
@@ -243,11 +253,12 @@ class FacebookInfo(Resource):
                 db.session.commit()
 
                 # Check if user is added and add additional information
-                current_user = User.query.filter_by(email=newUser.email).first()
-                current_user.first_name = basic_profile['first_name']
-                current_user.last_name = basic_profile['last_name']
+                current_user = User.query.filter_by(email=email).first()
+                current_user.first_name = first_name
+                current_user.last_name = last_name
                 current_user.facebook_uid = facebook_uid
                 current_user.facebook_access_token = access_token
+                current_user.profile = picture_url
                 db.session.add(current_user)
                 db.session.commit()
 
@@ -264,9 +275,7 @@ class FacebookInfo(Resource):
                 return response
             else :
                 print('Logining User')
-                pic_route = "https://graph.facebook.com/v2.12/%s/picture?height=500&access_token=%s"%(facebook_uid,access_token)
-                r2 = requests.get(pic_route, allow_redirects=False)
-                picture_url = r2.headers['Location']
+                
                 firstName = basic_profile['first_name']
                 lastName = basic_profile['last_name']
                 user.first_name = firstName

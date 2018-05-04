@@ -16,25 +16,7 @@ company_fields = api.model('New Company', {
     'state':fields.String(description="State", required=True), 
     'zipcode':fields.Integer(description="Zipcode", required=True)
 })
-# __tablename__="companies"
-#     id = db.Column(db.Integer, autoincrement=True)
-#     uid = db.Column(db.String(), primary_key=True, nullable=False)
-#     company_name = db.Column(db.String(256), nullable=True)
-#     address = db.Column(db.String(), nullable=True)
-#     city = db.Column(db.String(), nullable=True)
-#     state = db.Column(db.String(), nullable=True)
-#     zipcode = db.Column(db.Integer, nullable=True)
-#     loan_amount_applied = db.Column(db.Integer, nullable=True)
-#     loan_type = db.Column(db.String(), nullable=True)
-#     loan_reason = db.Column(db.String(), nullable=True)
-#     ein = db.Column(db.Integer, nullable=True)
-#     duns = db.Column(db.Integer, nullable=True)
-#     bank_account = db.Column(db.String, nullable=True)
-#     accounting_account = db.Column(db.String, nullable=True)
-#     loan_approved = db.Column(db.Integer, nullable=True)
-#     active = db.Column(db.Boolean(), default=True, nullable=False)
-#     admin = db.Column(db.Boolean(),default=False, nullable=False)
-#     created_at = db.Column(db.DateTime, nullable=False)
+
 company = api.model('Company', {
     'company_name': fields.String(description="Company Name", required=False),
     'address': fields.String(description="Company Business Address", required=False),

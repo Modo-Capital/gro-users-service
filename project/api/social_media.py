@@ -33,9 +33,8 @@ facebook_fields = api.model('Facebook API Call Fields', {
 })
 
 google_fields = api.model('Google API Call Fields', {
-    'google_uid':fields.String(description='Google User UID'),
+    # 'google_uid':fields.String(description='Google User UID'),
     'access_token': fields.String(description='Google access token')
-
 }) 
 
 
@@ -150,7 +149,7 @@ class LinkedinInfo(Resource):
 
                 ## Checking if new user is added and update with linkedin access token
                 current_user = User.query.filter_by(email=newUser.email).first()
-                current_user.access_token = data['access_token']
+                current_user.linkedin_access_token = data['access_token']
                 db.session.add(current_user)
                 db.session.commit()
 
@@ -198,7 +197,19 @@ class GoogleInfo(Resource):
     @api.expect(google_fields)
     def post(self):
         """Connecting to Google"""
-        return "Connecting to Google", 200
+        data = request.get_json()
+        # refresh_token = data['refreshToken']
+        access_token = data['accessToken']
+        google_uid = data['google_uid']
+        response_object = jsonify({
+            'status':'success',
+            'data': {
+                'google_uid':google_uid,
+                'google_access_token':access_token
+            }
+        })
+        response_object.status_code = 200
+        return response_object
 
 @api.route('/facebook/userInfo')
 class FacebookInfo(Resource):
@@ -233,6 +244,8 @@ class FacebookInfo(Resource):
 
                 # Check if user is added and add additional information
                 current_user = User.query.filter_by(email=newUser.email).first()
+                current_user.first_name = basic_profile['first_name']
+                current_user.last_name = basic_profile['last_name']
                 current_user.facebook_uid = facebook_uid
                 current_user.facebook_access_token = access_token
                 db.session.add(current_user)
@@ -256,9 +269,11 @@ class FacebookInfo(Resource):
                 picture_url = r2.headers['Location']
                 firstName = basic_profile['first_name']
                 lastName = basic_profile['last_name']
-                user.first_name = firstName,
-                user.last_name = lastName, 
-                user.profile = picture_url,
+                user.first_name = firstName
+                user.last_name = lastName 
+                user.profile = picture_url
+                user.facebook_uid = facebook_uid
+                user.facebook_access_token = access_token
                 db.session.add(user)
                 db.session.commit()
                 current_user = user

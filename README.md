@@ -1,4 +1,4 @@
-cd gro# GROWTH CAPITAL - Users Services #
+# GROWTH CAPITAL - Users Services 
 
 ### What is this repository for? ###
 * Auths Endpoints for Sign In, Sign Up, Sign Out and Status
@@ -37,7 +37,6 @@ cd gro# GROWTH CAPITAL - Users Services #
 ### How do I get set up? ###
 
 * How to run and deploy with Docker
-
 ** Run Application on Local Host
 
 ```bash
@@ -105,4 +104,3 @@ $ python manage.py test
 
 ### Who do I talk to? ###
 * Troy Do - troy@topflightapps.com
-058624614000001

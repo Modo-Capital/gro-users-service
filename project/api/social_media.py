@@ -7,8 +7,11 @@ import urllib
 from flask import Blueprint, jsonify, request, render_template, redirect
 from flask_restplus import Namespace, Resource, reqparse, fields
 
-from project import db
+from project import bcrypt, db
+from sqlalchemy import exc
 from project.api.models import User, Token
+
+
 
 authorization_code_url = 'https://www.linkedin.com/oauth/v2/authorization'
 access_token_url = 'https://www.linkedin.com/oauth/v2/accessToken'
@@ -23,6 +26,17 @@ linkedin_fields = api.model('Linkedin API Call Fields', {
     # 'uid': fields.String(description='User UID of this Linkedin Account'),
     'accessToken':fields.String(description='Linkedin access token')
 })
+
+facebook_fields = api.model('Facebook API Call Fields', {
+    'facebook_uid': fields.String(description='Facebook User UID'),
+    'accessToken': fields.String('Facebook access token')
+})
+
+google_fields = api.model('Google API Call Fields', {
+    'google_uid':fields.String(description='Google User UID'),
+    'access_token': fields.String(description='Google access token')
+
+}) 
 
 
 def stringToBase64(s):
@@ -46,12 +60,6 @@ def get_CSRF_token(request):
         token = getSecretKey()
         data['csrfToken'] = token
     return token
-
-@api.route('/facebookHandler')
-class FacebookConnect(Resource):
-    def get(self):
-        """Connecting to Facebook"""
-        return "Connecting to Facebook", 200
 
 
 @api.route('/linkedin/connect')
@@ -109,7 +117,7 @@ class LinkedinHandler(Resource):
         response_object.status_code = 200
         print(response_object)
         # return response_object
-        return redirect('https://dev.gro.capital/quickbooks?status=success&message=ok&access_token=%s'%(access_token), code=302)
+        return redirect('https://dev.gro.capital/linkedin?status=success&message=ok&access_token=%s'%(access_token), code=302)
 
 @api.route('/linkedin/userInfo')
 class LinkedinInfo(Resource):
@@ -140,26 +148,41 @@ class LinkedinInfo(Resource):
                 db.session.add(newUser)
                 db.session.commit()
 
+                ## Checking if new user is added and update with linkedin access token
+                current_user = User.query.filter_by(email=newUser.email).first()
+                current_user.access_token = data['access_token']
+                db.session.add(current_user)
+                db.session.commit()
+
                 # Return success response status and message
                 response = jsonify({
                     'status': 'success',
-                    'message': '%s was added!'%(newUser.email)
+                    'message': '%s was added!'%(newUser.email),
+                    'data': {
+                        'userId':current_user.uid,
+                        'auth_token':current_user.encode_auth_token(current_user.uid)
+                    }
                 })   
                 response.status_code = 201
                 return response
             else :
+                ### Updating user profile with new informations
                 user.first_name = firstName,
                 user.last_name = lastName, 
                 user.profile = profile,
+                user.linkedin_access_token = data['accessToken']
                 db.session.add(user)
                 db.session.commit()
- 
+                current_user = user
                 response = jsonify({
                     'status': 'success',
                     'message': 'Successfully login %s %s'%(user.first_name, user.last_name),
-                    'data':response
+                    'data': {
+                        'userId':current_user.uid,
+                        'auth_token':current_user.encode_auth_token(current_user.uid)
+                    }
                 })   
-                response.status_code = 400
+                response.status_code = 200
                 return response
         except (exc.IntegrityError, ValueError) as e:
             db.session.rollback()
@@ -170,8 +193,91 @@ class LinkedinInfo(Resource):
             response.status_code = 400
             return response
 
-@api.route('/googleHandler')
-class Connecting(Resource):
-    def get(self):
+@api.route('/google/userInfo')
+class GoogleInfo(Resource):
+    @api.expect(google_fields)
+    def post(self):
         """Connecting to Google"""
         return "Connecting to Google", 200
+
+@api.route('/facebook/userInfo')
+class FacebookInfo(Resource):
+    @api.expect(facebook_fields)
+    def post(self):
+        data = request.get_json()
+        print(data)
+        access_token = data['accessToken']
+        facebook_uid = data['facebook_uid']
+        basic_route = "https://graph.facebook.com/v3.0/%s?fields=first_name,last_name,email&access_token=%s"%(facebook_uid,access_token)
+        r = requests.get(basic_route)
+        basic_profile = json.loads(r.text)
+        print("BASIC PROFILE RESPONSE: %s - %s - %s"%(basic_profile['email'], basic_profile['first_name'],basic_profile['last_name']))
+        status_code = r.status_code
+        if status_code != 200:
+            response = ''
+            return response, status_code
+        # response = json.loads(basic_profile)
+        email = basic_profile['email']
+        first_name = basic_profile['first_name']
+        last_name = basic_profile['last_name']
+        password = access_token
+        newUser = User(email=email, password=password, status='registered', admin=False)
+        try:
+            print('Checking for duplicate user')
+            user = User.query.filter_by(email=email).first()
+            if not user:
+                # Add new users to database
+                print('Add new users to database')
+                db.session.add(newUser)
+                db.session.commit()
+
+                # Check if user is added and add additional information
+                current_user = User.query.filter_by(email=newUser.email).first()
+                current_user.facebook_uid = facebook_uid
+                current_user.facebook_access_token = access_token
+                db.session.add(current_user)
+                db.session.commit()
+
+                # Return success response status and message
+                response = jsonify({
+                    'status': 'success',
+                    'message': '%s was added!'%(newUser.email),
+                    'data': {
+                        'userId':current_user.uid,
+                        'auth_token':current_user.encode_auth_token(current_user.uid)
+                    }
+                })   
+                response.status_code = 201
+                return response
+            else :
+                print('Logining User')
+                pic_route = "https://graph.facebook.com/v2.12/%s/picture?height=500&access_token=%s"%(facebook_uid,access_token)
+                r2 = requests.get(pic_route, allow_redirects=False)
+                picture_url = r2.headers['Location']
+                firstName = basic_profile['first_name']
+                lastName = basic_profile['last_name']
+                user.first_name = firstName,
+                user.last_name = lastName, 
+                user.profile = picture_url,
+                db.session.add(user)
+                db.session.commit()
+                current_user = user
+                response = jsonify({
+                    'status': 'success',
+                    'message': 'Successfully login %s %s'%(user.first_name, user.last_name),
+                    'data': {
+                        'userId':current_user.uid,
+                        'auth_token':current_user.encode_auth_token(current_user.uid)
+                    }
+                })   
+                response.status_code = 200
+                return response
+        except (exc.IntegrityError, ValueError) as e:
+            db.session.rollback()
+            response = jsonify({
+                'status': 'fail',
+                'message': 'Invalid payload.'
+            })
+            response.status_code = 400
+            return response
+

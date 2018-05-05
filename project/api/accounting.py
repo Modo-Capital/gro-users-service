@@ -312,6 +312,7 @@ class ProfitAndLoss(Resource):
     def post(self):
         """ Making a specific API call """
         data = request.get_json()
+        print(data)
         print(data['realmId'], data['access_token'], data['uid'])
         route = 'https://sandbox-quickbooks.api.intuit.com/v3/company/{0}/reports/ProfitAndLoss?minorversion=4'.format(data['realmId'])
         print(route)
@@ -326,9 +327,54 @@ class ProfitAndLoss(Resource):
         response = json.loads(r.text)
 
 
-       
-        return response, status_code
 
+        user = User.query.filter_by(uid=data['uid']).first()
+        report_name = response['Header']['ReportName']
+        startPeriod = response['Header']['StartPeriod']
+        endPeriod = response['Header']['EndPeriod']
+        income = response['Rows']['Row'][0]['Summary']['ColData'][1]['value']
+        COGS = response['Rows']['Row'][1]['Summary']['ColData'][1]['value']
+        grossProfit = response['Rows']['Row'][2]['Summary']['ColData'][1]['value']
+        expenses = response['Rows']['Row'][3]['Summary']['ColData'][1]['value']
+        netOperatingIncome = response['Rows']['Row'][4]['Summary']['ColData'][1]['value']
+        otherExpenses = response['Rows']['Row'][5]['Summary']['ColData'][1]['value']
+        netOtherIncome = response['Rows']['Row'][6]['Summary']['ColData'][1]['value']
+        netIncome = response['Rows']['Row'][7]['Summary']['ColData'][1]['value']
+
+
+        profit_loss_report = Profit_Loss(
+            user = user,
+            report_name = report_name,
+            startPeriod = startPeriod,
+            endPeriod = endPeriod,
+            income = income,
+            COGS = COGS,
+            grossProfit = grossProfit,
+            expenses = expenses,
+            netOperatingIncome = netOperatingIncome,
+            otherExpenses = otherExpenses,
+            netOtherIncome = netOtherIncome,
+            netIncome = netIncome
+        )
+        db.session.add(profit_loss_report)
+        db.session.commit()
+        
+        response_object = jsonify({
+            'user uid': data['uid'],
+            'report_name':report_name,
+            'startPeriod':startPeriod,
+            'endPeriod':endPeriod,
+            'income' : income,
+            'COGS': COGS,
+            'grossProfit' :grossProfit,
+            'expenses':expenses,
+            'netOperatingIncome': netOperatingIncome,
+            'otherExpenses':otherExpenses,
+            'netOtherIncome':netOtherIncome,
+            'netIncome':netIncome
+        })
+        response_object.status_code = 200
+        return response_object
 
 @api.route('/connected')
 class Connected(Resource):

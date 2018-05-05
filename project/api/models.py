@@ -79,15 +79,17 @@ class Company(db.Model):
 # Create Gro Score Model in Database
 class Gro_Score(db.Model):
     __tablename__ = "gro score"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    score = db.Column(db.Integer, default=0)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
+    data_score = db.Column(db.Integer, default=0, max=300)
+    ml_score = db.Column(db.Integer, default=0)
+    gro_score = db.Column(db.Integer, default=0)
     company_uid =  db.Column(db.String, db.ForeignKey('companies.uid'))
     company =  db.relationship('Company')
     created_at = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, company, company_uid, score, created_at=datetime.datetime.utcnow()):
+    def __init__(self, company, company_uid, data_score, created_at=datetime.datetime.utcnow()):
         self.company = company
-        self.score = score
+        self.data_score = data_score
         self.created_at = created_at
 
 roles_users = db.Table('roles_users',

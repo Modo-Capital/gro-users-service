@@ -98,8 +98,3 @@ $ python manage.py test
 
 ### Who do I talk to? ###
 * Troy Do - troy@topflightapps.com
-
- "account": "6754311302",
-      "account_id": "EVVAkoyz4rsqZqZa7egAC6aPx0PxjPhNNpq8v",
-      "routing": "062201601",
-      "wire_routing": null

@@ -212,7 +212,44 @@ class BalanceSheet(Resource):
             response = ''
             return response, status_code
         response = json.loads(r.text)
-        return response, status_code
+
+        user = User.query.filter_by(uid=data['uid']).first()
+        report_name = response['Header']['ReportName']
+        startPeriod = response['Header']['StartPeriod']
+        endPeriod = response['Header']['EndPeriod']
+        current_asset = response['Rows']['Row'][0]['Rows']['Row'][0]['Summary']['ColData'][1]['value']
+        fixed_asset = response['Rows']['Row'][0]['Rows']['Row'][1]['Summary']['ColData'][1]['value']
+        current_liability = response['Rows']['Row'][1]['Rows']['Row'][0]['Rows']['Row'][0]['Summary']['ColData'][1]['value']
+        longterm_liability = response['Rows']['Row'][1]['Rows']['Row'][0]['Rows']['Row'][0]['Summary']['ColData'][1]['value']
+        equity = response['Rows']['Row'][1]['Rows']['Row'][1]['Summary']['ColData'][1]['value']
+
+        balance_sheet_report = Balance_Sheet(
+            user = user,
+            report_name = report_name,
+            startPeriod = startPeriod,
+            endPeriod = endPeriod,
+            current_asset = current_asset,
+            fixed_asset = fixed_asset,
+            current_liability = current_liability,
+            longterm_liability = longterm_liability,
+            equity = equity
+        )
+
+        db.session.add(balance_sheet_report)
+        db.session.commit()
+        response_object = jsonify({
+            'user_id':data['uid'],
+            'report_name': report_name,
+            'startPeriod': startPeriod,
+            'endPeriod':endPeriod,
+            'current_asset': current_asset,
+            'fixed_asset':fixed_asset,
+            'current_liability':current_liability,
+            'longterm_liability':longterm_liability,
+            'equity': equity
+        })
+        response_object.status_code = 200
+        return response_object
 
 @api.route('/apiCall/CashFlow')
 class CashFlow(Resource):
@@ -287,6 +324,9 @@ class ProfitAndLoss(Resource):
             response = ''
             return response, status_code
         response = json.loads(r.text)
+
+
+       
         return response, status_code
 
 

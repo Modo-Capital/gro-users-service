@@ -12,7 +12,7 @@ from flask import Flask, Blueprint, render_template, request, jsonify
 # Importing Restplus for API features
 from flask_restplus import Namespace, Resource, fields
 from project import db
-from project.api.models import User, Bank_Account
+from project.api.models import User, Bank_Account, Transaction
 
 # Creating banking routing
 banking_blueprint = Blueprint('banking',__name__, static_folder='static', template_folder="template")
@@ -157,7 +157,7 @@ class Item(Resource):
         response = jsonify({
             'status':'sucess',
             'data': {
-                'item': item_response['item'],
+                'item': item_response,
                 'institution': institution_response['institution']
             }
         })
@@ -171,24 +171,45 @@ class Transactions(Resource):
     def get(self, uid):
         """Getting Transactions Information"""
         user = User.query.filter_by(uid=uid).first()
+        user_id = user.id
+        user_first_name = user.first_name
+        user_last_name = user.last_name
+        print("Updating transaction for user %s %swith ID: %s"%(user_first_name, user_first_name, user_id))
+        bank_account = Bank_Account.query.filter_by(user_id=user_id).first()
         access_token = user.plaid_access_token
         
         # Pull transactions for the last 365 days
-        start_date = "{:%Y-%m-%d}".format(datetime.datetime.now() + datetime.timedelta(-365))
-        end_date = "{:%Y-%m-%d}".format(datetime.datetime.now())
-
-        try:
-            response = jsonify({
-                'status':'success',
-                'data': client.Transactions.get(access_token, start_date, end_date),
-            })
-            response.status_code = 200
-            return response
-        except plaid.errors.PlaidError as e:
-            response = jsonify({
-                'error': {'error_code': e.code, 'error_message': str(e)}
-            })
-            return response
+        all_transactions = []
+        for n in range(1,73):
+            start_time = -5*n
+            end_time = -5*(n-1)
+            start_date = "{:%Y-%m-%d}".format(datetime.datetime.now() + datetime.timedelta(start_time))
+            end_date = "{:%Y-%m-%d}".format(datetime.datetime.now() + datetime.timedelta(end_time))
+            print(start_date, end_date)
+            try:
+                response = client.Transactions.get(access_token, start_date, end_date),
+                transactions = response[0]['transactions']
+                all_transactions.append(transactions)
+                for transaction in transactions:
+                    name = transaction['name']
+                    amount = transaction['amount']
+                    date= transaction['date']
+                    bank_account = bank_account
+                    new_transaction = Transaction(bank_account=bank_account, name=name, amount=amount, date=date)
+                    db.session.add(new_transaction)
+                    db.session.commit()
+                response_object = jsonify({
+                    'status':'success',
+                    'start_date':start_date,
+                    'end_date':end_date,
+                    'total_transactions':len(all_transactions)
+                })
+                response_object.status_code = 200
+            except plaid.errors.PlaidError as e:
+                response_object = jsonify({
+                    'error': {'error_code': e.code, 'error_message': str(e)}
+                })
+        return response_object
  
 # Create public token
 @api.route("/create_public_token/<string:uid>")

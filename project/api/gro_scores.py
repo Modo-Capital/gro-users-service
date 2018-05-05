@@ -19,8 +19,8 @@ class Score(Resource):
         response = jsonify({
           'status':'success',
           'message':'Getting current gro score for company %s'%(company_uid), 
-          'data_core': score.data_score
-          'ml_score': score.ml_score
+          'data_core': score.data_score,
+          'ml_score': score.ml_score,
           'gro_score': score.gro_score
         })
         response.status_code = 200

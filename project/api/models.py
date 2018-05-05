@@ -80,7 +80,7 @@ class Company(db.Model):
 class Gro_Score(db.Model):
     __tablename__ = "gro score"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
-    data_score = db.Column(db.Integer, default=0, max=300)
+    data_score = db.Column(db.Integer, default=0)
     ml_score = db.Column(db.Integer, default=0)
     gro_score = db.Column(db.Integer, default=0)
     company_uid =  db.Column(db.String, db.ForeignKey('companies.uid'))
@@ -131,9 +131,11 @@ class User(db.Model, UserMixin):
     plaid_access_token = db.Column(db.String(), nullable=True)
     quickbook_access_token = db.Column(db.String(), nullable=True)
     quickbook_id = db.Column(db.String(), nullable=True)
-    bank_accounts = db.relationship("Bank_Account", backref="business_user", cascade="all, delete-orphan", lazy='dynamic')
-    # accounting_reports = db.relationship("Accounting_Reports", backref="business_user", cascade="all, delete-orphan", lazy='dynamic')
-    documents = db.relationship("Document", backref="business_user", cascade="all, delete-orphan", lazy='dynamic')
+    bank_accounts = db.relationship("Bank_Account", backref="business_bank", cascade="all, delete-orphan", lazy='dynamic')
+    cash_flow_reports = db.relationship("Cash_Flow", backref="business_cash_flow", cascade="all, delete-orphan", lazy='dynamic')
+    profit_loss_reports = db.relationship("Profit_Loss", backref="business_profit_loss", cascade="all, delete-orphan", lazy='dynamic')
+    balance_sheet_reports = db.relationship("Balance_Sheet", backref="business_balance_sheet", cascade="all, delete-orphan", lazy='dynamic')
+    documents = db.relationship("Document", backref="business_documents", cascade="all, delete-orphan", lazy='dynamic')
     created_at = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
     
@@ -235,6 +237,8 @@ class Bank_Account(db.Model):
 
 class Balance_Sheet(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User')
     report_name = db.Column(db.String, nullable=False)
     startPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
     endPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
@@ -256,6 +260,8 @@ class Balance_Sheet(db.Model):
 
 class Cash_Flow(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User')
     report_name = db.Column(db.String, nullable=False)
     startPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
     endPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
@@ -278,6 +284,8 @@ class Cash_Flow(db.Model):
 
 class Profit_Loss(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User')
     report_name = db.Column(db.String, nullable=False)
     startPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
     endPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
@@ -315,6 +323,7 @@ class Transaction(db.Model):
 
     def __init__(self,bank_account, name, amount, date):
         self.name = name, 
+        self.bank_account = bank_account
         self.amount = amount, 
         self.date = date
 

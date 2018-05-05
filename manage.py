@@ -1,25 +1,32 @@
 # manage.py
+import os
+from flask import Flask, url_for, redirect, render_template, request, abort
 
 # Importing libraries
 import unittest
 import coverage
 
 from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
+
 from project import create_app, db
 from project.api import api
-from project.api.models import User, Company, roles_users, Role
+from project.api.models import AdminUser, User, Company, roles_users, Role
 
 
-from flask_migrate import MigrateCommand
+from flask_migrate import MigrateCommand, Migrate
 
 ## Admin Libraries
-from flask_admin import Admin
+import flask_admin as Admin
+from flask_admin.contrib.sqla import ModelView, filters
 from flask_admin.contrib import sqla
-from flask_admin import helpers as helpers
-from flask_admin.contrib.sqla import ModelView
+from flask_admin.contrib.sqla import ModelView, filters
+from flask_admin import helpers as admin_helpers
 
 ## Flask Security
-from flask_security import Security, SQLAlchemyUserDatastore, current_user
+from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required, current_user
+from flask_security.utils import encrypt_password
+
 
 # Code Coverage Testing
 COV = coverage.coverage(
@@ -36,28 +43,27 @@ COV.start()
 
 app = create_app()
 api.init_app(app)
+migrate = Migrate(app, db)
 
 # Manager Configuration
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
-# Admin Configuration
-admin = Admin(
-    app, 
-    name='Gro Admin', 
-    template_mode='bootstrap3')
-
+# Setup Flask-Security
+user_datastore = SQLAlchemyUserDatastore(db, AdminUser, Role)
+security = Security(app, user_datastore)
 
 # Create customized model view class
 class MyModelView(sqla.ModelView):
+
     def is_accessible(self):
-        # if not current_user.is_active or not current_user.is_authenticated:
-        #     return False
+        if not current_user.is_active or not current_user.is_authenticated:
+            return False
 
-        # if current_user.has_role('superuser'):
-        #     return True
+        if current_user.has_role('superuser'):
+            return True
 
-        return True
+        return False
 
     def _handle_view(self, name, **kwargs):
         """
@@ -71,15 +77,19 @@ class MyModelView(sqla.ModelView):
                 # login
                 return redirect(url_for('security.login', next=request.url))
 
+# Admin Configuration
+admin = Admin.Admin(
+    app, name='Gro Capital Admin', 
+    base_template='my_master.html', 
+    template_mode='bootstrap3'
+)
+
 # Get All Users from Database
 admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Company, db.session))
+# admin.add_view(MyModelView(Role, db.session))
+# admin.add_view(MyModelView(AdminUser, db.session))
 
-
-
-# Setup Flask-Security
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security(app, user_datastore)
 
 @security.context_processor
 def security_context_processor():
@@ -89,7 +99,6 @@ def security_context_processor():
         h=admin_helpers,
         get_url=url_for
     )
-
 
 # Create Test
 @manager.command

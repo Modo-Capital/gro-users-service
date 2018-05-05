@@ -33,7 +33,7 @@ facebook_fields = api.model('Facebook API Call Fields', {
 })
 
 google_fields = api.model('Google API Call Fields', {
-    # 'google_uid':fields.String(description='Google User UID'),
+    'user_iid':fields.String(description='User UID'),
     'access_token': fields.String(description='Google access token')
 }) 
 
@@ -204,6 +204,9 @@ class GoogleInfo(Resource):
         # refresh_token = data['refreshToken']
         access_token = data['accessToken']
         google_uid = data['google_uid']
+
+
+        # https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=[ACCESS_TOKEN]
         response_object = jsonify({
             'status':'success',
             'data': {

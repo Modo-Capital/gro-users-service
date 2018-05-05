@@ -93,7 +93,7 @@ class Gro_Score(db.Model):
         self.created_at = created_at
 
 roles_users = db.Table('roles_users',
-    db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
+    db.Column('admin_user_id', db.Integer(), db.ForeignKey('admin_users.id')),
     db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
 )
 
@@ -106,8 +106,24 @@ class Role(db.Model, RoleMixin):
     def __str__(self):
         return self.name
 
+        
+
+class AdminUser(db.Model, UserMixin):
+    __tablename__ = "admin_users"
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(255))
+    last_name = db.Column(db.String(255))
+    email = db.Column(db.String(255), unique=True)
+    password = db.Column(db.String(255))
+    active = db.Column(db.Boolean())
+    confirmed_at = db.Column(db.DateTime())
+    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('admin_roles', lazy='dynamic'))
+
+    def __str__(self):
+        return self.email
+
 # Create User Model in Database
-class User(db.Model, UserMixin):
+class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uid = db.Column(db.String(), nullable=False)

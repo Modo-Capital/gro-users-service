@@ -33,7 +33,7 @@ class Score(Resource):
         data_score = post_data['data_score']
         if data_score < 301:
             company = Company.query.filter_by(uid=company_uid).first()
-            score = Gro_Score(company=company, company_uid=company_uid, score=data_score)
+            score = Gro_Score(company=company, company_uid=company_uid, data_score=data_score)
             db.session.add(score)
             db.session.commit()
             response = jsonify({
@@ -51,7 +51,7 @@ class Score(Resource):
               'message':'Data score can not be larger than 300 %s'%(company_uid),
               'data': {
                   'company': company_uid,
-                  'data_score': company_score
+                  'data_score': data_score
               }
             })
             response.status_code = 404
@@ -83,7 +83,7 @@ class Score(Resource):
                 'message':'Data score can not be larger than 300 %s'%(company_uid),
                 'data': {
                     'company': company_uid,
-                    'data_score': company_score
+                    'data_score': data_score
                 }
               })
             response.status_code = 404

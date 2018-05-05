@@ -131,7 +131,6 @@ def seed_db():
     db.session.add(Company(company_name='Top Flight', address='1968 S. Coast Hwy #592', city='Laguna Beach',state='CA', zipcode='92651'))
     db.session.add(Company(company_name='Infinity Labs', address='6795 S Edmond St, 3rd Floor', city='Las Vegas',state='NV', zipcode='89118'))
     db.session.add(User(email="delighted@troy.do", password="12345678", status="registered", admin=True))
-    db.session.add(User(email="hoangdov@gmail.com", password="87654321", status="registered", admin=False))
     db.session.add(User(email="mcdonald@trump.com", password="skcihcnaissurevol", status="registered", admin=False))
     db.session.commit()
 

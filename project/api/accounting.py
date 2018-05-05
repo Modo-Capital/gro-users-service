@@ -9,7 +9,7 @@ import json
 from flask import Blueprint, jsonify, request, render_template, redirect, session
 from flask_restplus import Namespace, Resource, reqparse, fields
 
-from project.api.models import Token, User, Document
+from project.api.models import Token, User, Document, Cash_Flow, Balance_Sheet, Profit_Loss
 from project import db
 
 REDIRECT_URI =  os.getenv('REDIRECT_URI')
@@ -232,7 +232,42 @@ class CashFlow(Resource):
             response = ''
             return response, status_code
         response = json.loads(r.text)
-        return response, status_code
+
+        user = User.query.filter_by(uid=data['uid']).first()
+        report_name = response['Header']['ReportName']
+        startPeriod = response['Header']['StartPeriod']
+        endPeriod = response['Header']['EndPeriod']
+        beginningCash = response['Rows']['Row'][4]['ColData'][1]['value']
+        endingCash = response['Rows']['Row'][5]['Summary']['ColData'][1]['value']
+        operatingNetCash = response['Rows']['Row'][0]['Summary']['ColData'][1]['value']
+        investingNetCash = response['Rows']['Row'][1]['Summary']['ColData'][1]['value']
+        financingNetCash = response['Rows']['Row'][2]['Summary']['ColData'][1]['value']
+        print("INSERTING TO DATABASES")
+        cashFlowReport = Cash_Flow(
+            user=user,
+            report_name=report_name, 
+            startPeriod=startPeriod, 
+            endPeriod=endPeriod, 
+            beginningCash=beginningCash, 
+            endingCash=endingCash,
+            operatingNetCash=operatingNetCash,
+            investingNetCash=investingNetCash,
+            financingNetCash=financingNetCash
+        )
+        db.session.add(cashFlowReport)
+        db.session.commit()
+        response_object = jsonify({
+            'report_name':report_name,
+            'startPeriod':startPeriod,
+            'endPeriod':endPeriod,
+            'beginningCash':beginningCash, 
+            'endingCash':endingCash,
+            'operatingNetCash':operatingNetCash,
+            'investingNetCash':investingNetCash,
+            'financingNetCash':financingNetCash
+        })
+        response_object.status_code = 200
+        return response_object
 
 @api.route('/apiCall/ProfitAndLoss')
 class ProfitAndLoss(Resource):

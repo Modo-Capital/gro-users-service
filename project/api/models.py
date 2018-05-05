@@ -248,7 +248,8 @@ class Balance_Sheet(db.Model):
     longterm_liability = db.Column(db.Float, nullable=True)
     equity = db.Column(db.Float,nullable=True)
 
-    def __init__(self, report_name, startPeriod, endPeriod, current_asset, fixed_asset, current_liability, longterm_liability, equity):
+    def __init__(self, user, report_name, startPeriod, endPeriod, current_asset, fixed_asset, current_liability, longterm_liability, equity):
+        self.user = user
         self.report_name = report_name
         self.startPeriod = startPeriod
         self.endPeriod = endPeriod
@@ -271,7 +272,8 @@ class Cash_Flow(db.Model):
     investingNetCash = db.Column(db.Float, nullable=True)
     financingNetCash = db.Column(db.Float, nullable=True)
 
-    def __init__(self, report_name, startPeriod, endPeriod, beginningCash, endingCash, operatingNetCash, investingNetCash, financingNetCash):
+    def __init__(self, user, report_name, startPeriod, endPeriod, beginningCash, endingCash, operatingNetCash, investingNetCash, financingNetCash):
+        self.user = user
         self.report_name = report_name
         self.startPeriod = startPeriod
         self.endPeriod = endPeriod
@@ -298,7 +300,8 @@ class Profit_Loss(db.Model):
     netOtherIncome = db.Column(db.Float, nullable=True)
     netIncome = db.Column(db.Float, nullable=True)
 
-    def __init__(self, report_name, startPeriod, endPeriod, income, COGS, grossProfit, expenses, netOperatingIncome, otherExpenses, netOtherIncome, netIncome):
+    def __init__(self, user, report_name, startPeriod, endPeriod, income, COGS, grossProfit, expenses, netOperatingIncome, otherExpenses, netOtherIncome, netIncome):
+        self.user = user
         self.report_name = report_name
         self.startPeriod = startPeriod
         self.endPeriod = endPeriod

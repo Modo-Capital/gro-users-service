@@ -221,6 +221,7 @@ class Bank_Account(db.Model):
     account_number = db.Column(db.Numeric, nullable=False)
     routing_number = db.Column(db.Numeric, nullable=False)
     balance = db.Column(db.Float, nullable=False)
+    transactions = db.relationship("Transaction", backref="bank_transaction", cascade="all, delete-orphan", lazy='dynamic')
 
     def __init__(self, user, name, account_type, account_number, routing_number, balance):
         self.user = user
@@ -304,6 +305,16 @@ class Profit_Loss(db.Model):
 class Transaction(db.Model):
     __tablename__ = "transactions"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False)
+    amount = db.Column(db.Float, nullable=True)
+    date = db.Column(db.Date, nullable=True, default="11-11-1111")
+    bank_account_id =  db.Column(db.Integer, db.ForeignKey('bank_accounts.id'))
+    bank_account =  db.relationship('Bank_Account')
+
+    def __init__(self,bank_account, name, amount, date):
+        self.name = name, 
+        self.amount = amount, 
+        self.date = date
 
 
 

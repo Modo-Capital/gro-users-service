@@ -148,7 +148,7 @@ class Accounts(Resource):
 # Bank Item Route
 @api.route('/item/<string:uid>')
 class Item(Resource):
-    def get(self):
+    def get(self, uid):
         """ Get Banking Item Information """
         user = User.query.filter_by(uid=uid).first()
         access_token = user.plaid_access_token
@@ -168,17 +168,17 @@ class Item(Resource):
 # Bank Transaction Route@app.route("/accounts", methods=['GET'])
 @api.route('/transactions/<string:uid>')
 class Transactions(Resource):
-    def get(self):
+    def get(self, uid):
         """Getting Transactions Information"""
         user = User.query.filter_by(uid=uid).first()
         access_token = user.plaid_access_token
         
-        # Pull transactions for the last 30 days
-        start_date = "{:%Y-%m-%d}".format(datetime.datetime.now() + datetime.timedelta(-360))
+        # Pull transactions for the last 365 days
+        start_date = "{:%Y-%m-%d}".format(datetime.datetime.now() + datetime.timedelta(-365))
         end_date = "{:%Y-%m-%d}".format(datetime.datetime.now())
 
         try:
-            response = jsonfiy({
+            response = jsonify({
                 'status':'success',
                 'data': client.Transactions.get(access_token, start_date, end_date),
             })
@@ -193,7 +193,7 @@ class Transactions(Resource):
 # Create public token
 @api.route("/create_public_token/<string:uid>")
 class Public_token(Resource):
-    def get(self):
+    def get(self, uid):
         """ Create Public Token """
         user = User.query.filter_by(uid=uid).first()
         access_token = user.plaid_access_token

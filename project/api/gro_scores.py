@@ -63,7 +63,7 @@ class Score(Resource):
         company =Company.query.filter_by(uid=company_uid).first()
         score = Gro_Score.query.filter_by(company_uid=company_uid).first()
         put_data = request.json
-        data_score = put_data['score']
+        data_score = put_data['data_score']
         if data_score < 301:
             score.data_score = data_score
             db.session.add(score) 

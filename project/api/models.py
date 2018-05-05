@@ -230,6 +230,76 @@ class Bank_Account(db.Model):
         self.routing_number = routing_number
         self.balance = balance
 
+class Balance_Sheet(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    report_name = db.Column(db.String, nullable=False)
+    startPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
+    endPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
+    current_asset = db.Column(db.Float, nullable=True)
+    fixed_asset = db.Column(db.Float, nullable=True)
+    current_liability = db.Column(db.Float, nullable=True)
+    longterm_liability = db.Column(db.Float, nullable=True)
+    equity = db.Column(db.Float,nullable=True)
+
+    def __init__(self, report_name, startPeriod, endPeriod, current_asset, fixed_asset, current_liability, longterm_liability, equity):
+        self.report_name = report_name
+        self.startPeriod = startPeriod
+        self.endPeriod = endPeriod
+        self.current_asset = current_asset
+        self.fixed_asset = fixed_asset
+        self.current_liability = current_liability
+        self.longterm_liability = longterm_liability
+        self.equity = equity
+
+class Cash_Flow(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    report_name = db.Column(db.String, nullable=False)
+    startPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
+    endPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
+    beginningCash = db.Column(db.Float, nullable=True)
+    endingCash = db.Column(db.Float, nullable=True)
+    operatingNetCash = db.Column(db.Float, nullable=True)
+    investingNetCash = db.Column(db.Float, nullable=True)
+    financingNetCash = db.Column(db.Float, nullable=True)
+
+    def __init__(self, report_name, startPeriod, endPeriod, beginningCash, endingCash, operatingNetCash, investingNetCash, financingNetCash):
+        self.report_name = report_name
+        self.startPeriod = startPeriod
+        self.endPeriod = endPeriod
+        self.beginningCash = beginningCash
+        self.endingCash = endingCash
+        self.operatingNetCash = operatingNetCash
+        self.investingNetCash = investingNetCash
+        self.financingNetCash = financingNetCash
+
+
+class Profit_Loss(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    report_name = db.Column(db.String, nullable=False)
+    startPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
+    endPeriod = db.Column(db.Date, nullable=True, default="11-11-1111")
+    income = db.Column(db.Float, nullable=True)
+    COGS = db.Column(db.Float, nullable=True)
+    grossProfit = db.Column(db.Float, nullable=True)
+    expenses = db.Column(db.Float, nullable=True)
+    netOperatingIncome = db.Column(db.Float, nullable=True)
+    otherExpenses = db.Column(db.Float, nullable=True)
+    netOtherIncome = db.Column(db.Float, nullable=True)
+    netIncome = db.Column(db.Float, nullable=True)
+
+    def __init__(self, report_name, startPeriod, endPeriod, income, COGS, grossProfit, expenses, netOperatingIncome, otherExpenses, netOtherIncome, netIncome):
+        self.report_name = report_name
+        self.startPeriod = startPeriod
+        self.endPeriod = endPeriod
+        self.income = income
+        self.COGS = COGS
+        self.grossProfit = grossProfit
+        self.expenses = expenses
+        self.netOperatingIncome = netOperatingIncome
+        self.otherExpenses = otherExpenses
+        self.netOtherIncome = netOtherIncome
+        self.netIncome = netIncome
+
 # Create Banking Transaction
 class Transaction(db.Model):
     __tablename__ = "transactions"

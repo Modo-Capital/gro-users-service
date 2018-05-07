@@ -222,7 +222,7 @@ class GoogleInfo(Resource):
             # if user does not exist, create a new users based on user info
             # return user uid
             if not user :
-                user = User(email=email, password=password)
+                user = User(email=email, password=password, status='registered', admin=False)
                 db.session.add(user)
                 db.sesion.commit()
 

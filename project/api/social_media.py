@@ -224,7 +224,7 @@ class GoogleInfo(Resource):
             if not user :
                 user = User(email=email, password=password, status='registered', admin=False)
                 db.session.add(user)
-                db.sesion.commit()
+                db.session.commit()
 
                 current_user = User.query.filter_by(email=email).first()
                 user_uid = current_user.uid

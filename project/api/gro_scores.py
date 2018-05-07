@@ -64,8 +64,10 @@ class Score(Resource):
         score = Gro_Score.query.filter_by(company_uid=company_uid).first()
         put_data = request.json
         data_score = put_data['data_score']
+        ml_score = score.ml_score
         if data_score < 301:
             score.data_score = data_score
+            score.gro_score  = data_score + ml_score
             db.session.add(score) 
             db.session.commit()
             response = jsonify({

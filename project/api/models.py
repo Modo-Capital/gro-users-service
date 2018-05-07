@@ -127,6 +127,7 @@ class Gro_Score(db.Model):
 
     def __init__(self, company, data_score, company_uid,created_at=datetime.datetime.utcnow()):
         self.company = company
+        self.company_uid = company_uid
         self.data_score = data_score
         self.created_at = created_at
 

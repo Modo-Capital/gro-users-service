@@ -1,0 +1,24 @@
+{% extends 'admin/model/details.html' %} 
+
+{% block body %}
+  {% if current_user.is_authenticated %}
+    <div class="row">
+      {% for user in users %} 
+      <div class="col-xs-6 col-md-3">
+        <div class="thumbnail">
+          <img src="{{ user.profile }}" alt="profile pic" style="height: 250px">
+          <div class="caption">
+            <h5>Name: {{user.first_name}} {{user.last_name}}</h5>
+            <h6>Email: {{user.email}}</h6>
+            <h6>Birthday: {{user.birthday}}</h6>
+            <h6>Driver License: {{user.driverLicense}}</h6>
+            <p>
+              <a href="/admin/loan_applicants/details/?id={{user.id}}&url=%2Fadmin%2Fuser%2F" class="btn btn-primary" role="button">Applicant Details</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% endif %} 
+{% endblock %}

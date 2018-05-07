@@ -107,7 +107,6 @@ class Role(db.Model, RoleMixin):
         return self.name
 
         
-
 class AdminUser(db.Model, UserMixin):
     __tablename__ = "admin_users"
     id = db.Column(db.Integer, primary_key=True)

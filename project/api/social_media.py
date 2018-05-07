@@ -33,7 +33,7 @@ facebook_fields = api.model('Facebook API Call Fields', {
 })
 
 google_fields = api.model('Google API Call Fields', {
-    'user_iid':fields.String(description='User UID'),
+    # 'user_iid':fields.String(description='User UID'),
     'access_token': fields.String(description='Google access token')
 }) 
 
@@ -203,7 +203,19 @@ class GoogleInfo(Resource):
         data = request.get_json()
         # refresh_token = data['refreshToken']
         access_token = data['accessToken']
-        google_uid = data['google_uid']
+
+        # getting UserInfo from Google
+
+        # looking up to see if user exist
+
+        # if user does not exist, create a new users based on user info
+            # return user uid
+
+
+        # if user does exist, log user in 
+            # return user user uid and user auth token
+
+      
 
 
         # https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=[ACCESS_TOKEN]

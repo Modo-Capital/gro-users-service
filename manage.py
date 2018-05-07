@@ -11,17 +11,19 @@ from flask_migrate import Migrate, MigrateCommand
 
 from project import create_app, db
 from project.api import api
-from project.api.models import AdminUser, User, Company, roles_users, Role
+from project.api.models import AdminUser, User, Company, roles_users, Role, Gro_Score
 
 
 from flask_migrate import MigrateCommand, Migrate
 
 ## Admin Libraries
 import flask_admin as Admin
+from flask_admin.model.base import get_mdict_item_or_list, get_redirect_target
 from flask_admin.contrib.sqla import ModelView, filters
 from flask_admin.contrib import sqla
 from flask_admin.contrib.sqla import ModelView, filters
 from flask_admin import helpers as admin_helpers
+from flask_admin import BaseView, expose
 
 ## Flask Security
 from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required, current_user
@@ -55,7 +57,9 @@ security = Security(app, user_datastore)
 
 # Create customized model view class
 class MyModelView(sqla.ModelView):
-
+    can_delete = False
+    can_create = False
+    can_view_details = True
     def is_accessible(self):
         if not current_user.is_active or not current_user.is_authenticated:
             return False
@@ -83,13 +87,68 @@ admin = Admin.Admin(
     base_template='my_master.html', 
     template_mode='bootstrap3'
 )
+class UserView(ModelView):
+    column_searchable_list = ['first_name', 'last_name', 'email', 'uid']
+
+
+class CompanyView(ModelView):
+    column_searchable_list = ['name', 'state', 'address']
+
+
+class LoanApplicants(ModelView):
+    can_view_details = True
+    # details_template = 'admin/applicant_detail.html'
+    @expose('/',methods=('GET', 'POST'))
+    def index_view(self):
+        users = User.query.all()
+        return self.render('admin/applicants.html',users=users )
+
+    @expose('/details/', methods=('GET', 'POST'))
+    def details_view(self):
+        return_url = self.get_url('.index_view')
+
+        if not self.can_view_details:
+            return redirect(return_url)
+
+        id = get_mdict_item_or_list(request.args, 'id')
+        if id is None:
+            return redirect(return_url)
+
+        applicant = self.get_one(id)
+        company_uid = applicant.company
+        score = Gro_Score.query.filter_by(company_uid=company_uid).first()
+        balance_sheet_reports = applicant.balance_sheet_reports
+        profit_loss_reports = applicant.profit_loss_reports
+        cash_flow_reports = applicant.cash_flow_reports
+        company = Company.query.filter_by(uid=company_uid).first()
+
+        if applicant is None:
+            flash(gettext('Record does not exist.'), 'error')
+            return redirect(return_url)
+
+        if self.details_modal and request.args.get('modal'):
+            template = self.details_modal_template
+        else:
+            template = self.details_template
+
+        return self.render('admin/applicant_detail.html',
+                           applicant=applicant,
+                           score=score,
+                           balance_sheet_reports=balance_sheet_reports,
+                           cash_flow_reports=cash_flow_reports,
+                           profit_loss_reports=profit_loss_reports,
+                           company=company,
+                           details_columns=self._details_columns,
+                           get_value=self.get_list_value,
+                           return_url=return_url)
+
+
+
 
 # Get All Users from Database
-admin.add_view(MyModelView(User, db.session))
-admin.add_view(MyModelView(Company, db.session))
-# admin.add_view(MyModelView(Role, db.session))
-# admin.add_view(MyModelView(AdminUser, db.session))
-
+admin.add_view(LoanApplicants(User, db.session,name="Loan Applicants", endpoint='loan_applicants'))
+admin.add_view(MyModelView(User, db.session, name="Users"))
+admin.add_view(MyModelView(Company, db.session, name="Companies"))
 
 @security.context_processor
 def security_context_processor():

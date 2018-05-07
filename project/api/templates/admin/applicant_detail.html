@@ -1,0 +1,271 @@
+{% extends 'admin/master.html' %} {% import 'admin/lib.html' as lib with context %} {% block body %} {% block navlinks %}
+<ul class="nav nav-tabs">
+    <li>
+        <a href="{{ return_url }}">{{ _gettext('All Applicants') }}</a>
+    </li>
+    <li class="active">
+        <a href="javascript:void(0)">{{ _gettext('Details') }}</a>
+    </li>
+    {%- if admin_view.can_edit -%}
+    <li>
+        <a href="{{ get_url('.edit_view', id=request.args.get('id'), url=return_url) }}">{{ _gettext('Edit') }}</a>
+    </li>
+    {%- endif -%}
+</ul>
+{% endblock %}
+<div class="container-fluid">
+    <div class="row">
+        <h2 class="col-md-4 ">Applicant Details</h2>
+    </div>
+    <div class="row" id="applicant_details">
+        <div class="col-md-4 col-centered">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Gro Score</h4>
+                </div>
+                <div class="panel-body">
+                   <div class="col-md-2" 
+                    style="
+                      display: inline-block;
+                      position: relative;
+                      width: 210px;
+                      height: 210px;
+                      background: green;
+                      border-radius: 50%;
+                      text-align: center;
+                      padding: 20% 0;
+                      color:white;
+                      font-size:40px">
+                    {{score.gro_score}}
+                    </div>
+                    <div class="col-md-5">
+                      <br>
+                      <div>Data Score:</div>
+                      <div>{{score.data_score}}</div>
+                      <br>
+                      <div>ML Score:</div>
+                      <div>{{score.ml_score}}</div>
+                      <br>
+                      <div>Total Gro Score:</div>
+                      <div>{{score.gro_score}}</div>
+                     </div>
+                </div>
+               
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Company Info</h4></div>
+                <div class="panel-body">
+                    <div><b>Name:</b> {{company.company_name}}
+                    </div>
+                    <br>
+                    <div><b>EIN:</b> {{company.ein}}
+                    </div>
+                    <br>
+                    <div><b>DUNS</b>: {{company.duns}}</div>
+                    <br>
+                    <div><b>Address</b>:
+                        <br>{{company.address}}, {{company.city}}, {{company.state}}, {{company.zipcode}}</div>
+                    <br>
+                    <div><b>Loan Amount Applied</b>:
+                        <br>{{company.loan_amount_applied}}</div>
+                    <br>
+                    <div><b>Loan Type:</b>
+                        <br>{{company.loan_type}}</div>
+                    <br>
+                    <div><b>Loan Reason</b>:
+                        <br>{{company.loan_reason}}</div>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4> Personal Info</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="media">
+                        <img src="{{applicant.profile}}" width="50%">
+                    </div>
+                    <p>
+                        <div>
+                            <b>Name: </b> {{applicant.first_name}} {{applicant.last_name}}
+                            <br>
+                        </div>
+                        <div>
+                            <b>Email: </b>{{applicant.email}}
+                            <br>
+                        </div>
+                        <div>
+                            <b>Birthday:</b> {{applicant.birthday}}
+                        </div>
+                        <div>
+                            <b>Driver License:</b> {{applicant.driverLicense}}
+                            <br>
+                        </div>
+                        <div>
+                            <b>Social Security Number:</b>{{applicant.ssn}}
+                            <br>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="financial_report">
+        <div class="col-md-4 col-xs-10">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Income Statement</h4>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        {% for report in profit_loss_reports %} 
+                          <table class="table">
+                            <th>
+                                Report #{{report.id}}
+                            </th>
+                            <tr>
+                                <td>Start Period</td>
+                                <td>{{report.startPeriod}}</td>
+                            </tr>
+                            <tr>
+                                <td>End Period</td>
+                                <td>{{report.endPeriod}}</td>
+                            </tr>
+                            <tr>
+                                <td>Income</td>
+                                <td>{{report.income}}</td>
+                            </tr>
+                            <tr>
+                                <td>Cost of Goods Sold</td>
+                                <td>{{report.COGS}}</td>
+                            </tr>
+                            <tr>
+                                <td>Gross Profit</td>
+                                <td>{{report.grossProfit}}</td>
+                            </tr>
+                            <tr>
+                                <td>Expenses</td>
+                                <td>{{report.expenses}}</td>
+                            </tr>
+                            <tr>
+                                <td>Net Operating Income</td>
+                                <td>{{report.netOperatingIncome}}</td>
+                            </tr>
+                            <tr>
+                                <td>otherExpenses</td>
+                                <td>{{report.otherExpenses}}</td>
+                            </tr>
+                            <tr>
+                                <td>Net Other Income</td>
+                                <td>{{report.netOtherIncome}}</td>
+                            </tr>
+                            <tr>
+                                <td>Net Income</td>
+                                <td>{{report.netIncome}}</td>
+                            </tr>
+
+                          </table>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-10">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Balance Sheet</h4>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        {% for report in balance_sheet_reports %}
+                        <table class="table">
+                            <th>
+                                Report #{{report.id}}
+                            </th>
+                            <tr>
+                                <td>Start Period</td>
+                                <td>{{report.startPeriod}}</td>
+                            </tr>
+                            <tr>
+                                <td>End Period</td>
+                                <td>{{report.endPeriod}}</td>
+                            </tr>
+                            <tr>
+                                <td>Current Asset</td>
+                                <td>{{report.current_asset}}</td>
+                            </tr>
+                            <tr>
+                                <td>Fixed Asset</td>
+                                <td>{{report.fixed_asset}}</td>
+                            </tr>
+                            <tr>
+                                <td>Current Liability</td>
+                                <td>{{report.current_liability}}</td>
+                            </tr>
+                            <tr>
+                                <td>Longterm Liablity</td>
+                                <td>{{report.longterm_liability}}</td>
+                            </tr>
+                            <tr>
+                                <td>Equity</td>
+                                <td>{{report.equity}}</td>
+                            </tr>
+                        </table>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-10">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Cash Flow</h4>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        {% for report in cash_flow_reports %}
+                        <table class="table">
+                            <th>Report: # {{report.id}}</th>
+                            <tr>
+                                <td>Start Period</td>
+                                <td>{{report.startPeriod}}</td>
+                            </tr>
+                            <tr>
+                                <td>End Period</td>
+                                <td>{{report.endPeriod}}</td>
+                            </tr>
+                            <tr>
+                                <td>Beginning Cash</td>
+                                <td>{{report.beginningCash}}</td>
+                            </tr>
+                           
+                            <tr>
+                                <td>Operating Net Cash</td>
+                                <td>{{report.operatingNetCash}}</td>
+                            </tr>
+                            <tr>
+                                <td>Investing Net Cash</td>
+                                <td>{{report.investingNetCash}}</td>
+                            </tr>
+                            <tr>
+                                <td>Financing Net Cash</td>
+                                <td>{{report.financingNetCash}}</td>
+                            </tr>
+                            <tr>
+                                <td>Ending Cash</td>
+                                <td>{{report.endingCash}}</td>
+                            </tr>
+                        </table>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ super() }} {% endblock %}

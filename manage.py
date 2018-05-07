@@ -11,7 +11,7 @@ from flask_migrate import Migrate, MigrateCommand
 
 from project import create_app, db
 from project.api import api
-from project.api.models import AdminUser, User, Company, roles_users, Role, Gro_Score
+from project.api.models import AdminUser, User, Company, roles_users, Role, Gro_Score, Input
 
 
 from flask_migrate import MigrateCommand, Migrate
@@ -122,6 +122,8 @@ class LoanApplicants(ModelView):
         cash_flow_reports = applicant.cash_flow_reports
         company = Company.query.filter_by(uid=company_uid).first()
 
+        ml_input = Input.query.filter_by(company_uid=company_uid).first()
+
         if applicant is None:
             flash(gettext('Record does not exist.'), 'error')
             return redirect(return_url)
@@ -133,6 +135,7 @@ class LoanApplicants(ModelView):
 
         return self.render('admin/applicant_detail.html',
                            applicant=applicant,
+                           ml_input=ml_input,
                            score=score,
                            balance_sheet_reports=balance_sheet_reports,
                            cash_flow_reports=cash_flow_reports,
@@ -147,8 +150,8 @@ class LoanApplicants(ModelView):
 
 # Get All Users from Database
 admin.add_view(LoanApplicants(User, db.session,name="Loan Applicants", endpoint='loan_applicants'))
-admin.add_view(MyModelView(User, db.session, name="Users"))
-admin.add_view(MyModelView(Company, db.session, name="Companies"))
+# admin.add_view(MyModelView(User, db.session, name="Users"))
+# admin.add_view(MyModelView(Company, db.session, name="Companies"))
 
 @security.context_processor
 def security_context_processor():

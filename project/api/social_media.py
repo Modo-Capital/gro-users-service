@@ -202,32 +202,68 @@ class GoogleInfo(Resource):
         """Connecting to Google"""
         data = request.get_json()
         # refresh_token = data['refreshToken']
-        access_token = data['accessToken']
-
+        access_token = data['access_token']
+        basic_route = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=%s'%(access_token)
+        r = requests.get(basic_route)
+        
         # getting UserInfo from Google
+        basic_profile = json.loads(r.text)
+        print(basic_profile)
+        email = basic_profile['email']
+        first_name = basic_profile['given_name']
+        last_name = basic_profile['family_name']
+        profile = basic_profile['picture']
+        password = access_token
 
         # looking up to see if user exist
-
-        # if user does not exist, create a new users based on user info
+        try:
+            user = User.query.filter_by(email=email).first()
+            
+            # if user does not exist, create a new users based on user info
             # return user uid
+            if not user :
+                user = User(email=email, password=password)
+                db.session.add(user)
+                db.sesion.commit()
 
+                current_user = User.query.filter_by(email=email).first()
+                user_uid = current_user.uid
+                response_object = jsonify({
+                    'status': 'success',
+                    'message': 'Successfully create new user %s %s'%(current_user.first_name, current_user.last_name),
+                    'data': {
+                        'userId':current_user.uid,
+                        'auth_token':current_user.encode_auth_token(current_user.uid)
+                    }
+                })
+                response_object.status_code = 200  
+                return response_object 
 
-        # if user does exist, log user in 
+            # if user does exist, log user in 
             # return user user uid and user auth token
-
-      
-
-
-        # https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=[ACCESS_TOKEN]
-        response_object = jsonify({
-            'status':'success',
-            'data': {
-                'google_uid':google_uid,
-                'google_access_token':access_token
-            }
-        })
-        response_object.status_code = 200
-        return response_object
+            else:
+                user.google_access_token = access_token
+                user.first_name = first_name
+                user.last_name = last_name
+                user_uid = user.uid
+                response_object = jsonify({
+                    'status': 'success',
+                    'message': 'Successfully login %s %s'%(user.first_name, user.last_name),
+                    'data': {
+                        'userId':user_uid,
+                        'auth_token':user.encode_auth_token(user_uid)
+                    }
+                })
+                response_object.status_code = 200   
+                return response_object
+        except (exc.IntegrityError, ValueError) as e:
+            db.session.rollback()
+            response = jsonify({
+                'status': 'fail',
+                'message': 'Invalid payload.'
+            })
+            response.status_code = 400
+            return response
 
 @api.route('/facebook/userInfo')
 class FacebookInfo(Resource):

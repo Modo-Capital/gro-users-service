@@ -62,10 +62,12 @@ class Company(db.Model):
     bank_account = db.Column(db.String, nullable=True)
     accounting_account = db.Column(db.String, nullable=True)
     loan_approved = db.Column(db.Integer, nullable=True)
+    ml_inputs = db.relationship("Input", backref="company_inputs", cascade="all, delete-orphan", lazy='dynamic')
     gro_scores = db.relationship("Gro_Score", backref="company_score", cascade="all, delete-orphan", lazy='dynamic')
     active = db.Column(db.Boolean(), default=True, nullable=False)
     admin = db.Column(db.Boolean(),default=False, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
+
 
     def __init__(self, company_name, address, city, state, zipcode):
         self.company_name = company_name
@@ -75,6 +77,26 @@ class Company(db.Model):
         self.zipcode = zipcode
         self.uid = str(uuid.uuid4())
         self.created_at = datetime.datetime.utcnow()
+
+# Create ML Input
+class Input(db.Model):
+    __tablename__ = "inputs"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    company_uid =  db.Column(db.String, db.ForeignKey('companies.uid'))
+    company =  db.relationship('Company')
+    created_at = db.Column(db.DateTime, nullable=False)
+    debt_to_income = db.Column(db.Float, nullable=True)
+    emp_length = db.Column(db.Integer, nullable=True)
+    annual_income = db.Column(db.Integer, nullable=True)
+    debt_to_income = db.Column(db.Float, nullable=True)
+    average_current_balance = db.Column(db.Float, nullable=True)
+    # total_current_balance = 
+
+
+
+    def __init__(self, company, created_at=datetime.datetime.utcnow()):
+        self.company = company
+        self.created_at = created_at
 
 # Create Gro Score Model in Database
 class Gro_Score(db.Model):
@@ -87,7 +109,7 @@ class Gro_Score(db.Model):
     company =  db.relationship('Company')
     created_at = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, company, company_uid, data_score, created_at=datetime.datetime.utcnow()):
+    def __init__(self, company, data_score, created_at=datetime.datetime.utcnow()):
         self.company = company
         self.data_score = data_score
         self.created_at = created_at
@@ -344,6 +366,8 @@ class Transaction(db.Model):
         self.bank_account = bank_account
         self.amount = amount, 
         self.date = date
+        
+
 
 
 

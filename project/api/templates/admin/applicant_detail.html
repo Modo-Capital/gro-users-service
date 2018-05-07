@@ -24,8 +24,7 @@
                     <h4>Gro Score</h4>
                 </div>
                 <div class="panel-body">
-                   <div class="col-md-2" 
-                    style="
+                    <div class="col-md-2" style="
                       display: inline-block;
                       position: relative;
                       width: 210px;
@@ -36,21 +35,20 @@
                       padding: 20% 0;
                       color:white;
                       font-size:40px">
-                    {{score.gro_score}}
+                        {{score.gro_score}}
                     </div>
                     <div class="col-md-5">
-                      <br>
-                      <div>Data Score:</div>
-                      <div>{{score.data_score}}</div>
-                      <br>
-                      <div>ML Score:</div>
-                      <div>{{score.ml_score}}</div>
-                      <br>
-                      <div>Total Gro Score:</div>
-                      <div>{{score.gro_score}}</div>
-                     </div>
+                        <br>
+                        <div>Data Score:</div>
+                        <div>{{score.data_score}}</div>
+                        <br>
+                        <div>ML Score:</div>
+                        <div>{{score.ml_score}}</div>
+                        <br>
+                        <div>Total Gro Score:</div>
+                        <div>{{score.gro_score}}</div>
+                    </div>
                 </div>
-               
             </div>
         </div>
         <div class="col-md-4">
@@ -123,8 +121,8 @@
                 </div>
                 <div class="panel-body">
                     <div>
-                        {% for report in profit_loss_reports %} 
-                          <table class="table">
+                        {% for report in profit_loss_reports %}
+                        <table class="table">
                             <th>
                                 Report #{{report.id}}
                             </th>
@@ -168,9 +166,7 @@
                                 <td>Net Income</td>
                                 <td>{{report.netIncome}}</td>
                             </tr>
-
-                          </table>
-
+                        </table>
                         {% endfor %}
                     </div>
                 </div>
@@ -244,7 +240,6 @@
                                 <td>Beginning Cash</td>
                                 <td>{{report.beginningCash}}</td>
                             </tr>
-                           
                             <tr>
                                 <td>Operating Net Cash</td>
                                 <td>{{report.operatingNetCash}}</td>
@@ -269,17 +264,31 @@
         </div>
     </div>
     <div class="row" id="machine learning inputs">
-      <div class="col-md-3">
-         <h3>Debt to Income <span class="label label-default"> {{ml_input.debt_to_income}} </span></h3>  
-      </div>
-       <div class="col-md-3">
-         <h3>Debt to Income <span class="label label-default"> {{ml_input.debt_to_income}} </span></h3>  
-      </div>
-       <div class="col-md-3">
-         <h3>Debt to Income <span class="label label-default"> {{ml_input.debt_to_income}} </span></h3>  
-      </div>
-       <div class="col-md-3">
-         <h3>Debt to Income <span class="label label-default"> {{ml_input.debt_to_income}} </span></h3>  
+      <div class="col-md-12 col-xs-12">
+        <div class="panel panel-primary">
+            <div class="panel panel-heading">
+                <h3>Machine Learning Inputs</h3>
+            </div>
+            <div class="panel panel-body">
+                <div class="col-md-3">
+                    <h4>Annual Income<span class="label label-default"> {{ml_input.annual_income}} </span></h4>
+                </div>
+                <div class="col-md-3">
+                    <h4>Employment Length <span class="label label-default"> {{ml_input.emp_length}} </span></h4>
+                </div>
+                <div class="col-md-3">
+                    <h4>Debt to Income <span class="label label-default"> {{ml_input.debt_to_income}} </span></h4>
+                </div>
+                <div class="col-md-3">
+                    <h4>Average Current Balance
+                    <span class="label label-default"> 
+                    {{ml_input.average_current_balance}} 
+                    </span>
+                  </h4>
+                </div>
+            </div>
+        </div>
       </div>
     </div>
-    {{ super() }} {% endblock %}
+</div>
+{{ super() }} {% endblock %}

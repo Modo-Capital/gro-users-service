@@ -88,11 +88,8 @@ class Input(db.Model):
     debt_to_income = db.Column(db.Float, nullable=True)
     emp_length = db.Column(db.Integer, nullable=True)
     annual_income = db.Column(db.Integer, nullable=True)
-    debt_to_income = db.Column(db.Float, nullable=True)
     average_current_balance = db.Column(db.Float, nullable=True)
     # total_current_balance = 
-
-
 
     def __init__(self, company, created_at=datetime.datetime.utcnow()):
         self.company = company

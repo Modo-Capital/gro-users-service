@@ -150,8 +150,8 @@ class LoanApplicants(ModelView):
 
 # Get All Users from Database
 admin.add_view(LoanApplicants(User, db.session,name="Loan Applicants", endpoint='loan_applicants'))
-# admin.add_view(MyModelView(User, db.session, name="Users"))
-# admin.add_view(MyModelView(Company, db.session, name="Companies"))
+admin.add_view(MyModelView(User, db.session, name="Users"))
+admin.add_view(MyModelView(Company, db.session, name="Companies"))
 
 @security.context_processor
 def security_context_processor():

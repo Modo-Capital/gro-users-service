@@ -125,7 +125,7 @@ class Gro_Score(db.Model):
     company =  db.relationship('Company')
     created_at = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, company, data_score, created_at=datetime.datetime.utcnow()):
+    def __init__(self, company, data_score, company_uid,created_at=datetime.datetime.utcnow()):
         self.company = company
         self.data_score = data_score
         self.created_at = created_at

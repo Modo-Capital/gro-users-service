@@ -227,7 +227,10 @@ class GoogleInfo(Resource):
                 db.session.commit()
 
                 current_user = User.query.filter_by(email=email).first()
-                user_uid = current_user.uid
+                current_user.uid = user_uid 
+                current_user.first_name = first_name
+                current_user.last_name = last_name
+                current_user.profile = profile
                 response_object = jsonify({
                     'status': 'success',
                     'message': 'Successfully create new user %s %s'%(current_user.first_name, current_user.last_name),
@@ -245,6 +248,7 @@ class GoogleInfo(Resource):
                 user.google_access_token = access_token
                 user.first_name = first_name
                 user.last_name = last_name
+                user.profile = profile
                 user_uid = user.uid
                 response_object = jsonify({
                     'status': 'success',

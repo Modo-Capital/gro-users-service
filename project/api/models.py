@@ -89,6 +89,25 @@ class Input(db.Model):
     emp_length = db.Column(db.Integer, nullable=True)
     annual_income = db.Column(db.Integer, nullable=True)
     average_current_balance = db.Column(db.Float, nullable=True)
+    percentBcGt75 = db.Column(db.Float, nullable=True)
+    bcUtil = db.Column(db.Float, nullable=True)
+    openAcc = db.Column(db.Integer, nullable=True)
+    totalBalExMort = db.Column(db.Float, nullable=True)
+    revolBal = db.Column(db.Float, nullable=True)
+    revolUtil = db.Column(db.Float, nullable=True)
+    totalBcLimit = db.Column(db.Float, nullable=True)
+    totalAcc = db.Column(db.Integer, nullable=True)
+    totalIlHighCreditLimit = db.Column(db.Float, nullable=True)
+    numRevAccts = db.Column(db.Float, nullable=True)
+    totHiCredLim = db.Column(db.Float, nullable=True)
+    totCurBal = db.Column(db.Float, nullable=True)
+    numBcTl = db.Column(db.Integer, nullable=True)
+    numIlTl = db.Column(db.Integer, nullable=True)
+    dtiJoint = db.Column(db.Float, nullable=True)
+    totalBalIl = db.Column(db.Integer, nullable=True)
+    iLUtil = db.Column(db.Float, nullable=True)
+    mtgPayment = db.Column(db.Float, nullable=True)
+
     # total_current_balance = 
 
     def __init__(self, company, created_at=datetime.datetime.utcnow()):

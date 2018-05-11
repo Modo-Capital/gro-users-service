@@ -17,7 +17,7 @@ company_fields = api.model('New Company', {
     'zipcode':fields.Integer(description="Zipcode", required=True)
 })
 
-company = api.model('Company', {
+company = api.model('Update Company', {
     'company_name': fields.String(description="Company Name", required=False),
     'address': fields.String(description="Company Business Address", required=False),
     'city': fields.String(description="City", required=False),

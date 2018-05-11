@@ -108,7 +108,7 @@ class Accounts(Resource):
         access_token = user.plaid_access_token
         banking_data = client.Auth.get(access_token)
         print(banking_data)
-        account_name = banking_data["accounts"][0]['official_name']
+        account_name = banking_data["accounts"][0]['name']
         account_type = banking_data["accounts"][0]['subtype']
         account_balance = banking_data["accounts"][0]['balances']['current']
         account_number =  banking_data["numbers"][0]['account']
@@ -180,7 +180,7 @@ class Transactions(Resource):
         
         # Pull transactions for the last 365 days
         all_transactions = []
-        for n in range(1,73):
+        for n in range(13,73):
             start_time = -5*n
             end_time = -5*(n-1)
             start_date = "{:%Y-%m-%d}".format(datetime.datetime.now() + datetime.timedelta(start_time))

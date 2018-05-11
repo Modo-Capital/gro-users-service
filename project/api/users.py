@@ -42,83 +42,83 @@ class Ping(Resource):
             'message':'pong!'
         })
 
-@api.route('/')
-class UsersList(Resource):
-    '''Get all users methods'''
-    @api.doc('get_all_users')
-    def get(self):
-        """ Get all users """
-        users = User.query.order_by(User.created_at.desc()).all()
-        users_list = []
-        for user in users:
-            user_object = {
-                'id':user.id,
-                'username': user.username,
-                'status':user.status,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'email':user.email,
-                'created_at':user.created_at
-            }
-            users_list.append(user_object)
-        response = jsonify({
-            'status':'success',
-            'data':{    
-                'users':users_list
-            }
-        })
-        response.status_code = 200
-        return response
+# @api.route('/')
+# class UsersList(Resource):
+#     '''Get all users methods'''
+#     @api.doc('get_all_users')
+#     def get(self):
+#         """ Get all users """
+#         users = User.query.order_by(User.created_at.desc()).all()
+#         users_list = []
+#         for user in users:
+#             user_object = {
+#                 'id':user.id,
+#                 'username': user.username,
+#                 'status':user.status,
+#                 'first_name': user.first_name,
+#                 'last_name': user.last_name,
+#                 'email':user.email,
+#                 'created_at':user.created_at
+#             }
+#             users_list.append(user_object)
+#         response = jsonify({
+#             'status':'success',
+#             'data':{    
+#                 'users':users_list
+#             }
+#         })
+#         response.status_code = 200
+#         return response
 
-    """Create a new user methods"""
-    @api.expect(new_user)
-    def post(self):
-        user_data = request.get_json()
-        print(user_data)
-        """Create a new user"""
-        if not user_data:
-            # Return fail if recieve empty json object
-            response = jsonify({
-                'status': 'fail',
-                'message': 'Invalid payload'
-            })
-            response.status_code = 400
-            return response
+#     """Create a new user methods"""
+#     @api.expect(new_user)
+#     def post(self):
+#         user_data = request.get_json()
+#         print(user_data)
+#         """Create a new user"""
+#         if not user_data:
+#             # Return fail if recieve empty json object
+#             response = jsonify({
+#                 'status': 'fail',
+#                 'message': 'Invalid payload'
+#             })
+#             response.status_code = 400
+#             return response
 
-        newUser = User(email=user_data['email'],password=user_data['password'], status='registered', admin=False)
-        # for key in user_data.keys():
-        #     newUser.key = user_data['%s'%(key)]
+#         newUser = User(email=user_data['email'],password=user_data['password'], status='registered', admin=False)
+#         # for key in user_data.keys():
+#         #     newUser.key = user_data['%s'%(key)]
 
-        # Return fail when receiving duplicated email
-        try:
-            user = User.query.filter_by(email=newUser.email).first()
-            if not user:
-                # Add new users to database
-                db.session.add(newUser)
-                db.session.commit()
+#         # Return fail when receiving duplicated email
+#         try:
+#             user = User.query.filter_by(email=newUser.email).first()
+#             if not user:
+#                 # Add new users to database
+#                 db.session.add(newUser)
+#                 db.session.commit()
 
-                # Return success response status and message
-                response = jsonify({
-                    'status': 'success',
-                    'message': '%s was added!'%(newUser.email)
-                })   
-                response.status_code = 201
-                return response
-            else :
-                response = jsonify({
-                    'status': 'fail',
-                    'message': 'Sorry. That email already exists.'
-                })   
-                response.status_code = 400
-                return response
-        except (exc.IntegrityError, ValueError) as e:
-            db.session.rollback()
-            response = jsonify({
-                'status': 'fail',
-                'message': 'Invalid payload.'
-            })
-            response.status_code = 400
-            return response
+#                 # Return success response status and message
+#                 response = jsonify({
+#                     'status': 'success',
+#                     'message': '%s was added!'%(newUser.email)
+#                 })   
+#                 response.status_code = 201
+#                 return response
+#             else :
+#                 response = jsonify({
+#                     'status': 'fail',
+#                     'message': 'Sorry. That email already exists.'
+#                 })   
+#                 response.status_code = 400
+#                 return response
+#         except (exc.IntegrityError, ValueError) as e:
+#             db.session.rollback()
+#             response = jsonify({
+#                 'status': 'fail',
+#                 'message': 'Invalid payload.'
+#             })
+#             response.status_code = 400
+#             return response
 
 ## Get User by UID from Database
 @api.route('/<string:uid>')
@@ -221,6 +221,6 @@ class Single_User(Resource):
                         'message': 'Successfully update user profile',
                         'update':  put_data
                     })
-                    response.status_code = 200
+                    response.status_code = 201
                     return response
 

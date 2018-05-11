@@ -91,15 +91,15 @@ class Upload(Resource):
         return response_object
 
 
-@api.route('/recon')
-class Recon(Resource):
-    def get(self):
-        discoveryDocument = getDiscoveryDocument()
-        response_object = jsonify({
-            'status':'success',
-            'data':discoveryDocument
-        })
-        return response_object
+# @api.route('/recon')
+# class Recon(Resource):
+#     def get(self):
+#         discoveryDocument = getDiscoveryDocument()
+#         response_object = jsonify({
+#             'status':'success',
+#             'data':discoveryDocument
+#         })
+#         return response_object
 
 @api.route('/connectToQuickbooks')
 class Connecting(Resource):
@@ -376,21 +376,21 @@ class ProfitAndLoss(Resource):
         response_object.status_code = 200
         return response_object
 
-@api.route('/connected')
-class Connected(Resource):
-    pass
+# @api.route('/connected')
+# class Connected(Resource):
+#     pass
 
-@api.route('/disconnect')
-class Disconnect(Resource):
-    def get(self):
-        """ Disconnect from Quick Book Online """
-        return "Disconnected from Quickbook", 200
+# @api.route('/disconnect')
+# class Disconnect(Resource):
+#     def get(self):
+#         """ Disconnect from Quick Book Online """
+#         return "Disconnected from Quickbook", 200
 
-@api.route('/refreshTokenCall')
-class refreshToken(Resource):
-    def get(self):
-        """ Refresh Access Token """
-        return "Refreshing access token", 200
+# @api.route('/refreshTokenCall')
+# class refreshToken(Resource):
+#     def get(self):
+#         """ Refresh Access Token """
+#         return "Refreshing access token", 200
 
 
 

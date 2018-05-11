@@ -1,6 +1,6 @@
 # manage.py
 import os
-from flask import Flask, url_for, redirect, render_template, request, abort
+from flask import Flask, url_for, redirect, render_template, request, abort, jsonify
 
 # Importing libraries
 import unittest
@@ -103,6 +103,7 @@ class LoanApplicants(ModelView):
         users = User.query.all()
         return self.render('admin/applicants.html',users=users )
 
+
     @expose('/details/', methods=('GET', 'POST'))
     def details_view(self):
         return_url = self.get_url('.index_view')
@@ -145,7 +146,35 @@ class LoanApplicants(ModelView):
                            get_value=self.get_list_value,
                            return_url=return_url)
 
+    @expose('/details/gro_score_update/', methods=('GET', 'POST'))
+    def gro_score_update(self):
+        id = get_mdict_item_or_list(request.args, 'id')
+        applicant = self.get_one(id)
+        company_uid = applicant.company
+        score = Gro_Score.query.filter_by(company_uid=company_uid).first()
+        data_score = score.data_score
+        ml_score = score.ml_score
+        gro_score = data_score + ml_score
+        response_object = jsonify({
+             "user id": id, 
+             "data_score": data_score,
+             "ml_score": ml_score,
+             "gro_score": gro_score
+        })
+        response_object.status_code = 200
+        return response_object
 
+    # @expose('/details/income_statement_update/', methods=('GET','POST'))
+    # def income_statement_update(self):
+    #     id = get_mdict_item_or_list(request.args, 'id')
+    #     applicant = self.get_one(id)
+    #     reports = applicant.profit_loss_reports
+    #     print(reports.count())
+    #     response_object = jsonify({
+    #         "user id": id
+    #     })
+    #     response_object.status_code = 200
+    #     return response_object
 
 
 # Get All Users from Database

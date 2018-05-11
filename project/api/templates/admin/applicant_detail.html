@@ -21,7 +21,21 @@
         <div class="col-md-4 col-centered">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h4>Gro Score</h4>
+                    <div class="row">
+                        <div class="col col-md-10">
+                            <h4>Gro Score</h4>
+                        </div>
+                       <div class="col col-md-2">
+                            <form>
+                                <button class="btn btn-default" >
+                                    <a href="" id="gro_score_button">
+                                        <span class="glyphicon glyphicon-refresh" aria-hidden="true">
+                                        </span>
+                                    </a>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div class="col-md-2" style="
@@ -35,18 +49,31 @@
                       padding: 20% 0;
                       color:white;
                       font-size:40px">
-                        {{score.gro_score}}
+                        <span id="gro_score">{{score.gro_score}}</span>
                     </div>
                     <div class="col-md-5">
                         <br>
                         <div>Data Score:</div>
-                        <div>{{score.data_score}}</div>
-                        <br>
+                        <div>
+                            <button 
+                                  type="button"
+                                  class="btn btn-primary" 
+                                  name="refreshDataScore"
+                                  type="submit"
+                                >
+                                <span id="data_score">{{score.data_score}}</span>
+                                
+                                </button>
+                        </div>
+                        <br><br>
                         <div>ML Score:</div>
-                        <div>{{score.ml_score}}</div>
-                        <br>
-                        <div>Total Gro Score:</div>
-                        <div>{{score.gro_score}}</div>
+                        <div>
+                            <button type="button" class="btn btn-primary" name="refreshMLScore">
+                                <span>
+                                    {{score.ml_score}}
+                                </span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -117,7 +144,21 @@
         <div class="col-md-4 col-xs-10">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h4>Income Statement</h4>
+                    <div class="row">
+                        <div class="col col-md-10">
+                            <h4>Income Statement</h4>    
+                        </div>
+                        <div class="col col-md-2">
+                            <!-- <form>
+                                <button class="btn btn-default" >
+                                    <a href="" id="income_statement_button">
+                                        <span class="glyphicon glyphicon-refresh" aria-hidden="true">
+                                        </span>
+                                    </a>
+                                </button>
+                            </form> -->
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div>
@@ -175,7 +216,21 @@
         <div class="col-md-4 col-xs-10">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h4>Balance Sheet</h4>
+                    <div class="row">
+                        <div class="col col-md-10">
+                            <h4>Balance Sheet</h4>    
+                        </div>
+                        <div class="col col-md-2">
+                           <!--  <form>
+                                <button class="btn btn-default" >
+                                    <a href="#" id="data_score_button">
+                                        <span class="glyphicon glyphicon-refresh" aria-hidden="true">
+                                        </span>
+                                    </a>
+                                </button>
+                            </form> -->
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div>
@@ -221,7 +276,21 @@
         <div class="col-md-4 col-xs-10">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h4>Cash Flow</h4>
+                    <div class="row">
+                        <div class="col col-md-10">
+                            <h4>Cash Flow</h4>    
+                        </div>
+                        <div class="col col-md-2">
+                            <!-- <form>
+                                <button class="btn btn-default" >
+                                    <a href="#" id="data_score_button">
+                                        <span class="glyphicon glyphicon-refresh" aria-hidden="true">
+                                        </span>
+                                    </a>
+                                </button>
+                            </form> -->
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div>
@@ -267,7 +336,21 @@
       <div class="col-md-12 col-xs-12">
         <div class="panel panel-primary">
             <div class="panel panel-heading">
-                <h3>Machine Learning Inputs</h3>
+                <div class="row">
+                        <div class="col col-md-11">
+                            <h4>Machine Learning Inputs</h4>    
+                        </div>
+                        <div class="col col-md-1">
+                          <!--   <form>
+                                <button class="btn btn-default" >
+                                    <a href="#" id="data_score_button">
+                                        <span class="glyphicon glyphicon-refresh" aria-hidden="true">
+                                        </span>
+                                    </a>
+                                </button>
+                            </form> -->
+                        </div>
+                    </div>
             </div>
             <div class="panel panel-body">
                 <div class="col-md-3">
@@ -330,4 +413,31 @@
       </div>
     </div>
 </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('a#gro_score_button').bind('click', function(){
+            console.log("gro_score_button clicked");
+            $.getJSON('/admin/loan_applicants/details/gro_score_update/?id={{applicant.id}}',
+                function(data) {
+                    $('#data_score').text(data['data_score']);
+                    $('#ml_score').text(data['ml_score']);
+                    $('#gro_score').text(data['gro_score']);
+                    console.log(data);
+                }
+            )
+            return false;
+        });
+        // $('a#income_statement_button').bind('click', function(){
+        //     console.log("income_statement_button clicked");
+        //     $.getJSON('/admin/loan_applicants/details/income_statement_update/?id={{applicant.id}}',
+        //         function(data) {
+        //             $('#data_score').text(data['data_score']);
+        //             console.log(data);
+        //         }
+        //     )
+        //     return false;
+        // });
+    });
+</script>
 {{ super() }} {% endblock %}

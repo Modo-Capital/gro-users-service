@@ -1,0 +1,1036 @@
+{
+	"info": {
+		"name": "Gro Capital",
+		"_postman_id": "dfa51b85-1269-2b51-8544-a9228ea0df8d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4dd3a6cf-60a7-4481-af10-e085a8892ceb",
+						"type": "text/javascript",
+						"exec": [
+							"function makeEmail() {",
+							"  var text = \"\";",
+							"  var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"  for (var i = 0; i < 5; i++)",
+							"    text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"  return text;",
+							"}",
+							"",
+							"text = makeEmail();",
+							"email = text +\"@\"+ text + \".\" + text;",
+							"postman.setEnvironmentVariable(\"test_email\",String(email));",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"RegisterTest\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql('success');",
+							"    pm.expect(jsonData.message).to.eql('Successfully registered')",
+							"});",
+							"",
+							"var reqBody = JSON.parse(request.data);",
+							"loginEmail = reqBody.email;",
+							"postman.setEnvironmentVariable(\"login_email\",loginEmail);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..C3AYzLbqhdbuCqLjaeF-yw.KtGOKG_BRXNCN5cr5HAm2ENM4zHI3ETOHKys7uen-y2OBRRVc2--efa1kpO5_0G9jOfbIkEUKcv3zEme9sMWtuVUQFZ01pG5vO65f-HZJUPAcwWtvXwnM5RLLBdAVIO9C5fcdSgAFxoFD_6WWACnus976YaJcawy44S-7B0TdbcXCYJDJKL_UmeZQn4BROiRDMVP3R7e3KWYSo7SJtiNvjc_EfdiJfZhKimjvZGqVLCrO7CkkfrDW7WIJKtb6caQdYLKtBP3g8gS7ObUWkgiHw8GGR9rP2lQVx0oJT5330pCsAhc61ax5vweytZr4LsLbSY5bJ-1STtXI_-Zwidd5QfoNHo-uLpLIakFkg_Dpx6HHJm90kdLMvoZdObweyaOLYb9qBEco2wE7lEXTaHS9_J-RA0-iiibYW4TAG1rqRwXoFmrJUhkt-N0FETdPw-BXhoFMnPYG6beDuWGaALfB4nvJERtWWWxi0HwxM8gZ1JK3Zs1BO3FBiHTdpINDVy2C1-Ur2ivl4VKvdHyVMOgcbHcClpaecLe2s882Mk3JXTxAqfA9B0YoyCz3a--ElmL0QrlTxJJ9YENzsg4eESJoCTrECbuLC876np4jUldNNnuK_KceyTNMq9iEWdCvl5FnPy3j1wq6WzqDKF6bR5_a6Imf0gYq_ErroeeaulHHHDoDmCrjPTJhl0R4Ll-Q895gBp2c9bmW80nFbt2fTIniDO7ASDR7nxfXjndkYAyftFKC5VFx9z-e9Y2itzjAimN74k76mxJzZkKcnf_7N9jY2KZPDAgEG4WiVleVztTrnc.S7GacgtUsfRBThftRpQP-A",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\"  : \"{{test_email}}\" ,\n\t\"password\"  : \"12345678\"\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/auth/register",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "92211023-e60d-4445-83f1-9666b319b043",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"LoginTest\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql('success');",
+							"    pm.expect(jsonData.message).to.eql('Successfully logged in');",
+							"    postman.setEnvironmentVariable(\"auth_token\",jsonData.auth_token);",
+							"    postman.setEnvironmentVariable(\"UID\",jsonData.userId)",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..C3AYzLbqhdbuCqLjaeF-yw.KtGOKG_BRXNCN5cr5HAm2ENM4zHI3ETOHKys7uen-y2OBRRVc2--efa1kpO5_0G9jOfbIkEUKcv3zEme9sMWtuVUQFZ01pG5vO65f-HZJUPAcwWtvXwnM5RLLBdAVIO9C5fcdSgAFxoFD_6WWACnus976YaJcawy44S-7B0TdbcXCYJDJKL_UmeZQn4BROiRDMVP3R7e3KWYSo7SJtiNvjc_EfdiJfZhKimjvZGqVLCrO7CkkfrDW7WIJKtb6caQdYLKtBP3g8gS7ObUWkgiHw8GGR9rP2lQVx0oJT5330pCsAhc61ax5vweytZr4LsLbSY5bJ-1STtXI_-Zwidd5QfoNHo-uLpLIakFkg_Dpx6HHJm90kdLMvoZdObweyaOLYb9qBEco2wE7lEXTaHS9_J-RA0-iiibYW4TAG1rqRwXoFmrJUhkt-N0FETdPw-BXhoFMnPYG6beDuWGaALfB4nvJERtWWWxi0HwxM8gZ1JK3Zs1BO3FBiHTdpINDVy2C1-Ur2ivl4VKvdHyVMOgcbHcClpaecLe2s882Mk3JXTxAqfA9B0YoyCz3a--ElmL0QrlTxJJ9YENzsg4eESJoCTrECbuLC876np4jUldNNnuK_KceyTNMq9iEWdCvl5FnPy3j1wq6WzqDKF6bR5_a6Imf0gYq_ErroeeaulHHHDoDmCrjPTJhl0R4Ll-Q895gBp2c9bmW80nFbt2fTIniDO7ASDR7nxfXjndkYAyftFKC5VFx9z-e9Y2itzjAimN74k76mxJzZkKcnf_7N9jY2KZPDAgEG4WiVleVztTrnc.S7GacgtUsfRBThftRpQP-A",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\"  : \"{{login_email}}\",\n\t\"password\"  : \"12345678\"\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/auth/login",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f124ec9a-62ce-4cfe-9db7-e3f607186652",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"LoginTest\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql('success');",
+							"    pm.expect(jsonData.message).to.eql('Successfully logged out.')",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..C3AYzLbqhdbuCqLjaeF-yw.KtGOKG_BRXNCN5cr5HAm2ENM4zHI3ETOHKys7uen-y2OBRRVc2--efa1kpO5_0G9jOfbIkEUKcv3zEme9sMWtuVUQFZ01pG5vO65f-HZJUPAcwWtvXwnM5RLLBdAVIO9C5fcdSgAFxoFD_6WWACnus976YaJcawy44S-7B0TdbcXCYJDJKL_UmeZQn4BROiRDMVP3R7e3KWYSo7SJtiNvjc_EfdiJfZhKimjvZGqVLCrO7CkkfrDW7WIJKtb6caQdYLKtBP3g8gS7ObUWkgiHw8GGR9rP2lQVx0oJT5330pCsAhc61ax5vweytZr4LsLbSY5bJ-1STtXI_-Zwidd5QfoNHo-uLpLIakFkg_Dpx6HHJm90kdLMvoZdObweyaOLYb9qBEco2wE7lEXTaHS9_J-RA0-iiibYW4TAG1rqRwXoFmrJUhkt-N0FETdPw-BXhoFMnPYG6beDuWGaALfB4nvJERtWWWxi0HwxM8gZ1JK3Zs1BO3FBiHTdpINDVy2C1-Ur2ivl4VKvdHyVMOgcbHcClpaecLe2s882Mk3JXTxAqfA9B0YoyCz3a--ElmL0QrlTxJJ9YENzsg4eESJoCTrECbuLC876np4jUldNNnuK_KceyTNMq9iEWdCvl5FnPy3j1wq6WzqDKF6bR5_a6Imf0gYq_ErroeeaulHHHDoDmCrjPTJhl0R4Ll-Q895gBp2c9bmW80nFbt2fTIniDO7ASDR7nxfXjndkYAyftFKC5VFx9z-e9Y2itzjAimN74k76mxJzZkKcnf_7N9jY2KZPDAgEG4WiVleVztTrnc.S7GacgtUsfRBThftRpQP-A",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Auth-Token",
+						"value": "{{auth_token}}"
+					},
+					{
+						"key": "UID",
+						"value": "{{UID}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{api_url}}/auth/logout",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"LoginTest\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql('success');",
+							"    pm.expect(jsonData.message).to.eql('Successfully logged in')",
+							"});"
+						],
+						"id": "ad68c6fc-9e33-41b2-aeb3-ae2fc8e715c1",
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..C3AYzLbqhdbuCqLjaeF-yw.KtGOKG_BRXNCN5cr5HAm2ENM4zHI3ETOHKys7uen-y2OBRRVc2--efa1kpO5_0G9jOfbIkEUKcv3zEme9sMWtuVUQFZ01pG5vO65f-HZJUPAcwWtvXwnM5RLLBdAVIO9C5fcdSgAFxoFD_6WWACnus976YaJcawy44S-7B0TdbcXCYJDJKL_UmeZQn4BROiRDMVP3R7e3KWYSo7SJtiNvjc_EfdiJfZhKimjvZGqVLCrO7CkkfrDW7WIJKtb6caQdYLKtBP3g8gS7ObUWkgiHw8GGR9rP2lQVx0oJT5330pCsAhc61ax5vweytZr4LsLbSY5bJ-1STtXI_-Zwidd5QfoNHo-uLpLIakFkg_Dpx6HHJm90kdLMvoZdObweyaOLYb9qBEco2wE7lEXTaHS9_J-RA0-iiibYW4TAG1rqRwXoFmrJUhkt-N0FETdPw-BXhoFMnPYG6beDuWGaALfB4nvJERtWWWxi0HwxM8gZ1JK3Zs1BO3FBiHTdpINDVy2C1-Ur2ivl4VKvdHyVMOgcbHcClpaecLe2s882Mk3JXTxAqfA9B0YoyCz3a--ElmL0QrlTxJJ9YENzsg4eESJoCTrECbuLC876np4jUldNNnuK_KceyTNMq9iEWdCvl5FnPy3j1wq6WzqDKF6bR5_a6Imf0gYq_ErroeeaulHHHDoDmCrjPTJhl0R4Ll-Q895gBp2c9bmW80nFbt2fTIniDO7ASDR7nxfXjndkYAyftFKC5VFx9z-e9Y2itzjAimN74k76mxJzZkKcnf_7N9jY2KZPDAgEG4WiVleVztTrnc.S7GacgtUsfRBThftRpQP-A",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\"  : \"delighted@troy.do\",\n\t\"password\"  : \"12345678\"\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/auth/login",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Users Ping",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dcadde6c-5d4f-4d21-9fa6-fbc7a55f4f96",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{api_url}}/users/ping",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"users",
+						"ping"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query User Info by UID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c5417437-47e9-48da-8e8e-8a7e97b92a86",
+						"type": "text/javascript",
+						"exec": [
+							"tests['status code is 200'] = responseCode.code === 200"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Auth-Token",
+						"value": "{{auth_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{api_url}}/users/{{UID}}",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"users",
+						"{{UID}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update User Info by UID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5e4a64de-d0db-49df-8b51-846982d5bd35",
+						"type": "text/javascript",
+						"exec": [
+							"tests['status code is 201'] = responseCode.code === 201"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Auth-Token",
+						"value": "{{auth_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"{{test_email}}42\",\n  \"status\": \"applied\",\n  \"username\": \"{{test_email}}_42\",\n  \"profile\": \"string\",\n  \"first_name\": \"string\",\n  \"last_name\": \"string\",\n  \"birthday\": \"2018-05-10\",\n  \"driverLicense\": \"string\",\n  \"ssn\": 0\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/users/{{UID}}",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"users",
+						"{{UID}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Companies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d0f4dda-49e2-468f-9aa2-caf89e567eaf",
+						"type": "text/javascript",
+						"exec": [
+							"tests['status code is 200'] = responseCode.code === 200"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{api_url}}/companies/",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"companies",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Company",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cda1711c-d6ad-4d4a-aa1c-317f1005c8da",
+						"type": "text/javascript",
+						"exec": [
+							"function makeCompany() {",
+							"  var text = \"\";",
+							"  var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"  for (var i = 0; i < 10; i++)",
+							"    text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"  return text;",
+							"}",
+							"",
+							"companyName = makeCompany();",
+							"postman.setEnvironmentVariable(\"company_name\",String(companyName));",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"var reqBody = JSON.parse(request.data);",
+							"createdCompany = reqBody.company_name;",
+							"postman.setEnvironmentVariable(\"createdCompany\",createdCompany);",
+							"",
+							"pm.test(\"CreateCompanyTest\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    companyUID = jsonData.data.uid",
+							"    pm.expect(jsonData.status).to.eql('success');",
+							"    pm.expect(jsonData.message).to.eql(createdCompany +' was added!')",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"company_name\":\"${{company_name}}\",\n  \"address\": \"string\",\n  \"city\": \"string\",\n  \"state\": \"string\",\n  \"zipcode\": 0\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/companies/",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"companies",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Company by UID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "08d00a17-36ce-4c9f-90ec-d7a39e429ad7",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"GetACompanyTest\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql('success');",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"company_name\":\"${{company_name}}\",\n  \"address\": \"string\",\n  \"city\": \"string\",\n  \"state\": \"string\",\n  \"zipcode\": 0\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/companies/{{companyUID}}",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"companies",
+						"{{companyUID}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update a Company by UID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acd43d38-5fae-4f16-97a0-80fbe4852e42",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"UpdateACompanyTest\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql('success');",
+							"    pm.expect(jsonData.update.city).to.eql('Las Vegas');",
+							"    pm.expect(jsonData.update.state).to.eql('NV');",
+							"    pm.expect(jsonData.update.zipcode).to.eql(88888);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"address\": \"101 Paradise Blvd\",\n  \"city\": \"Las Vegas\",\n  \"state\": \"NV\",\n  \"zipcode\": 88888\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/companies/{{companyUID}}",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"companies",
+						"{{companyUID}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Connecting To Quickbook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eb428e8d-eca5-4f54-80ec-5a4ba1928f72",
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"GetACompanyTest\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql('success');",
+							"    pm.expect(jsonData.message).to.eql('Successfully connecting to Quickbooks');",
+							"    quickbookAuthUrl = jsonData.data",
+							"    postman.setEnvironmentVariable(\"quickbookAuthUrl\",quickbookAuthUrl);",
+							"});",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{api_url}}/accounting/connectToQuickbooks",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"accounting",
+						"connectToQuickbooks"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Quickbook Company Info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7e8f6df7-9522-4a5e-b3d9-ad1e72e003ac",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Get Quickbook Company Info\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"CompanyName\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"uid\": \"b36ee28b-0fde-4b1d-a496-9ceef9a74da3\",\n  \"realmId\": \"193514710513274\",\n  \"access_token\": \"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..A_XqwIEtHArbur81xDAV7g.rIOWhSqp0rx5uJso76BqMQ69dXqWgCnO03mOV3eEu52gmoPfqvEKvTjLuOliY2mMYq4z4wY0jPRCcUG9UQfpQpOWm1vpGpj4Gw186v9I9ynj178JWA9nMvcGIWbU6wMAH1BCpsSSZVmjcoJMVVQlmoyJtj-Dv3gVGX924u17IixqZt5ZdLTLEhGkY-rx7Hx2kc5zeszGM8P_8dws4y1ZLz2AasBvPrEHa1orxb6D8TiIwnODX2J-3PmeAwCmu21VMCopD-oLnI1PIVXpvxqKZCWYxidv_UVnk1joq5av2WU-CErL4tsDbmwn48BXfMArrwo4HgBjRnLF0TRStvyxsBU1KkElgPnqzhgQjh9rRDy3FXe_QP_KMM-e8sHz1yNYfaz7boTbzVIELhgOrS2Ne_dcFyL4_CUJj3v_sMCGHiQfmpEk25TCFu2aAnYc1GK3yjImg9bQZ3_PF2Hopf8H3EP_Dh2ilU6Ju8u5-K4rib1xAASoGI9wMONXlYh2JN_xz6rsu3tkh_aXGrJaILsQGspErM3f_5eA6QgP5oWTaCpaqzeBafhsFm8MRZBuKijVrojm-02pdTudD-T9NLIvlREagqWoUDsse6HaOAFhxqTL6GP2NbwOcpSE8C3HaC3yFfkQbCj1mYq5kKkquegCNwFt6IZKJeQXlWPaRZMwFxYkmq78NnM1Lsn-kObQ4kBfJcMy8DX0uB0-6QmeX_Rf3mL06bnvPykhslbLb-Sprxh_w63V4DSn3Vm-0mXoLS4E8bykgHqLJIxnPxDQUVa6dEAFxM5tOB-YCjARA2C-FwInuRuDvoxpzSE90a_FimAj.2140YAkfwLm62H1Hdmi7JA\"\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/accounting/apiCall/companyInfo",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"accounting",
+						"apiCall",
+						"companyInfo"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Quickbook Profit and Loss",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "78b4963e-3cfe-473f-928d-6d2edc8f5c65",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Get Quickbook Company Info\", function () {",
+							"    pm.expect(pm.response.text()).to.include(",
+							"        \"COGS\",",
+							"        \"endPeriod\",",
+							"        \"startPeriod\",",
+							"        \"grossProfit\",",
+							"        \"income\",",
+							"        \"netIncome\",",
+							"        \"netOperatingIncome\",",
+							"        \"netOtherIncome\",",
+							"        \"otherExpenses\",",
+							"        \"report_name\",",
+							"        \"startPeriod\",",
+							"        \"user uid\"",
+							"    );",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"uid\": \"b36ee28b-0fde-4b1d-a496-9ceef9a74da3\",\n  \"realmId\": \"193514710513274\",\n  \"access_token\": \"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..A_XqwIEtHArbur81xDAV7g.rIOWhSqp0rx5uJso76BqMQ69dXqWgCnO03mOV3eEu52gmoPfqvEKvTjLuOliY2mMYq4z4wY0jPRCcUG9UQfpQpOWm1vpGpj4Gw186v9I9ynj178JWA9nMvcGIWbU6wMAH1BCpsSSZVmjcoJMVVQlmoyJtj-Dv3gVGX924u17IixqZt5ZdLTLEhGkY-rx7Hx2kc5zeszGM8P_8dws4y1ZLz2AasBvPrEHa1orxb6D8TiIwnODX2J-3PmeAwCmu21VMCopD-oLnI1PIVXpvxqKZCWYxidv_UVnk1joq5av2WU-CErL4tsDbmwn48BXfMArrwo4HgBjRnLF0TRStvyxsBU1KkElgPnqzhgQjh9rRDy3FXe_QP_KMM-e8sHz1yNYfaz7boTbzVIELhgOrS2Ne_dcFyL4_CUJj3v_sMCGHiQfmpEk25TCFu2aAnYc1GK3yjImg9bQZ3_PF2Hopf8H3EP_Dh2ilU6Ju8u5-K4rib1xAASoGI9wMONXlYh2JN_xz6rsu3tkh_aXGrJaILsQGspErM3f_5eA6QgP5oWTaCpaqzeBafhsFm8MRZBuKijVrojm-02pdTudD-T9NLIvlREagqWoUDsse6HaOAFhxqTL6GP2NbwOcpSE8C3HaC3yFfkQbCj1mYq5kKkquegCNwFt6IZKJeQXlWPaRZMwFxYkmq78NnM1Lsn-kObQ4kBfJcMy8DX0uB0-6QmeX_Rf3mL06bnvPykhslbLb-Sprxh_w63V4DSn3Vm-0mXoLS4E8bykgHqLJIxnPxDQUVa6dEAFxM5tOB-YCjARA2C-FwInuRuDvoxpzSE90a_FimAj.2140YAkfwLm62H1Hdmi7JA\"\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/accounting/apiCall/ProfitAndLoss",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"accounting",
+						"apiCall",
+						"ProfitAndLoss"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Quickbook Cash Flow",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "18223152-2b64-4325-b28f-edc3c1cd59ee",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Get Quickbook Company Info\", function () {",
+							"    pm.expect(pm.response.text()).to.include(",
+							"        \"beginningCash\",",
+							"        \"endPeriod\",",
+							"        \"startPeriod\",",
+							"        \"endCash\",",
+							"        \"financingNetCash\",",
+							"        \"investingNetCash\",",
+							"        \"operatingNetCash\",",
+							"        \"report_name\"",
+							"    );",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"uid\": \"b36ee28b-0fde-4b1d-a496-9ceef9a74da3\",\n  \"realmId\": \"193514710513274\",\n  \"access_token\": \"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..A_XqwIEtHArbur81xDAV7g.rIOWhSqp0rx5uJso76BqMQ69dXqWgCnO03mOV3eEu52gmoPfqvEKvTjLuOliY2mMYq4z4wY0jPRCcUG9UQfpQpOWm1vpGpj4Gw186v9I9ynj178JWA9nMvcGIWbU6wMAH1BCpsSSZVmjcoJMVVQlmoyJtj-Dv3gVGX924u17IixqZt5ZdLTLEhGkY-rx7Hx2kc5zeszGM8P_8dws4y1ZLz2AasBvPrEHa1orxb6D8TiIwnODX2J-3PmeAwCmu21VMCopD-oLnI1PIVXpvxqKZCWYxidv_UVnk1joq5av2WU-CErL4tsDbmwn48BXfMArrwo4HgBjRnLF0TRStvyxsBU1KkElgPnqzhgQjh9rRDy3FXe_QP_KMM-e8sHz1yNYfaz7boTbzVIELhgOrS2Ne_dcFyL4_CUJj3v_sMCGHiQfmpEk25TCFu2aAnYc1GK3yjImg9bQZ3_PF2Hopf8H3EP_Dh2ilU6Ju8u5-K4rib1xAASoGI9wMONXlYh2JN_xz6rsu3tkh_aXGrJaILsQGspErM3f_5eA6QgP5oWTaCpaqzeBafhsFm8MRZBuKijVrojm-02pdTudD-T9NLIvlREagqWoUDsse6HaOAFhxqTL6GP2NbwOcpSE8C3HaC3yFfkQbCj1mYq5kKkquegCNwFt6IZKJeQXlWPaRZMwFxYkmq78NnM1Lsn-kObQ4kBfJcMy8DX0uB0-6QmeX_Rf3mL06bnvPykhslbLb-Sprxh_w63V4DSn3Vm-0mXoLS4E8bykgHqLJIxnPxDQUVa6dEAFxM5tOB-YCjARA2C-FwInuRuDvoxpzSE90a_FimAj.2140YAkfwLm62H1Hdmi7JA\"\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/accounting/apiCall/CashFlow",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"accounting",
+						"apiCall",
+						"CashFlow"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Quickbook Balance Sheet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c92583b-68b9-455a-80e2-bbdcd7f65109",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Get Quickbook Company Info\", function () {",
+							"    pm.expect(pm.response.text()).to.include(",
+							"        \"endPeriod\",",
+							"        \"startPeriod\",",
+							"        \"grossProfit\",",
+							"        \"current_asset\",",
+							"        \"current_liabililty\",",
+							"        \"fixed_asset\",",
+							"        \"longterm_liability\",",
+							"        \"user uid\"",
+							"    );",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"uid\": \"b36ee28b-0fde-4b1d-a496-9ceef9a74da3\",\n  \"realmId\": \"193514710513274\",\n  \"access_token\": \"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..A_XqwIEtHArbur81xDAV7g.rIOWhSqp0rx5uJso76BqMQ69dXqWgCnO03mOV3eEu52gmoPfqvEKvTjLuOliY2mMYq4z4wY0jPRCcUG9UQfpQpOWm1vpGpj4Gw186v9I9ynj178JWA9nMvcGIWbU6wMAH1BCpsSSZVmjcoJMVVQlmoyJtj-Dv3gVGX924u17IixqZt5ZdLTLEhGkY-rx7Hx2kc5zeszGM8P_8dws4y1ZLz2AasBvPrEHa1orxb6D8TiIwnODX2J-3PmeAwCmu21VMCopD-oLnI1PIVXpvxqKZCWYxidv_UVnk1joq5av2WU-CErL4tsDbmwn48BXfMArrwo4HgBjRnLF0TRStvyxsBU1KkElgPnqzhgQjh9rRDy3FXe_QP_KMM-e8sHz1yNYfaz7boTbzVIELhgOrS2Ne_dcFyL4_CUJj3v_sMCGHiQfmpEk25TCFu2aAnYc1GK3yjImg9bQZ3_PF2Hopf8H3EP_Dh2ilU6Ju8u5-K4rib1xAASoGI9wMONXlYh2JN_xz6rsu3tkh_aXGrJaILsQGspErM3f_5eA6QgP5oWTaCpaqzeBafhsFm8MRZBuKijVrojm-02pdTudD-T9NLIvlREagqWoUDsse6HaOAFhxqTL6GP2NbwOcpSE8C3HaC3yFfkQbCj1mYq5kKkquegCNwFt6IZKJeQXlWPaRZMwFxYkmq78NnM1Lsn-kObQ4kBfJcMy8DX0uB0-6QmeX_Rf3mL06bnvPykhslbLb-Sprxh_w63V4DSn3Vm-0mXoLS4E8bykgHqLJIxnPxDQUVa6dEAFxM5tOB-YCjARA2C-FwInuRuDvoxpzSE90a_FimAj.2140YAkfwLm62H1Hdmi7JA\"\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/accounting/apiCall/BalanceSheet",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"accounting",
+						"apiCall",
+						"BalanceSheet"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Quickbook Upload Document",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a72d7cda-40fa-47cd-bfa2-0bf0ca975dce",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Upload Accounting Documents\", function () {",
+							"    pm.expect(pm.response.text()).to.include(",
+							"        \"document link\",",
+							"        \"document name\"",
+							"    );",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"uid\": \"b36ee28b-0fde-4b1d-a496-9ceef9a74da3\",\n  \"name\":\"whitePaper\",\n  \"link\":\"http://www.the-blockchain.com/docs/Ethereum_white_paper-a_next_generation_smart_contract_and_decentralized_application_platform-vitalik-buterin.pdf\"\n  \n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/accounting/uploadDocuments",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"accounting",
+						"uploadDocuments"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

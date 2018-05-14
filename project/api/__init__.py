@@ -19,7 +19,7 @@ def specs_url(self):
 
 ### Define API with restplus.api
 api = Api (
-    version='0.1',
+    version='1.0',
     title='Gro Users API', 
     description="Gro User Restful API"
 )

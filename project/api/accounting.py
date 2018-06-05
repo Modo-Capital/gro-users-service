@@ -167,7 +167,7 @@ class Authorization(Resource):
             })
             print("ACCUNTING: %s"%(response_object.data))
         access_token = data['access_token']
-        return redirect('https://dev.gro.capital/quickbooks?status=success&message=ok&access_token=%s&realmId=%s'%(access_token, realmId),code=302)
+        return redirect('https://gro.capital/quickbooks?status=success&message=ok&access_token=%s&realmId=%s'%(access_token, realmId),code=302)
 
 @api.route('/apiCall/companyInfo')
 class companyInfo(Resource):
@@ -392,13 +392,6 @@ class ProfitAndLoss(Resource):
 #         """ Refresh Access Token """
 #         return "Refreshing access token", 200
 
-
-
-# quickbook access token
-# eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..SeRKBW9LbpJGBXl8NYFaBA.FcAt3YIMP6Dgy7vdqvB-_a1Hqvt6w47uhB7iMfxu9vjeygGtT5MztwbE-DjNgyGbCvmvsU_DSU8iPtXO-9hjw3tcxx0VMTd1qklC4_B22heGB8dk-4HX0g-2waAm5k3rrlGQ8_eo_1nPBIYDREWPNNUT2bZIM37dAKJ3Lan3teK8bjXqUB1IN9TNDwHff3adIwr8sLojtSbkHVgzvQo_pokX3F-865wZwxsJThgFwvaDYHo-65T3IA8JCCJKgfUvlMM_lWOQGeJwv4JuacneIge_sW53PT5XYg9HRSufwCJ9EKP_z3ovD8V4ZCGQT1ImYp9vlVLi_ktYG-qyl0fo0zYAV4oqJjhrtXlIa_5IYmDXW0OyOOywdfmRJZ07Z7TDwXfIp9h7YpzMSNtyp47741SlOFSJHgkDxkMBxsaBf1NEJLeIGyObMTAkyzPdisua7CiVj-9hdJhcOAwu3Yhg6lOwdwKw3xtBpyaNzV1Eaefp_awt3_wrRvv75q0e0p6pppd2jTBzNIM6GwMchnbKh72_2CcZR4CZZSPwE9GsA-QLxKSlzp-wkEaQaorC77pzF-jaxjYf9N82NlX5uifH5YXP0SA-sJd4ziiVmTkoXArp6kAtUAc8-vljVWP1k2QkrMH1-PCfg70P1e72l61-UYuQpWaHiaadhnkUBjYjrR9dmLCjZaNVMGCKSYZ1JZr4.iq4ketqlLWcXCfza6vxbQA
-
-# quickbook id
-# 193514710513274
 
 
 

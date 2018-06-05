@@ -135,6 +135,20 @@
                             <b>Social Security Number:</b>{{applicant.ssn}}
                             <br>
                         </div>
+                        <div>
+                            {% for bank_account in bank_accounts %}
+                                <b>Bank Account</b>: {{bank_account.name}}
+                                <br>
+                                <b>Account Type</b>: {{bank_account.account_type}}
+                                <br>
+                                <b>Account Number</b>: {{bank_account.account_number}}
+                                <br>
+                                <b>Routing Number</b>: {{bank_account.routing_number}}
+                                <br>
+                                <b>Last Updated Balance</b>: {{bank_account.balance}}
+                                <br>
+                            {% endfor %}
+                        </div>
                     </p>
                 </div>
             </div>

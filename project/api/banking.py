@@ -2,7 +2,7 @@
 
 import os               # Importing local variable via os later
 import datetime         # Importing datetime for 
-
+import json
 
 import plaid            # Importing plaid for banking data
 
@@ -211,6 +211,37 @@ class Transactions(Resource):
                 })
         return response_object
  
+
+# Create Daily Account Balance
+@api.route("/daily_balance/<string:uid>")
+class DailyBalance(Resource):
+    """ Query Transaction Information """
+    def get(self, uid):
+        user = User.query.filter_by(uid=uid).first()
+        user_id = user.id
+        bank_account = Bank_Account.query.filter_by(user_id=user_id).first()
+        bank_account_id = bank_account.id
+        print("/////// BANK ACCOUNT ID ////////")
+        print(bank_account_id)
+        transactions = Transaction.query.filter_by(bank_account_id=bank_account_id)
+        transaction_data = []
+        for transaction in transactions:
+            transacion_object = jsonify({
+                "date": transaction.date,
+                "balance": transaction.amount
+            })
+            transaction_data.append(transacion_object)
+
+        jsonStr = json.dumps([e.toJSON() for e in transaction_data])
+        print("/////// BANK TRANSACTIONS ////////")
+        print(jsonStr)
+
+        response_object = jsonify({
+            "data":"some data"
+        })
+        response_object.status_code = 200
+        return json.dumps(transaction_data)
+
 # Create public token
 @api.route("/create_public_token/<string:uid>")
 class Public_token(Resource):

@@ -1,5 +1,6 @@
 # GROWTH CAPITAL - Users Services 
 
+
 ### What is this repository for? ###
 * Auths Endpoints for Sign In, Sign Up, Sign Out and Status
     - /auth/signup
@@ -56,7 +57,6 @@ $ . env/bin/activate
 $ python manage.py runserver
 
 ```
-
 ** Docker Build and Run Locally
 ```
 $ docker build -t troydo42/gro-users .

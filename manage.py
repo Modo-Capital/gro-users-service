@@ -118,6 +118,7 @@ class LoanApplicants(ModelView):
         applicant = self.get_one(id)
         company_uid = applicant.company
         score = Gro_Score.query.filter_by(company_uid=company_uid).first()
+        bank_accounts = applicant.bank_accounts
         balance_sheet_reports = applicant.balance_sheet_reports
         profit_loss_reports = applicant.profit_loss_reports
         cash_flow_reports = applicant.cash_flow_reports
@@ -138,6 +139,7 @@ class LoanApplicants(ModelView):
                            applicant=applicant,
                            ml_input=ml_input,
                            score=score,
+                           bank_accounts=bank_accounts,
                            balance_sheet_reports=balance_sheet_reports,
                            cash_flow_reports=cash_flow_reports,
                            profit_loss_reports=profit_loss_reports,

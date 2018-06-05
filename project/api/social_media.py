@@ -116,7 +116,7 @@ class LinkedinHandler(Resource):
         response_object.status_code = 200
         print(response_object)
         # return response_object
-        return redirect('https://dev.gro.capital/linkedin?status=success&message=ok&access_token=%s'%(access_token), code=302)
+        return redirect('https://gro.capital/linkedin?status=success&message=ok&access_token=%s'%(access_token), code=302)
 
 @api.route('/linkedin/userInfo')
 class LinkedinInfo(Resource):

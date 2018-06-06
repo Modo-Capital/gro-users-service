@@ -11,11 +11,13 @@ from .social_media import api as social_media
 from .gro_scores import api as gro_scores
 from flask import url_for
 
-@property
-def specs_url(self):
-	return url_for(self.endpoint('specs'), _external=True, _scheme='https')
 
-Api.specs_url = specs_url
+### Uncomment for https deployment
+# @property
+# def specs_url(self):
+# 	return url_for(self.endpoint('specs'), _external=True, _scheme='https')
+
+# Api.specs_url = specs_url
 
 ### Define API with restplus.api
 api = Api (

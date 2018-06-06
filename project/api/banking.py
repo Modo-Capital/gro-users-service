@@ -223,24 +223,27 @@ class DailyBalance(Resource):
         bank_account_id = bank_account.id
         print("/////// BANK ACCOUNT ID ////////")
         print(bank_account_id)
-        transactions = Transaction.query.filter_by(bank_account_id=bank_account_id)
+        transactions = Transaction.query.filter_by(bank_account_id=bank_account_id).all()
         transaction_data = []
+        print("Number of Transactions are %s"%(len(transaction_data)))
         for transaction in transactions:
-            transacion_object = jsonify({
+            print("/////// BANK TRANSACTION ////////")
+            print(transaction.date, "---",transaction.amount)
+            transaction_object = {
                 "date": transaction.date,
-                "balance": transaction.amount
-            })
-            transaction_data.append(transacion_object)
+                "amount": transaction.amount
+            }
+            transaction_data.append(transaction_object)
 
-        jsonStr = json.dumps([e.toJSON() for e in transaction_data])
-        print("/////// BANK TRANSACTIONS ////////")
-        print(jsonStr)
+        print(len(transactions),len(transaction_data))
+        lastObject = transaction_data[0]
 
+        # jsonStr = json.dumps([e.toJSON() for e in transaction_data])
         response_object = jsonify({
-            "data":"some data"
+            "data":transaction_data
         })
         response_object.status_code = 200
-        return json.dumps(transaction_data)
+        return response_object
 
 # Create public token
 @api.route("/create_public_token/<string:uid>")

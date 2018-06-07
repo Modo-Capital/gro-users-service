@@ -2,6 +2,7 @@
 
 {% block head %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 {% endblock %}
 {% block body %} 
 {% block navlinks %}
@@ -475,67 +476,110 @@
     });
 </script>
 <script type="text/javascript">
-        function randomNumber(min, max) {
-            return Math.random() * (max - min) + min;
-        }
+        // function randomNumber(min, max) {
+        //     return Math.random() * (max - min) + min;
+        // }
 
-        function randomBar(date, lastClose) {
-            var open = randomNumber(lastClose * 0.95, lastClose * 1.05);
-            var close = randomNumber(open * 0.95, open * 1.05);
-            return {
-                t: date.valueOf(),
-                y: close
-            };
-        }
-
+        // function randomBar(date, lastClose) {
+        //     var open = randomNumber(lastClose * 0.95, lastClose * 1.05);
+        //     var close = randomNumber(open * 0.95, open * 1.05);
+        //     return {
+        //         t: date.valueOf(),
+        //         y: close
+        //     };
+        // }
         var dateFormat = 'MMMM DD YYYY';
-        var date = moment('April 01 2017', dateFormat);
-        var data = [randomBar(date, 30)];
-        var labels = [date];
-        while (data.length < 60) {
-            date = date.clone().add(1, 'd');
-            if (date.isoWeekday() <= 5) {
-                data.push(randomBar(date, data[data.length - 1].y));
-                labels.push(date);
+        var data = [];
+        var labels = [];
+        // async function getUser() {
+        //   try {
+        //     const response = await axios.get('http://localhost:5000/banking/daily_balance/{{applicant.uid}}');
+        //     console.log(response);
+        //     var transactions = response.data.daily_transactions;
+        //     console.log(transactions[0]['amount']);
+        //     for (i = 0, len = transactions.length; i < len; i++) { 
+        //          amount = transactions[i]['amount'];
+        //          data.push(amount);
+        //          date = transactions[i]['date'];
+        //          labels.push(date);
+        //          console.log(amount);
+        //          console.log(date);
+        //     }
+        //   } catch (error) {
+        //     console.error(error);
+        //   }
+        // }
+    
+        axios.get('http://localhost:5000/banking/daily_balance/{{applicant.uid}}')
+          .then(function (response) {
+            var transactions = response.data.daily_transactions;
+            console.log(transactions[0]['amount']);
+            for (i = 0, len = transactions.length; i < len; i++) { 
+                 amount = transactions[i]['amount'];
+                 data.push(amount);
+                 date = transactions[i]['date'];
+                 labels.push(date);
+                 console.log(amount);
+                 console.log(date);
             }
-        }
-
-        var ctx = document.getElementById('transactionChart').getContext('2d');
-        ctx.canvas.width = 1000;
-        ctx.canvas.height = 300;
-        var cfg = {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Daily Banking Transactions',
-                    data: data,
-                    type: 'line',
-                    pointRadius: 0,
-                    fill: false,
-                    lineTension: 0,
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                scales: {
-                    xAxes: [{
-                        type: 'time',
-                        distribution: 'series',
-                        ticks: {
-                            source: 'labels'
-                        }
-                    }],
-                    yAxes: [{
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Closing price ($)'
-                        }
+            var ctx = document.getElementById('transactionChart').getContext('2d');
+            ctx.canvas.width = 1000;
+            ctx.canvas.height = 300;
+            var cfg = {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Daily Banking Transactions',
+                        data: data,
+                        type: 'bar',
+                        pointRadius: 0,
+                        fill: false,
+                        lineTension: 0,
+                        borderWidth: 2
                     }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            distribution: 'series',
+                            ticks: {
+                                source: 'labels'
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Transaction Amount'
+                            }
+                        }]
+                    },
+                    pan: {
+                        enable: true,
+                        mode: 'xy'
+                    },
+                    zoom: {
+                        enable: true,
+                        mode: 'xy'
+                    }
                 }
-            }
-        };
-        var chart = new Chart(ctx, cfg);
+            };
+            var chart = new Chart(ctx, cfg);
+          })
+          .catch(function (error) {
+            console.log(error);
+        });
+
+        
+        // while (data.length < 60) {
+        //     date = date.clone().add(1, 'd');
+        //     if (date.isoWeekday() <= 5) {
+        //         data.push(randomBar(date, data[data.length - 1].y));
+        //         labels.push(date);
+        //     }
+        // }
+
 </script>
 
 {{ super() }} {% endblock %}

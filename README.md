@@ -68,8 +68,7 @@ $ docker run -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=po
 ```
 $ docker build -t troydo42/gro-users .
 $ docker push troydo42/gro-users
-$ eb setenv APP_SETTINGS=project.config.DevelopmentConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan PLAID_CLIENT_ID=5a9591e08d9239244b8063ad PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 PLAID_ENV=development PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82
-REDIRECT_URI=https://apis.gro.capital/accounting/authCodeHandler
+$ eb setenv APP_SETTINGS=project.config.DevelopmentConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan PLAID_CLIENT_ID=5a9591e08d9239244b8063ad PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 PLAID_ENV=development PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82 REDIRECT_URI=https://apis.gro.capital/accounting/authCodeHandler
 ```
 
 ** Deploy on NOW

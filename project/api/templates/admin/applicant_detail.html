@@ -519,7 +519,7 @@
         //   }
         // }
     
-        axios.get('http://localhost:5000/banking/daily_balance/{{applicant.uid}}')
+        axios.get('https://apis.gro.capital/banking/daily_balance/{{applicant.uid}}')
           .then(function (response) {
             var transactions = response.data.daily_transactions;
             console.log(transactions[0]['amount']);

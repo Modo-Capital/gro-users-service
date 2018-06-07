@@ -560,8 +560,23 @@
                         mode: 'xy'
                     },
                     zoom: {
-                        enable: true,
-                        mode: 'xy'
+                        enabled: true,
+                        // Enable drag-to-zoom behavior
+                        drag: true,
+
+                        // Zooming directions. Remove the appropriate direction to disable 
+                        // Eg. 'y' would only allow zooming in the y direction
+                        mode: 'xy',
+                        rangeMin: {
+                            // Format of min zoom range depends on scale type
+                            x: null,
+                            y: null
+                        },
+                        rangeMax: {
+                            // Format of max zoom range depends on scale type
+                            x: null,
+                            y: null
+                        }
                     }
                 }
             };

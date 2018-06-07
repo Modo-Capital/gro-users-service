@@ -142,27 +142,36 @@
                             <b>Social Security Number:</b>{{applicant.ssn}}
                             <br>
                         </div>
-                        <div>
-                            {% for bank_account in bank_accounts %}
-                                <b>Bank Account</b>: {{bank_account.name}}
-                                <br>
-                                <b>Account Type</b>: {{bank_account.account_type}}
-                                <br>
-                                <b>Account Number</b>: {{bank_account.account_number}}
-                                <br>
-                                <b>Routing Number</b>: {{bank_account.routing_number}}
-                                <br>
-                                <b>Last Updated Balance</b>: {{bank_account.balance}}
-                                <br>
-                            {% endfor %}
-                        </div>
                     </p>
                 </div>
             </div>
         </div>
     </div>
     <div class="row" id="banking_transcations">
-        <div class="col-md-12 col-xs-12">
+        <div class="col-md-4 col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                         <h4>Banking Information</h4>    
+                </div>
+                <div class="panel-body">
+                    <div>
+                        {% for bank_account in bank_accounts %}
+                            <b>Bank Account</b>: {{bank_account.name}}
+                            <br>
+                            <b>Account Type</b>: {{bank_account.account_type}}
+                            <br>
+                            <b>Account Number</b>: {{bank_account.account_number}}
+                            <br>
+                            <b>Routing Number</b>: {{bank_account.routing_number}}
+                            <br>
+                            <b>Last Updated Balance</b>: {{bank_account.balance}}
+                            <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-xs-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                      <h4>Banking Transactions</h4>    
@@ -524,7 +533,7 @@
             }
             var ctx = document.getElementById('transactionChart').getContext('2d');
             ctx.canvas.width = 1000;
-            ctx.canvas.height = 300;
+            ctx.canvas.height = 600;
             var cfg = {
                 type: 'bar',
                 data: {

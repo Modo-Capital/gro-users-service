@@ -39,7 +39,7 @@
 * How to run and deploy with Docker
 ** Run Application on Local Host
 
-```bash
+```
 # Setting up virtual enviroment
 $ virtualenv -p python3.6 env
 
@@ -50,7 +50,6 @@ $ . env/bin/activate
 (env)$ pip install -r requirements.txt
 
 # Setting APP_SETTINGS to DevelopmentConfig, Database and SecretKey
-```
 (env)$ export APP_SETTINGS=project.config.DevelopmentConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan PLAID_CLIENT_ID=5a9591e08d9239244b8063ad PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 PLAID_ENV=development PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82
 
 # Spin up a Local Server and check in browser at http://127.0.0.1:5000/ 
@@ -85,6 +84,7 @@ $ now -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=postgres:
 ** Run test locally
 # Setting localDB variable
 
+```
 # Activate local enviroment
 $ . env/bin/activate
 
@@ -96,12 +96,13 @@ $ . env/bin/activate
 
 # Setting SERCRET_KEY 
 (env)$ export SECRET_KEY=my_precious
+```
 
 # Run Test
 ```
 $ python manage.py test
-```
 
+```
 
 ### Who do I talk to? ###
 * Troy Do - troy@topflightapps.com

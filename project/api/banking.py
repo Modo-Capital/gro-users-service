@@ -5,6 +5,7 @@ import datetime         # Importing datetime for
 import json
 
 import plaid            # Importing plaid for banking data
+import pandas as pd     # Importing panda library
 
 # Importing Flask related libraries for rending templates
 from flask import Flask, Blueprint, render_template, request, jsonify
@@ -12,7 +13,7 @@ from flask import Flask, Blueprint, render_template, request, jsonify
 # Importing Restplus for API features
 from flask_restplus import Namespace, Resource, fields
 from project import db
-from project.api.models import User, Bank_Account, Transaction
+from project.api.models import DailyTransaction, User, Bank_Account, Transaction
 
 # Creating banking routing
 banking_blueprint = Blueprint('banking',__name__, static_folder='static', template_folder="template")
@@ -211,7 +212,6 @@ class Transactions(Resource):
                 })
         return response_object
  
-
 # Create Daily Account Balance
 @api.route("/daily_balance/<string:uid>")
 class DailyBalance(Resource):
@@ -221,14 +221,14 @@ class DailyBalance(Resource):
         user_id = user.id
         bank_account = Bank_Account.query.filter_by(user_id=user_id).first()
         bank_account_id = bank_account.id
+
         print("/////// BANK ACCOUNT ID ////////")
         print(bank_account_id)
-        transactions = Transaction.query.filter_by(bank_account_id=bank_account_id).all()
+        transactions = Transaction.query.filter_by(bank_account_id=bank_account_id).order_by(Transaction.date).all()
         transaction_data = []
-        print("Number of Transactions are %s"%(len(transaction_data)))
         for transaction in transactions:
-            print("/////// BANK TRANSACTION ////////")
-            print(transaction.date, "---",transaction.amount)
+            # print("/////// BANK TRANSACTION ////////")
+            # print(transaction.date, "---",transaction.amount)
             transaction_object = {
                 "date": transaction.date,
                 "amount": transaction.amount
@@ -236,13 +236,48 @@ class DailyBalance(Resource):
             transaction_data.append(transaction_object)
 
         print(len(transactions),len(transaction_data))
-        lastObject = transaction_data[0]
+        transactions_df = pd.DataFrame(transaction_data)
+        daily_transactions_df = transactions_df.groupby(['date']).sum()
+        daily_transactions_df['bank_account_id'] = bank_account_id
 
-        # jsonStr = json.dumps([e.toJSON() for e in transaction_data])
-        response_object = jsonify({
-            "data":transaction_data
-        })
-        response_object.status_code = 200
+        daily_transactions = DailyTransaction.query.filter_by(bank_account=bank_account).all()
+        if len(daily_transactions) > 10:
+            print("QUERY EXISTING DAILY TRANSACTIONS")
+            transactions_list = []
+            for daily_transaction in daily_transactions:
+                transaction_object = {
+                    'date': daily_transaction.date,
+                    'amount':daily_transaction.amount
+                }
+                transactions_list.append(transaction_object)
+            response_object = jsonify({
+                "daily_transactions":transactions_list
+            })
+            response_object.status_code = 200
+
+        else:
+            print("CALCULATING EXISTING DAILY TRANSACTIONS")
+            for index, row in daily_transactions_df.iterrows():
+                date = row.name
+                amount = row['amount']
+                print(date, amount, bank_account.id)
+                today_balance = DailyTransaction(bank_account=bank_account,date=date, amount=amount)
+                db.session.add(today_balance)
+                db.session.commit()
+
+            daily_transactions = DailyTransaction.query.filter_by(bank_account=bank_account).all()
+            transactions_list= []
+            for daily_transaction in daily_transactions:
+                transaction_object = {
+                    'date': daily_transaction.date,
+                    'amount':daily_transaction.amount
+                }
+                transactions_list.append(transaction_object)
+            response_object = jsonify({
+                "daily_transactions":transactions_list
+            })
+            response_object.status_code = 200
+
         return response_object
 
 # Create public token

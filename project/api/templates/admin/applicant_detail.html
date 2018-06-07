@@ -1,4 +1,10 @@
-{% extends 'admin/master.html' %} {% import 'admin/lib.html' as lib with context %} {% block body %} {% block navlinks %}
+{% extends 'admin/master.html' %} {% import 'admin/lib.html' as lib with context %} 
+
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+{% endblock %}
+{% block body %} 
+{% block navlinks %}
 <ul class="nav nav-tabs">
     <li>
         <a href="{{ return_url }}">{{ _gettext('All Applicants') }}</a>
@@ -153,6 +159,18 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row" id="banking_transcations">
+        <div class="col-md-12 col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                     <h4>Banking Transactions</h4>    
+                </div>
+                <div class="panel-body">
+                    <canvas id="transactionChart"></canvas>     
+                </div>
+            </div>
+         </div>
     </div>
     <div class="row" id="financial_report">
         <div class="col-md-4 col-xs-10">
@@ -428,6 +446,8 @@
     </div>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
 <script type="text/javascript">
     $(function(){
         $('a#gro_score_button').bind('click', function(){
@@ -454,4 +474,68 @@
         // });
     });
 </script>
+<script type="text/javascript">
+        function randomNumber(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function randomBar(date, lastClose) {
+            var open = randomNumber(lastClose * 0.95, lastClose * 1.05);
+            var close = randomNumber(open * 0.95, open * 1.05);
+            return {
+                t: date.valueOf(),
+                y: close
+            };
+        }
+
+        var dateFormat = 'MMMM DD YYYY';
+        var date = moment('April 01 2017', dateFormat);
+        var data = [randomBar(date, 30)];
+        var labels = [date];
+        while (data.length < 60) {
+            date = date.clone().add(1, 'd');
+            if (date.isoWeekday() <= 5) {
+                data.push(randomBar(date, data[data.length - 1].y));
+                labels.push(date);
+            }
+        }
+
+        var ctx = document.getElementById('transactionChart').getContext('2d');
+        ctx.canvas.width = 1000;
+        ctx.canvas.height = 300;
+        var cfg = {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Daily Banking Transactions',
+                    data: data,
+                    type: 'line',
+                    pointRadius: 0,
+                    fill: false,
+                    lineTension: 0,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        distribution: 'series',
+                        ticks: {
+                            source: 'labels'
+                        }
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Closing price ($)'
+                        }
+                    }]
+                }
+            }
+        };
+        var chart = new Chart(ctx, cfg);
+</script>
+
 {{ super() }} {% endblock %}

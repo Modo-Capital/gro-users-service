@@ -279,7 +279,6 @@ class Bank_Account(db.Model):
     account_number = db.Column(db.Numeric, nullable=False)
     routing_number = db.Column(db.Numeric, nullable=False)
     balance = db.Column(db.Float, nullable=False)
-    daily_balances = db.relationship("DailyBalance", backref="daily_balances", cascade="all, delete-orphan", lazy='dynamic')
     transactions = db.relationship("Transaction", backref="bank_transaction", cascade="all, delete-orphan", lazy='dynamic')
 
     def __init__(self, user, name, account_type, account_number, routing_number, balance):
@@ -385,19 +384,19 @@ class Transaction(db.Model):
         self.amount = amount
         self.date = date
 
-# Create Daily Balance:
-class DailyBalance(db.Model):
-    __tablename__="daily balance"
+# Create Daily Transactions
+class DailyTransaction(db.Model):
+    __tablename__ = "daily_transactions"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    date = db.Column(db.Date, nullable=False)
-    balance = db.Column(db.Float, nullable=False)
-    bank_account_id = db.Column(db.Integer, db.ForeignKey('bank_accounts.id'))
-    bank_account = db.relationship('Bank_Account')
+    amount = db.Column(db.Float, nullable=True)
+    date = db.Column(db.Date, nullable=True, default="11-11-1111")
+    bank_account_id =  db.Column(db.Integer, db.ForeignKey('bank_accounts.id'), nullable=False)
+    bank_account =  db.relationship('Bank_Account')
 
-    def __init__(self, bank_account, date, balance):
-        self.date = date, 
-        self.balance = balance 
+    def __init__(self,bank_account, amount, date):
         self.bank_account = bank_account
+        self.amount = amount
+        self.date = date 
         
 
 

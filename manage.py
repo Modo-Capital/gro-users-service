@@ -30,6 +30,7 @@ from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMix
 from flask_security.utils import encrypt_password
 
 ## Import Pandas
+from sklearn.externals import joblib
 import pandas as pd
 
 # Code Coverage Testing
@@ -210,6 +211,7 @@ def cov():
     """Runs the unit tests with coverage."""
     tests = unittest.TestLoader().discover('project/tests')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
+    clf = joblib.load('Logistic_Regression.pkl')
     if result.wasSuccessful():
         COV.stop()
         COV.save()

@@ -19,6 +19,7 @@
     - /banking/get_access_token
     - /banking/accounts/{uid}
     - /banking/transactions/{uid}
+    - /banking/transactions/
     - /banking/create_public_token
 
 * Accounting Endpoints
@@ -60,7 +61,7 @@ $ python manage.py runserver
 ** Docker Build and Run Locally
 ```
 $ docker build -t troydo42/gro-users .
-$ docker run -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users -e SECRET_KEY=gradeALoan -e PLAID_CLIENT_ID=5a9591e08d9239244b8063ad -e PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 -e PLAID_ENV=sandbox -e PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82 -e REDIRECT_URI=https://apis.gro.capital/accounting/authCodeHandler -d -p 8888:5000 troydo42/gro-users
+$ docker run -d -p 8888:5000 troydo42/gro-users
 
 ```
 
@@ -68,14 +69,12 @@ $ docker run -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=po
 ```
 $ docker build -t troydo42/gro-users .
 $ docker push troydo42/gro-users
-$ eb setenv APP_SETTINGS=project.config.DevelopmentConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan PLAID_CLIENT_ID=5a9591e08d9239244b8063ad PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 PLAID_ENV=development PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82 REDIRECT_URI=https://apis.gro.capital/accounting/authCodeHandler
 ```
 
 ** Deploy on NOW
 
 ```
 $ now
-$ now -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users -e SECRET_KEY=gradeALoan -e PLAID_CLIENT_ID=5a9591e08d9239244b8063ad -e PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 -e PLAID_ENV=sandbox -e PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82 -e REDIRECT_URI=https://apis.gro.capital/accounting/authCodeHandler
 ```
 
 
@@ -95,10 +94,8 @@ $ . env/bin/activate
 
 # Setting SERCRET_KEY 
 (env)$ export SECRET_KEY=my_precious
-```
 
 # Run Test
-```
 $ python manage.py test
 
 ```

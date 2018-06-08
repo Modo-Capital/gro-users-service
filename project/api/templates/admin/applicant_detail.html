@@ -472,53 +472,12 @@
             )
             return false;
         });
-        // $('a#income_statement_button').bind('click', function(){
-        //     console.log("income_statement_button clicked");
-        //     $.getJSON('/admin/loan_applicants/details/income_statement_update/?id={{applicant.id}}',
-        //         function(data) {
-        //             $('#data_score').text(data['data_score']);
-        //             console.log(data);
-        //         }
-        //     )
-        //     return false;
-        // });
     });
 </script>
 <script type="text/javascript">
-        // function randomNumber(min, max) {
-        //     return Math.random() * (max - min) + min;
-        // }
-
-        // function randomBar(date, lastClose) {
-        //     var open = randomNumber(lastClose * 0.95, lastClose * 1.05);
-        //     var close = randomNumber(open * 0.95, open * 1.05);
-        //     return {
-        //         t: date.valueOf(),
-        //         y: close
-        //     };
-        // }
         var dateFormat = 'MMMM DD YYYY';
         var data = [];
         var labels = [];
-        // async function getUser() {
-        //   try {
-        //     const response = await axios.get('http://localhost:5000/banking/daily_balance/{{applicant.uid}}');
-        //     console.log(response);
-        //     var transactions = response.data.daily_transactions;
-        //     console.log(transactions[0]['amount']);
-        //     for (i = 0, len = transactions.length; i < len; i++) { 
-        //          amount = transactions[i]['amount'];
-        //          data.push(amount);
-        //          date = transactions[i]['date'];
-        //          labels.push(date);
-        //          console.log(amount);
-        //          console.log(date);
-        //     }
-        //   } catch (error) {
-        //     console.error(error);
-        //   }
-        // }
-    
         axios.get('https://apis.gro.capital/banking/daily_balance/{{applicant.uid}}')
           .then(function (response) {
             var transactions = response.data.daily_transactions;
@@ -594,16 +553,6 @@
           .catch(function (error) {
             console.log(error);
         });
-
-        
-        // while (data.length < 60) {
-        //     date = date.clone().add(1, 'd');
-        //     if (date.isoWeekday() <= 5) {
-        //         data.push(randomBar(date, data[data.length - 1].y));
-        //         labels.push(date);
-        //     }
-        // }
-
 </script>
 
 {{ super() }} {% endblock %}

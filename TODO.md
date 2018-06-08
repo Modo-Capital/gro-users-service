@@ -7,13 +7,15 @@
 [X] Calculate Daily Transaction Sum by Date
 [X] Insert Value to Database
 [X] Displaying Daily Balance Chart.
-[ ] Deploy current version to AWS API
+[X] Deploy current version to AWS API
 [ ] Calculate ML Input based on Sample Accounting Data and Banking Data
-[ ] ML Engine API Post Prediction Method
+[ ] Editable for ML Table.
+[ ] ML Engine Prediction API POST Method.
 [ ] Get Updated Gro_Score after calculated ML Score. 
 
-## Done by June 15
-[ ] Train Model Prediction on Banking Transaction and Banking Balance.
+## Done by June 15, 2018
 [ ] Verify Email after user signing up.
+[ ] Train Model Prediction on Banking Transaction and Banking Balance.
+--> Boltzmann Exploration
 
 

@@ -114,11 +114,11 @@ class Score(Resource):
             response.status_code = 404
         return response
 
-@api.route('predict/<string:company_uid>')
+@api.route('/predict/<string:company_uid>')
 class Score(Resource):
     @api.expect(predict_fields)
     def post(self, company_uid):
-        """Create new gro score"""
+        """ Generate Default Prediction"""
         post_data = request.json
         query_df = pd.DataFrame(json_)
         query = pd.get_dummies(query_df)

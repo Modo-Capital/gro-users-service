@@ -8,12 +8,12 @@
 [X] Insert Value to Database
 [X] Displaying Daily Balance Chart.
 [X] Deploy current version to AWS API
-[ ] Calculate ML Input based on Sample Accounting Data and Banking Data
 [ ] Editable for ML Table.
 [ ] ML Engine Prediction API POST Method.
 [ ] Get Updated Gro_Score after calculated ML Score. 
 
 ## Done by June 15, 2018
+[ ] Calculate ML Input based on Sample Accounting Data and Banking Data
 [ ] Verify Email after user signing up.
 [ ] Train Model Prediction on Banking Transaction and Banking Balance.
 --> Boltzmann Exploration

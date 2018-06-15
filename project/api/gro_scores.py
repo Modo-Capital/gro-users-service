@@ -38,7 +38,7 @@ score_fields = api.model('New Score', {
 #  "sub_grade_num": 1.0
 # }
 predict_fields = api.model('New Prediction', {
-    'deling_2yrs':fields.Float(description=" number of delinquincies",required=True),
+    'deling_2yrs':fields.Float(description="Number of delinquincies last 2 Years",required=True),
     'deling_2yrs_zero': fields.Float(description="no delinquincies in last 2 years", required=True),
     'dti': fields.Float(description="debt to income ratio",required=True),
     'emp_length_num':fields.Integer(description="number of years of employment", required=True),
@@ -147,13 +147,13 @@ categorical_cols=['grade', 'home_ownership', 'purpose']
 def load_mapper():
     PATH= os.getcwd()
     print("OUR OS PATH IS %s"%(PATH))
-    _mapper = joblib.load("%s/mapper.pkl"%(PATH))
+    _mapper = joblib.load("%s/ml_models/mapper.pkl"%(PATH))
     return _mapper
 
 def load_model(model_name):
     PATH= os.getcwd()
     print("OUR OS PATH IS %s"%(PATH))
-    _model = joblib.load("%s/%s.pkl"%(PATH,model_name))
+    _model = joblib.load("%s/ml_models/%s.pkl"%(PATH,model_name))
     return _model
 
 def preprocess(mapper, row):

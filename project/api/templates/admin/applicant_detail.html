@@ -395,61 +395,33 @@
                     </div>
             </div>
             <div class="panel panel-body">
-                <div class="col-md-3">
-                    <h4>Annual Income<span class="label label-default"> {{ml_input.annual_income}} </span></h4>
+                <!-- Deling 2 Years -->
+                <div class="col-md-1" title="Number of delinquincies last 2 Years">
+                    <h5>deling_2yrs</h5>
+                    <input type="text" class="form-control" placeholder="{{ml_input.deling_2yrs}}" id="deling_2yrs" v-model="deling_2yrs">
                 </div>
-                <div class="col-md-3">
-                    <h4>Employment Length <span class="label label-default"> {{ml_input.emp_length}} </span></h4>
+
+                <!-- Deling 2 Years Yes or No-->
+                <div class="col-md-1" title="No delinquincies in last 2 years">
+                    <h5>delinq_2yrs_zero</h5>
+                    <input type="text" class="form-control" placeholder="{{ml_input.annual_income}}" id="delinq_2yrs_zero" v-model="delinq_2yrs_zero">                    
                 </div>
-                <div class="col-md-3">
-                    <h4>Debt to Income <span class="label label-default"> {{ml_input.debt_to_income}} </span></h4>
+
+                <!-- Debt to Income Ratio -->
+                <div class="col-md-1" title="Debt to Income ratio">
+                    <h5>dti</h5>
+                    <input type="text" class="form-control" placeholder="{{ml_input.dti}}" id="dti" v-model="dti">                    
                 </div>
-                <div class="col-md-3">
-                    <h4>Average Current Balance <span class="label label-default"> {{ml_input.average_current_balance}} </span>
-                  </h4>
+
+                <!-- Employment Length Number -->
+                <div class="col-md-1" title="Number of years of employment">
+                    <h5>emp_length_num</h5>
+                    <input type="text" class="form-control" placeholder="{{ml_input.emp_length_num}}" id="dti" v-model="emp_length_num">                
                 </div>
-                <div class="col-md-3">
-                    <h4>percentBcGt75 <span class="label label-default"> {{ml_input.percentBcGt75}} </span></h4>
-                </div>
-                <div class="col-md-3">
-                    <h4>bcUtil <span class="label label-default"> {{ml_input.bcUtil}} </span></h4>
-                </div>
-                <div class="col-md-3">
-                    <h4>openAcc <span class="label label-default"> {{ml_input.openAcc}} </span></h4>
-                </div>
-                <div class="col-md-3">
-                    <h4>totalBalExMort <span class="label label-default"> {{ml_input.totalBalExMort}} </span></h4>
-                </div>
-                <div class="col-md-3">
-                    <h4>revolBal <span class="label label-default"> {{ml_input.revolBal}} </span></h4>
-                </div>
-                <div class="col-md-3">
-                    <h4>totalBcLimit <span class="label label-default"> {{ml_input.totalBcLimit}} </span></h4>
-                </div>
-                <div class="col-md-3">
-                    <h4>totalIlHighCreditLimit <span class="label label-default"> {{ml_input.totalIlHighCreditLimit}} </span></h4>
-                </div>
-                <div class="col-md-3">
-                    <h4>totCurBal <span class="label label-default"> {{ml_input.totCurBal}} </span></h4>
-                </div>
-                <div class="col-md-3">
-                    <h4>numBcTl  <span class="label label-default"> {{ml_input.numBcTl }}</span></h4>
-                </div>
-                 <div class="col-md-3">
-                    <h4>numIlTl  <span class="label label-default"> {{ml_input.numIlTl }}</span></h4>
-                </div>
-                 <div class="col-md-3">
-                    <h4>dtiJoint  <span class="label label-default"> {{ml_input.dtiJoint}}</span></h4>
-                </div>
-                 <div class="col-md-3">
-                    <h4>totalBalIl <span class="label label-default"> {{ml_input.totalBalIl }}</span></h4>
-                </div>
-                 <div class="col-md-3">
-                    <h4>iLUtil <span class="label label-default"> {{ml_input.iLUtil }}</span></h4>
-                </div>
-                 <div class="col-md-3">
-                    <h4>mtgPayment <span class="label label-default"> {{ml_input.mtgPayment }}</span></h4>
-                </div>
+
+                <div class="col-md-1"></div>
+
+
             </div>
         </div>
       </div>
@@ -457,7 +429,36 @@
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script type="text/javascript">
+   new Vue ({
+        el: '#machineLearning',
+        data: {
+            "delinq_2yrs": 4.0,
+            "delinq_2yrs_zero": 1.0,
+            "dti":0.8,
+            "emp_length_num": 0,
+            "grade": "F",
+            "home_ownership": "RENT",
+            "inq_last_6mths": 3.0,
+            "last_delinq_none": 1,
+            "last_major_derog_none": 1,
+            "open_acc": 1.0,
+            "payment_inc_ratio": 3.0,
+            "pub_rec": 0.0,
+            "pub_rec_zero": 11.0,
+            "purpose": "vacation",
+            "revol_util": 99.5,
+            "short_emp": 1,
+            "sub_grade_num": 1.0
+        },
+        methods: {
+            recalculatScore(){
+                console.log("Start Calculating Gro Score")
+            }
+        }
+    }), 
+</script>
 <script type="text/javascript">
     $(function(){
         $('a#gro_score_button').bind('click', function(){

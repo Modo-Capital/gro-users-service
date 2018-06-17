@@ -133,7 +133,8 @@ def load_model(model_name):
     return _model
 
 def scoreCalculate(defaultProb):
-    score = int(800 - 500*defaultProb/0.26 - 300)
+    base_interest = 0.26
+    score = int(800 - 500*defaultProb/base_interest - 300)
     return score
 
 def preprocess(mapper, row):
@@ -216,7 +217,7 @@ class ranForestScore(Resource):
         })
 
 
-@api.route('/predict/neuralNet/<string:company_uid')
+@api.route('/predict/neuralNet/<string:company_uid>')
 class neuralNetScore(Resource):
     @api.expect(predict_fields)
     def post(self, company_uid):

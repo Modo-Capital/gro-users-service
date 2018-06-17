@@ -1,4 +1,4 @@
-# project/api/views.py
+# project/api/users.py
 
 from flask import Blueprint, jsonify, request, render_template
 from flask_restplus import Namespace, Resource, fields
@@ -23,6 +23,7 @@ user = api.model('User', {
     'ssn':fields.Integer(description="User Social Security Number", required=False),
     'company':fields.String(description='Company UID', required=False)
 })
+
 new_user = api.model('New User', {
     'email': fields.String(description="User email", required=True),
     'password': fields.String(description="User password", required=True)
@@ -30,7 +31,6 @@ new_user = api.model('New User', {
 
 parser = api.parser()
 parser.add_argument('Auth-Token', type=str, location='headers')
-# parser.add_argument('UID', type=str, location='headers')
 
 @api.route('/ping')
 class Ping(Resource):

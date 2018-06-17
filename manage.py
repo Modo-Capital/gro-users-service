@@ -90,6 +90,7 @@ admin = Admin.Admin(
     base_template='my_master.html', 
     template_mode='bootstrap3'
 )
+
 class UserView(ModelView):
     column_searchable_list = ['first_name', 'last_name', 'email', 'uid']
 

@@ -9,6 +9,7 @@ from .banking import api as banking
 from .accounting import api as accounting
 from .social_media import api as social_media
 from .gro_scores import api as gro_scores
+from .applicants import api as applicants
 from flask import url_for
 
 
@@ -27,9 +28,11 @@ api = Api (
 )
 
 api.add_namespace(auth)
+api.add_namespace(applicants)
 api.add_namespace(users)
 api.add_namespace(companies)
 api.add_namespace(accounting)
 api.add_namespace(banking)
 api.add_namespace(social_media)
 api.add_namespace(gro_scores)
+

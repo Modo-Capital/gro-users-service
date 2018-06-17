@@ -11,7 +11,6 @@ import uuid
 
 
 # Create Client Application Model for API Keys in Database
-
 # class ClientApp(db.Model):
 #     # name of the client application detail
 #     name = db.Column(db.String(40))

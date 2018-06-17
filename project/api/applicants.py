@@ -52,12 +52,35 @@ class Single_Applicant(Resource):
             capital_need_reason = companyData.loan_reason
 
             ## Banking Information
-            bank_accounts = personalData.bank_accounts  
+            bank_accounts = personalData.bank_accounts
+            bankingData = []
+            for bank_account in bank_accounts:
+                bank_object = {
+                    "name": bank_account.name,
+                    "account_type":bank_account.account_type,
+                    "routing_number" : bank_account.routing_number,
+                    "account_number": bank_account.account_number
+                }
+                bankingData.append(bank_object)
             
             ## Accounting Information
             balance_sheet_reports = personalData.balance_sheet_reports
             profit_loss_reports = personalData.profit_loss_reports
             cash_flow_reports = personalData.cash_flow_reports
+
+            accountingData = []
+            def parseReport(reports):
+                for report in reports:
+                    report_object = {
+                        "report_name": report.report_name,
+                        "start_period":report.startPeriod,
+                        "end_period":report.endPeriod
+                    }
+                    accountingData.append(report_object)
+
+            parseReport(balance_sheet_reports)
+            parseReport(profit_loss_reports)
+            parseReport(cash_flow_reports)
 
             ## Response Information
             response = jsonify({
@@ -73,7 +96,9 @@ class Single_Applicant(Resource):
                 'company_zipcode':company_zipcode,
                 'capital_need_amount':capital_need_amount,
                 'capital_need_type':capital_need_type,
-                'capital_need_reason':capital_need_reason
+                'capital_need_reason':capital_need_reason,
+                'banking_accounts': bankingData,
+                'accounting_reports': accountingData
             })
             response.status_code = 200
             return response

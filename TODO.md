@@ -14,21 +14,24 @@
 [X] Edit Design of Current Dashboard.
 
 ## Done by June 15
-[ ] Retrain Model without Loan Grade sub subGrade Inputs.
+[X] Retrain Model without Loan Grade & subGrade Inputs.
+[ ] Preapproved Applications APIs
+
+## Done by June 16
 [ ] Editable for ML Input Table.
 [ ] Get Updated Gro_Score after calculated ML Score.
-[ ] Preapproved Applications APIs
 [ ] Deploy new changes to server
 
 ## Done by June 18
 [ ] AWS Lamda to Trigger Banking and Accounting API
 [ ] Frontend User Dashboard
 
-### Done by June 22
+## Done by June 22
 [ ] Port Current API Behind AWS API Gateway  
 [ ] Verify Email after user Signing Up. 
 
 ## Done by June 30
+[ ] Potential GraphQL implmentation 
 [ ] Train Model Prediction on Banking Transaction and Banking Balance.
 
 

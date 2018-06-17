@@ -18,32 +18,15 @@ api = Namespace('gro_score', description='Connect to ML Backend to get Gro Score
 score_fields = api.model('New Score', {
     'data_score': fields.Integer(description="Company Name", required=True)
 })
-# { 
-# "delinq_2yrs": 4.0,
-#  "delinq_2yrs_zero": 1.0,
-#  "dti":0.8,
-#  "emp_length_num": 0,
-#  "grade": "F",
-#  "home_ownership": "RENT",
-#  "inq_last_6mths": 3.0,
-#  "last_delinq_none": 1,
-#  "last_major_derog_none": 1,
-#  "open_acc": 1.0,
-#  "payment_inc_ratio": 3.0,
-#  "pub_rec": 0.0,
-#  "pub_rec_zero": 11.0,
-#  "purpose": "vacation",
-#  "revol_util": 99.5,
-#  "short_emp": 1,
-#  "sub_grade_num": 1.0
-# }
+
 predict_fields = api.model('New Prediction', {
+    'annual_inc': fields.Integer(description="Annual Income", required=True),
+    'collections_12_mths_zero':fields.Integer(description="Any collection account last 12 months", required=True),
     'deling_2yrs':fields.Float(description="Number of delinquincies last 2 Years",required=True),
     'deling_2yrs_zero': fields.Float(description="no delinquincies in last 2 years", required=True),
     'dti': fields.Float(description="debt to income ratio",required=True),
     'emp_length_num':fields.Integer(description="number of years of employment", required=True),
-    'grade': fields.String(description="grade of the loan (categorical)", required=True),
-    'home_ownersip':fields.String(description="home_ownership status: OWN, MORTAGE or RENT", required=True),
+    'home_ownersip':fields.String(description="home_ownership status: OWN, MORTAGE or RENT", required=True),   
     'inq_last_6mths': fields.Float(description="number of creditor inquiries in last 6 months",required=True),
     'last_delinq_none': fields.Integer(description="has borrower had a delinquincy", required=True),
     'last_major_derog_none': fields.Integer(description="has borrower had 90 day or worse rating", required=True), 
@@ -51,11 +34,10 @@ predict_fields = api.model('New Prediction', {
     'payment_inc_ratio':fields.Float(description="ratio of the monthly payment to income",required=True),
     'pub_rec': fields.Float(description="number of derogatory public records", required=True),
     'pub_rec_zero': fields.Float(description="no derogatory public records", required=True),
-    'sub_grade_num': fields.Float(description="sub-grade of the loan as a number from 0 to 1", required=True),
     'purpose': fields.String(description="the purpose of the loan",required=True),
-    'revol_util': fields.Float(description="percent of available credit being used", required=True),
-    'short_emp': fields.Integer(description="one year or less of employment", required=True),
-    'sub_grade_num': fields.Float(description="sub-grade of the loan as a number from 0 to 1", required=True)
+    'revolUtil': fields.Float(description="percent of available credit being used", required=True),
+    'revolBal': fields.Float(description="revolving credit balance", required=True),
+    'total_acc': fields.Integer(description="total number of open accounts", required=True)
 })
 
 @api.route('/<string:company_uid>')
@@ -138,12 +120,6 @@ class Score(Resource):
             response.status_code = 404
         return response
 
-numerical_cols=['sub_grade_num', 'short_emp', 'emp_length_num','dti', 'payment_inc_ratio', 'delinq_2yrs', \
-                'delinq_2yrs_zero', 'inq_last_6mths', 'last_delinq_none', 'last_major_derog_none', 'open_acc',\
-                'pub_rec', 'pub_rec_zero','revol_util']
-
-categorical_cols=['grade', 'home_ownership', 'purpose']
-
 def load_mapper():
     PATH= os.getcwd()
     print("OUR OS PATH IS %s"%(PATH))
@@ -156,6 +132,10 @@ def load_model(model_name):
     _model = joblib.load("%s/ml_models/%s.pkl"%(PATH,model_name))
     return _model
 
+def scoreCalculate(defaultProb):
+    score = int(800 - 500*defaultProb/0.26 - 300)
+    return score
+
 def preprocess(mapper, row):
     data=list(row.values())
     colz=list(row.keys())
@@ -166,8 +146,8 @@ def preprocess(mapper, row):
     XX = np.hstack((XX1,XX2))
     return XX
 
-@api.route('/predict/<string:company_uid>')
-class Score(Resource):
+@api.route('/predict/logReg/<string:company_uid>')
+class logRegScore(Resource):
     @api.expect(predict_fields)
     def post(self, company_uid):
         """ Generate Default Prediction"""
@@ -175,10 +155,80 @@ class Score(Resource):
         mapper = load_mapper()
         model = load_model("Logistic_Regression")
         row = preprocess(mapper, post_data)
-        prediction = model.predict_proba(row)[:,1][0]
+        defaultProbablity = model.predict_proba(row)[:,1][0]
+        score = scoreCalculate(prediction)
         return jsonify({
           'post_data': post_data,
-          'prediction': prediction
+          'default_probability': defaultProbablity,
+          'score': score 
         })
 
-    
+@api.route('/predict/decTree/<string:company_uid>')
+class decTreeScore(Resource):
+    @api.expect(predict_fields)
+    def post(self, company_uid):
+        """ Generate Default Prediction"""
+        post_data = request.json
+        mapper = load_mapper()
+        model = load_model("Decision_Tree")
+        row = preprocess(mapper, post_data)
+        defaultProbablity = model.predict_proba(row)[:,1][0]
+        score = scoreCalculate(prediction)
+        return jsonify({
+          'post_data': post_data,
+          'default_probability': defaultProbablity,
+          'score': score 
+        })
+
+@api.route('/predict/graBoost/<string:company_uid>')
+class graBoostScore(Resource):
+    @api.expect(predict_fields)
+    def post(self, company_uid):
+        """ Generate Default Prediction"""
+        post_data = request.json
+        mapper = load_mapper()
+        model = load_model("Gradient_Boosting")
+        row = preprocess(mapper, post_data)
+        defaultProbablity = model.predict_proba(row)[:,1][0]
+        score = scoreCalculate(prediction)
+        return jsonify({
+          'post_data': post_data,
+          'default_probability': defaultProbablity,
+          'score': score 
+        })
+
+
+@api.route('/predict/ranForest/<string:company_uid>')
+class ranForestScore(Resource):
+    @api.expect(predict_fields)
+    def post(self, company_uid):
+        """ Generate Default Prediction"""
+        post_data = request.json
+        mapper = load_mapper()
+        model = load_model("Random_Forest")
+        row = preprocess(mapper, post_data)
+        defaultProbablity = model.predict_proba(row)[:,1][0]
+        score = scoreCalculate(prediction)
+        return jsonify({
+          'post_data': post_data,
+          'default_probability': defaultProbablity,
+          'score': score 
+        })
+
+
+@api.route('/predict/neuralNet/<string:company_uid')
+class neuralNetScore(Resource):
+    @api.expect(predict_fields)
+    def post(self, company_uid):
+        """ Generate Default Prediction"""
+        post_data = request.json
+        mapper = load_mapper()
+        model = load_model("Neural_Net")
+        row = preprocess(mapper, post_data)
+        defaultProbablity = model.predict_proba(row)[:,1][0]
+        score = scoreCalculate(prediction)
+        return jsonify({
+          'post_data': post_data,
+          'default_probability': defaultProbablity,
+          'score': score
+        })

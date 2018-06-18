@@ -15,16 +15,17 @@
 
 ## Done by June 15
 [X] Retrain Model without Loan Grade & subGrade Inputs.
-[ ] Preapproved Applications APIs
+[X] Preapproved Applications APIs
 
 ## Done by June 16
-[ ] Editable for ML Input Table.
-[ ] Get Updated Gro_Score after calculated ML Score.
-[ ] Deploy new changes to server
+[X] Get Updated Gro_Score after calculated ML Score.
 
 ## Done by June 18
+[X] Frontend User Dashboard
 [ ] AWS Lamda to Trigger Banking and Accounting API
-[ ] Frontend User Dashboard
+[ ] Editable for ML Input Table.
+[ ] Deploy new changes to server
+
 
 ## Done by June 22
 [ ] Port Current API Behind AWS API Gateway  

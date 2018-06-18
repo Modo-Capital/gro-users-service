@@ -18,7 +18,6 @@ parser = api.parser()
 class Single_Applicant(Resource):
     def get(self, uid):
         personalData = User.query.filter_by(uid=uid).first()
-
         if not personalData:
             response = jsonify({
                'status':'fail',
@@ -26,11 +25,12 @@ class Single_Applicant(Resource):
             })
             response.status_code = 401
             return response
-
+        
         else:
             ## Personal Information
             first_name = personalData.first_name
             last_name = personalData.last_name
+            birthday = personalData.birthday
             email = personalData.email
             ssn = personalData.ssn
             driverLicense = personalData.driverLicense
@@ -86,6 +86,7 @@ class Single_Applicant(Resource):
             response = jsonify({
                 'first_name':first_name,
                 'last_name':last_name,
+                'birthday':birthday,
                 'email':email,
                 'ssn':ssn,
                 'driverLicense':driverLicense,
@@ -103,8 +104,57 @@ class Single_Applicant(Resource):
             response.status_code = 200
             return response
 
-    ## Updating Application Information
-    def put(self, uid):
+personal_fields = api.model('Personal Information', {
+    'first_name': fields.String(description="Applicant's First Name", required=True),
+    'last_name': fields.String(description="Applicant's Last Name", required=True),
+    'email': fields.String(description="Applicant's Email", required=True),
+    'date_of_birth': fields.String(description="Applicant's Birthday", required=True),
+    'driverLicense': fields.String(description="Applicant's Driver License number", required=True),
+    'ssn':fields.String(description="Applicant's Social Security number", required=True)
+})
+
+@api.route('/personalInfo/<string:uid>')
+@api.response(404, 'Applicant not found')
+class Update_Personal(Resource):
+    def post(self, uid):
         pass
+
+
+## Need to Complete
+company_fields = api.model('New Score', {
+    'data_score': fields.Integer(description="Company Name", required=True)
+})
+
+@api.route('/companyInfo/<string:uid>')
+@api.response(404, 'Applicant not found')
+class Update_Company(Resource):
+    def post(self, uid):
+        pass
+
+## Need to Complete
+banking_fields = api.model('New Score', {
+    'data_score': fields.Integer(description="Company Name", required=True)
+})
+
+@api.route('/bankinglInfo/<string:uid>')
+@api.response(404, 'Applicant not found')
+class Add_Banking_Account(Resource):
+    def post(self, uid):
+        pass
+
+## Need to Complete
+accounting_fields = api.model('New Score', {
+    'data_score': fields.Integer(description="Company Name", required=True)
+})
+
+@api.route('/accountingInfo/<string:uid>')
+@api.response(404, 'Applicant not found')
+class Add_Accounting_Report(Resource):
+    def post(self, uid):
+        pass
+
+
+
+
 
 

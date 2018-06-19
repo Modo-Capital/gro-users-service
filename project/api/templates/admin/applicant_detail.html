@@ -394,33 +394,130 @@
                         </div>
                     </div>
             </div>
-            <div class="panel panel-body">
+            <!-- Write a Function to Iterate over Vue Data -->
+
+            <!-- Machine Learning Input Table -->
+            <div class="panel panel-body" id="machineLearning">
+                <!-- Annual Income  -->
+                <div class="col-md-2" title="Annual Income of Candidate">
+                    <h5>annual_inc</h5>
+                    <input type="text" class="form-control" placeholder="" id="annual_inc" v-model="annual_inc">
+                </div>
+
+                <!-- Collection last 12 months -->
+                <div class="col-md-2" title="Yes or No collections last 12 months">
+                    <h5>collections_12mths_zero</h5>
+                    <input type="text" id="collections_12mths_zero" class="form-control" v-model="collections_12mths_zero">
+                </div>
+
+
                 <!-- Deling 2 Years -->
-                <div class="col-md-1" title="Number of delinquincies last 2 Years">
+                <div class="col-md-2" title="Number of delinquincies last 2 Years">
                     <h5>deling_2yrs</h5>
-                    <input type="text" class="form-control" placeholder="{{ml_input.deling_2yrs}}" id="deling_2yrs" v-model="deling_2yrs">
+                    <input type="text" class="form-control" placeholder="" id="deling_2yrs" v-model="delinq_2yrs">
                 </div>
 
                 <!-- Deling 2 Years Yes or No-->
-                <div class="col-md-1" title="No delinquincies in last 2 years">
+                <div class="col-md-2" title="No delinquincies in last 2 years">
                     <h5>delinq_2yrs_zero</h5>
-                    <input type="text" class="form-control" placeholder="{{ml_input.annual_income}}" id="delinq_2yrs_zero" v-model="delinq_2yrs_zero">                    
+                    <input type="text" class="form-control" placeholder="" id="delinq_2yrs_zero" v-model="delinq_2yrs_zero">               
                 </div>
 
                 <!-- Debt to Income Ratio -->
-                <div class="col-md-1" title="Debt to Income ratio">
-                    <h5>dti</h5>
-                    <input type="text" class="form-control" placeholder="{{ml_input.dti}}" id="dti" v-model="dti">                    
+                <div class="col-md-2" title="Debt to Income ratio">
+                    <h5 v-model="dti">dti</h5>
+                    <input type="text" class="form-control" placeholder="" id="dti" v-model="dti">               
                 </div>
 
                 <!-- Employment Length Number -->
-                <div class="col-md-1" title="Number of years of employment">
+                <div class="col-md-2" title="Number of years of employment">
                     <h5>emp_length_num</h5>
-                    <input type="text" class="form-control" placeholder="{{ml_input.emp_length_num}}" id="dti" v-model="emp_length_num">                
+                    <input type="text" class="form-control" placeholder="" id="dti" v-model="emp_length_num">              
                 </div>
 
-                <div class="col-md-1"></div>
+                <!-- Home Ownership -->
+                <div class="col-md-2" title="Home Owner, Mortgage or Rent">
+                    <h5>home_ownership</h5>
+                    <input type="text"  class="form-control" id="home_ownership" v-model="home_ownership">
+                </div>
 
+                <!-- Inquiries last 6 months -->
+                <div class="col-md-2" title="Number of inquiries last 6 months">
+                    <h5>inq_last_6mths</h5>
+                    <input type="text" class="form-control" placeholder="" id="inq_last_6mths" v-model="inq_last_6mths">
+                </div>
+
+                <!-- No Last Delinquence -->
+                <div class="col-md-2" title="No Delinquence on Record">
+                    <h5>last_deling_none</h5>
+                    <input type="text" class="form-control" id="last_delinq_none" v-model="last_delinq_none">
+                </div>
+
+                <!-- No Major Derogation -->
+                <div class="col-md-2" title="No Major Deorogation">
+                    <h5>last_major_derog_none</h5>
+                    <input type="text" class="form-control" id="last_major_derog_none" v-model="last_major_derog_none">
+                </div>
+
+                <!-- Months Since last Delinquency Event -->
+                <div class="col-md-2" title="Months since last delinquincy event">
+                    <h5>mths_since_last_delinq</h5>
+                    <input type="text" class="form-control" id="mths_since_last_delinq" v-model="mths_since_last_delinq">
+                </div>
+
+                <!-- Month Since Last Public Record -->
+                <div class="col-md-2" title="Months since lsat public record">
+                    <h5>mths_since_last_record</h5>
+                    <input type="text" class="form-control" id="mths_since_last_record" v-model="mths_since_last_record">
+                </div>
+
+                <!-- Month Since Last Major Credit Derogation -->
+                <div class="col-md-2" title="Month Since Last Major Credit Derogation">
+                    <h5>mths_since_last_major_derog</h5>
+                    <input type="text" class="form-control" id=" mths_since_last_major_derog" v-model="mths_since_last_major_derog">
+                </div>
+
+                <!-- Number of OPEN credit accounts -->
+                <div class="col-md-2" title="Number of OPEN  credit accounts">
+                    <h5>open_acc</h5>
+                    <input type="text" class="form-control" id="open_acc" v-model="open_acc">
+                </div>
+
+                <!-- Monthly Payment to Monthly Income Ratio -->
+                <div class="col-md-2" title="Monthly Payment to Monthly Income">
+                    <h5>payment_inc_ratio</h5>
+                    <input type="text" class="form-control" id="payment_inc_ratio" v-model="payment_inc_ratio">
+                </div>
+
+                <!-- Number of Public Records -->
+                <div class="col-md-2" title="Number of Public Records">
+                    <h5>pub_rec</h5>
+                    <input type="text" class="form-control" id="pub_rec" v-model="pub_rec">
+                </div>
+
+                <!-- Yes or No Recent Public Records -->
+                <div class="col-md-2" title="No Recent Public Records">
+                    <h5>pub_rec_zero</h5>
+                    <input type="text" class="form-control" id="pub_rec_zero" v-model="pub_rec_zero">
+                </div>
+
+                <!-- Monthly Revolving Credit Balance -->
+                <div class="col-md-2" title="Monthly Revolving Credit Balance">
+                    <h5>revolBal</h5>
+                    <input type="text" class="form-control" id="revolBal" v-model="revolBal">
+                </div>
+
+                <!-- Monthly Credit Usage to Credit Limit Ratio -->
+                <div class="col-md-2">
+                    <h5>revolUtil</h5>
+                    <input type="" class="form-control" id="revolUtil" v-model="revolUtil">
+                </div>
+
+                <!-- Total Number of Credit Accounts -->
+                <div class="col-md-2">
+                    <h5>total_acc</h5>
+                    <input type="text" class="form-control" id="total_acc" v-model="total_acc">
+                </div>
 
             </div>
         </div>
@@ -434,30 +531,35 @@
    new Vue ({
         el: '#machineLearning',
         data: {
-            "delinq_2yrs": 4.0,
-            "delinq_2yrs_zero": 1.0,
-            "dti":0.8,
-            "emp_length_num": 0,
-            "grade": "F",
-            "home_ownership": "RENT",
-            "inq_last_6mths": 3.0,
-            "last_delinq_none": 1,
-            "last_major_derog_none": 1,
-            "open_acc": 1.0,
-            "payment_inc_ratio": 3.0,
-            "pub_rec": 0.0,
-            "pub_rec_zero": 11.0,
-            "purpose": "vacation",
-            "revol_util": 99.5,
-            "short_emp": 1,
-            "sub_grade_num": 1.0
+            annual_inc: 20000,
+            collections_12mths_zero: 1,
+            delinq_2yrs: 4.0,
+            delinq_2yrs_zero: 1.0,
+            dti:0.8,
+            emp_length_num: 0,
+            grade: "F",
+            home_ownership: "RENT",
+            inq_last_6mths: 3.0,
+            last_delinq_none: 1,
+            last_major_derog_none: 1,
+            mths_since_last_delinq: 36,
+            mths_since_last_record: 60,
+            mths_since_last_major_derog: 120,
+            open_acc: 1.0,
+            payment_inc_ratio: 3.0,
+            pub_rec: 0.0,
+            pub_rec_zero: 11.0,
+            purpose: "vacation",
+            revolBal: 4000,
+            revolUtil: 99.5,
+            total_acc: 12
         },
         methods: {
             recalculatScore(){
-                console.log("Start Calculating Gro Score")
+                console.log("Start Calculating Gro Score");
             }
         }
-    }), 
+    })
 </script>
 <script type="text/javascript">
     $(function(){
@@ -482,14 +584,14 @@
         axios.get('https://apis.gro.capital/banking/daily_balance/{{applicant.uid}}')
           .then(function (response) {
             var transactions = response.data.daily_transactions;
-            console.log(transactions[0]['amount']);
+            // console.log(transactions[0]['amount']);
             for (i = 0, len = transactions.length; i < len; i++) { 
                  amount = transactions[i]['amount'];
                  data.push(amount);
                  date = transactions[i]['date'];
                  labels.push(date);
-                 console.log(amount);
-                 console.log(date);
+                 // console.log(amount);
+                 // console.log(date);
             }
             var ctx = document.getElementById('transactionChart').getContext('2d');
             ctx.canvas.width = 1000;

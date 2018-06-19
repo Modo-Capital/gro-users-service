@@ -68,7 +68,9 @@ $ docker run -d -p 8888:5000 troydo42/gro-users
 ** Docker Deploy on AWS
 ```
 $ eb use gro-apis
+$ git push aws master
 $ eb deploy
+$ eb setenv APP_SETTINGS=project.config.DevelopmentConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan PLAID_CLIENT_ID=5a9591e08d9239244b8063ad PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 PLAID_ENV=development PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82
 ```
 
 ** Deploy on NOW

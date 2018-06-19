@@ -121,8 +121,17 @@ class Update_Personal(Resource):
 
 
 ## Need to Complete
-company_fields = api.model('New Score', {
-    'data_score': fields.Integer(description="Company Name", required=True)
+company = api.model('Update Company', {
+    'company_name': fields.String(description="Company Name", required=False),
+    'address': fields.String(description="Company Business Address", required=False),
+    'city': fields.String(description="City", required=False),
+    'state':fields.String(description="State", required=False), 
+    'zipcode':fields.Integer(description="Zipcode", required=False),
+    'loan_amount_applied':fields.Integer(description="Loan amount applied", required=False),
+    'loan_type':fields.String(description="Loan Type", required=False),
+    'loan_reason':fields.String(description="Loan Reason", required=False),
+    'ein':fields.Integer(description="Company Employer identification Number EIN", required=False),
+    'duns':fields.Integer(description="Company DUNS Number", required=False)
 })
 
 @api.route('/companyInfo/<string:uid>')

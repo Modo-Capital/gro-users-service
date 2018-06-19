@@ -22,9 +22,9 @@
 
 ## Done by June 18
 [X] Frontend User Dashboard
-[ ] AWS Lamda to Trigger Banking and Accounting API
+[X] Deploy new changes to server
 [ ] Editable for ML Input Table.
-[ ] Deploy new changes to server
+[ ] AWS Lamda to Trigger Banking and Accounting API
 
 
 ## Done by June 22

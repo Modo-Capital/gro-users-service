@@ -1,4 +1,5 @@
 import os
+from os import path
 
 from flask import Blueprint, jsonify, request, render_template, redirect
 from flask_restplus import Namespace, Resource, fields
@@ -142,13 +143,13 @@ numerical_cols=[
 categorical_cols=['home_ownership', 'purpose']
 
 def load_mapper():
-    PATH= os.getcwd()
+    PATH= os.getcwd()   
     print("OUR OS PATH IS %s"%(PATH))
     _mapper = joblib.load("%s/ml_models/mapper.pkl"%(PATH))
     return _mapper
 
 def load_model(model_name):
-    PATH= os.getcwd()
+    PATH= os.getcwd()   
     print("OUR OS PATH IS %s"%(PATH))
     _model = joblib.load("%s/ml_models/%s.pkl"%(PATH,model_name))
     return _model

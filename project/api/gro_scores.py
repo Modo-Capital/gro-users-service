@@ -120,6 +120,27 @@ class Score(Resource):
             response.status_code = 404
         return response
 
+numerical_cols=[
+    'emp_length_num',
+    'dti',
+    'delinq_2yrs', 
+    'delinq_2yrs_zero',
+    'inq_last_6mths',
+    'open_acc',
+    'pub_rec',
+    'pub_rec_zero',
+    'revol_util',
+    'revol_bal',
+    'annual_inc', 
+    'mths_since_last_delinq',
+    'mths_since_last_record', 
+    'total_acc',
+    'mths_since_last_major_derog',
+    'collections_12_mths_zero' 
+]
+
+categorical_cols=['home_ownership', 'purpose']
+
 def load_mapper():
     PATH= os.getcwd()
     print("OUR OS PATH IS %s"%(PATH))
@@ -134,7 +155,10 @@ def load_model(model_name):
 
 def scoreCalculate(defaultProb):
     base_interest = 0.26
-    score = int(800 - 500*defaultProb/base_interest - 300)
+    if defaultProb > base_interest:
+      score = 0
+    else:
+      score = int(800 - 500*defaultProb/base_interest - 300)
     return score
 
 def preprocess(mapper, row):
@@ -147,6 +171,7 @@ def preprocess(mapper, row):
     XX = np.hstack((XX1,XX2))
     return XX
 
+
 @api.route('/predict/logReg/<string:company_uid>')
 class logRegScore(Resource):
     @api.expect(predict_fields)
@@ -157,11 +182,12 @@ class logRegScore(Resource):
         model = load_model("Logistic_Regression")
         row = preprocess(mapper, post_data)
         defaultProbablity = model.predict_proba(row)[:,1][0]
-        score = scoreCalculate(prediction)
+        score = scoreCalculate(defaultProbablity)
         return jsonify({
           'post_data': post_data,
           'default_probability': defaultProbablity,
-          'score': score 
+          'ml_score': score,
+          'total_score': score + 300
         })
 
 @api.route('/predict/decTree/<string:company_uid>')
@@ -174,11 +200,12 @@ class decTreeScore(Resource):
         model = load_model("Decision_Tree")
         row = preprocess(mapper, post_data)
         defaultProbablity = model.predict_proba(row)[:,1][0]
-        score = scoreCalculate(prediction)
+        score = scoreCalculate(defaultProbablity)
         return jsonify({
           'post_data': post_data,
           'default_probability': defaultProbablity,
-          'score': score 
+          'ml_score': score,
+          'total_score': score + 300
         })
 
 @api.route('/predict/graBoost/<string:company_uid>')
@@ -191,11 +218,12 @@ class graBoostScore(Resource):
         model = load_model("Gradient_Boosting")
         row = preprocess(mapper, post_data)
         defaultProbablity = model.predict_proba(row)[:,1][0]
-        score = scoreCalculate(prediction)
+        score = scoreCalculate(defaultProbablity)
         return jsonify({
           'post_data': post_data,
           'default_probability': defaultProbablity,
-          'score': score 
+          'ml_score': score,
+          'total_score': score + 300
         })
 
 
@@ -209,11 +237,12 @@ class ranForestScore(Resource):
         model = load_model("Random_Forest")
         row = preprocess(mapper, post_data)
         defaultProbablity = model.predict_proba(row)[:,1][0]
-        score = scoreCalculate(prediction)
+        score = scoreCalculate(defaultProbablity)
         return jsonify({
           'post_data': post_data,
           'default_probability': defaultProbablity,
-          'score': score 
+          'ml_score': score,
+          'total_score': score + 300
         })
 
 
@@ -227,7 +256,7 @@ class neuralNetScore(Resource):
         model = load_model("Neural_Net")
         row = preprocess(mapper, post_data)
         defaultProbablity = model.predict_proba(row)[:,1][0]
-        score = scoreCalculate(prediction)
+        score = scoreCalculate(defaultProbablity)
         return jsonify({
           'post_data': post_data,
           'default_probability': defaultProbablity,

@@ -23,9 +23,11 @@
 ## Done by June 18
 [X] Frontend User Dashboard
 [X] Deploy new changes to server
-[ ] Editable for ML Input Table.
-[ ] AWS Lamda to Trigger Banking and Accounting API
+[X] Editable for ML Input Table.
 
+## Done by June 19
+[ ] Simulated Gro Score
+[ ] Trigger Banking Data Pull After Logging
 
 ## Done by June 22
 [ ] Port Current API Behind AWS API Gateway  

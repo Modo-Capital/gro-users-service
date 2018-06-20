@@ -374,13 +374,16 @@
             </div>
         </div>
     </div>
-    <div class="row" id="machine learning inputs">
+    <div class="row" id="machineLearning">
       <div class="col-md-12 col-xs-12">
         <div class="panel panel-primary">
             <div class="panel panel-heading">
                 <div class="row">
-                        <div class="col col-md-11">
-                            <h4>Machine Learning Inputs</h4>    
+                        <div class="col col-md-9">
+                            <h4>Machine Learning Inputs - ${ company_id}</h4>    
+                        </div>
+                        <div class="col col-md-2">
+                            <h4>Simulated Score: ${ groScore }</h4>
                         </div>
                         <div class="col col-md-1">
                           <!--   <form>
@@ -397,10 +400,10 @@
             <!-- Write a Function to Iterate over Vue Data -->
 
             <!-- Machine Learning Input Table -->
-            <div class="panel panel-body" id="machineLearning">
+            <div class="panel panel-body" >
                 <!-- Annual Income  -->
                 <div class="col-md-2" title="Annual Income of Candidate">
-                    <h5>annual_inc</h5>
+                    <h5>annual_inc - {{annual_inc}}</h5>
                     <input type="text" class="form-control" placeholder="" id="annual_inc" v-model="annual_inc">
                 </div>
 
@@ -437,7 +440,7 @@
 
                 <!-- Home Ownership -->
                 <div class="col-md-2" title="Home Owner, Mortgage or Rent">
-                    <h5>home_ownership</h5>
+                    <h5>home_ownership - ${ home_ownership }</h5>
                     <input type="text"  class="form-control" id="home_ownership" v-model="home_ownership">
                 </div>
 
@@ -529,9 +532,10 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script type="text/javascript">
    new Vue ({
+        delimiters:['${', '}'],
         el: '#machineLearning',
         data: {
-            annual_inc: 20000,
+            annual_inc: 60000,
             collections_12mths_zero: 1,
             delinq_2yrs: 4.0,
             delinq_2yrs_zero: 1.0,
@@ -551,12 +555,23 @@
             pub_rec_zero: 11.0,
             purpose: "vacation",
             revolBal: 4000,
-            revolUtil: 99.5,
-            total_acc: 12
+            revolUtil: 0.95,
+            total_acc: 12,
+            company_id: "{{ applicant.company }}"
         },
-        methods: {
-            recalculatScore(){
-                console.log("Start Calculating Gro Score");
+        computed: {
+            groScore: function(){
+                console.log("Calculating Gro Score");
+                axios.post('https://apis.gro.capital/gro_score/predict/decTree/'+this.company_id, {
+                    
+                  })
+                  .then(function (response) {
+                    console.log(response);
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                });
+                return this.annual_inc * this.revolUtil
             }
         }
     })

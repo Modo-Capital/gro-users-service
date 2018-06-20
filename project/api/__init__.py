@@ -14,11 +14,11 @@ from flask import url_for
 
 
 ### Uncomment for https deployment
-# @property
-# def specs_url(self):
-# 	return url_for(self.endpoint('specs'), _external=True, _scheme='https')
+@property
+def specs_url(self):
+	return url_for(self.endpoint('specs'), _external=True, _scheme='https')
 
-# Api.specs_url = specs_url
+Api.specs_url = specs_url
 
 ### Define API with restplus.api
 api = Api (

@@ -145,7 +145,7 @@ categorical_cols=['home_ownership', 'purpose']
 def load_mapper():
     PATH= os.getcwd()   
     print("OUR OS PATH IS %s"%(PATH))
-    _mapper = joblib.load("%s/ml_models/mapper.pkl"%(PATH))
+    _mapper = joblib.load("%s/ml_models/Mapper.pkl"%(PATH))
     return _mapper
 
 def load_model(model_name):

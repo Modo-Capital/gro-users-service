@@ -26,10 +26,10 @@
 [X] Editable for ML Input Table.
 
 ## Done by June 19
-[ ] Simulated Gro Score
-[ ] Trigger Banking Data Pull After Logging
+[X] Simulated Gro Score
 
-## Done by June 22
+## Done by June 21
+[ ] Trigger Banking Data Pull After Connecting
 [ ] Port Current API Behind AWS API Gateway  
 [ ] Verify Email after user Signing Up. 
 

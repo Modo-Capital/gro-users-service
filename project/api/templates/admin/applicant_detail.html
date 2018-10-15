@@ -402,45 +402,45 @@
             <!-- Machine Learning Input Table -->
             <div class="panel panel-body" >
                 <!-- Annual Income  -->
-                <div class="col-md-2" title="Annual Income of Candidate">
-                    <h5>annual_inc</h5>
+                <div class="col-md-4" title="annual_inc">
+                    <h5>Annual Income</h5>
                     <input type="text" class="form-control" placeholder="" id="annual_inc" v-model="annual_inc"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Collection last 12 months -->
-                <div class="col-md-2" title="Yes or No collections last 12 months">
-                    <h5>collections_12mths_zero</h5>
+                <div class="col-md-4" title="collections_12mths_zero">
+                    <h5>Collection Last 12 months (Y/N)</h5>
                     <input type="text" id="collections_12mths_zero" class="form-control" v-model="collections_12mths_zero"  v-on:keyup.enter="recalculateScore">
                 </div>
 
 
                 <!-- Deling 2 Years -->
-                <div class="col-md-2" title="Number of delinquincies last 2 Years">
-                    <h5>deling_2yrs</h5>
+                <div class="col-md-4" title="deling_2yrs">
+                    <h5>Number of delinquincies last 2 Years</h5>
                     <input type="number" class="form-control" placeholder="" id="deling_2yrs" v-model="delinq_2yrs"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Deling 2 Years Yes or No-->
-                <div class="col-md-2" title="No delinquincies in last 2 years">
-                    <h5>delinq_2yrs_zero</h5>
+                <div class="col-md-4" title="delinq_2yrs_zero">
+                    <h5>No delinquincies in last 2 years</h5>
                     <input  type="number" class="form-control" placeholder="" id="delinq_2yrs_zero" v-model="delinq_2yrs_zero"  v-on:keyup.enter="recalculateScore">               
                 </div>
 
                 <!-- Debt to Income Ratio -->
-                <div class="col-md-2" title="Debt to Income ratio">
-                    <h5 v-model="dti">dti</h5>
+                <div class="col-md-4" title="dti">
+                    <h5 v-model="dti">Debt to Income ratio</h5>
                     <input  type="number" class="form-control" placeholder="" id="dti" v-model="dti"  v-on:keyup.enter="recalculateScore"  v-on:keyup.enter="recalculateScore">               
                 </div>
 
                 <!-- Employment Length Number -->
-                <div class="col-md-2" title="Number of years of employment">
-                    <h5>emp_length_num</h5>
+                <div class="col-md-4" title="emp_length_num">
+                    <h5>Number of years of employment</h5>
                     <input type="number" class="form-control" placeholder="" id="dti" v-model="emp_length_num" v-on:keyup.enter="recalculateScore"  v-on:keyup.enter="recalculateScore">              
                 </div>
 
                 <!-- Home Ownership -->
-                <div class="col-md-2" title="Home Owner, Mortgage or Rent">
-                    <h5>home_ownership</h5>
+                <div class="col-md-4" title="home_ownership">
+                    <h5>Home Owner, Mortgage or Rent</h5>
                     <input list="housing" class="form-control" id="home_ownership" v-model="home_ownership"  v-on:keyup.enter="recalculateScore">
                     <datalist id="housing">
                         <option value="RENT"></option>
@@ -450,86 +450,86 @@
                 </div>
 
                 <!-- Inquiries last 6 months -->
-                <div class="col-md-2" title="Number of inquiries last 6 months">
-                    <h5>inq_last_6mths</h5>
+                <div class="col-md-4" title="inq_last_6mths">
+                    <h5>Number of inquiries last 6 months</h5>
                     <input type="number" class="form-control" placeholder="" id="inq_last_6mths" v-model="inq_last_6mths"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- No Last Delinquence -->
-                <div class="col-md-2" title="No Delinquence on Record">
-                    <h5>last_deling_none</h5>
+                <div class="col-md-4" title="last_deling_none">
+                    <h5>No Delinquence on Record</h5>
                     <input type="number" class="form-control" id="last_delinq_none" v-model="last_delinq_none"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- No Major Derogation -->
-                <div class="col-md-2" title="No Major Deorogation">
-                    <h5>last_major_derog_none</h5>
+                <div class="col-md-4" title="last_major_derog_none">
+                    <h5>No Major Deorogation</h5>
                     <input type="number" class="form-control" id="last_major_derog_none" v-model="last_major_derog_none"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Months Since last Delinquency Event -->
-                <div class="col-md-2" title="Months since last delinquincy event">
-                    <h5>mths_since_last_delinq</h5>
+                <div class="col-md-4" title="mths_since_last_delinq">
+                    <h5>Months since last delinquincy event</h5>
                     <input type="number" class="form-control" id="mths_since_last_delinq" v-model="mths_since_last_delinq"   v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Month Since Last Public Record -->
-                <div class="col-md-2" title="Months since lsat public record">
-                    <h5>mths_since_last_record</h5>
+                <div class="col-md-4" title="mths_since_last_record">
+                    <h5>Months since lsat public record</h5>
                     <input type="number" class="form-control" id="mths_since_last_record" v-model="mths_since_last_record"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Month Since Last Major Credit Derogation -->
-                <div class="col-md-2" title="Month Since Last Major Credit Derogation">
-                    <h5>mths_since_last_major_derog</h5>
+                <div class="col-md-4" title="mths_since_last_major_derog">
+                    <h5>Month Since Last Major Credit Derogation</h5>
                     <input type="number" class="form-control" id=" mths_since_last_major_derog" v-model="mths_since_last_major_derog"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Number of OPEN credit accounts -->
-                <div class="col-md-2" title="Number of OPEN  credit accounts">
-                    <h5>open_acc</h5>
+                <div class="col-md-4" title="open_acc">
+                    <h5>Number of OPEN  credit accounts</h5>
                     <input type="number" class="form-control" id="open_acc" v-model="open_acc"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Monthly Payment to Monthly Income Ratio -->
-                <div class="col-md-2" title="Monthly Payment to Monthly Income">
-                    <h5>payment_inc_ratio</h5>
+                <div class="col-md-4" title="payment_inc_ratio">
+                    <h5>Monthly Payment to Monthly Income</h5>
                     <input type="number" class="form-control" id="payment_inc_ratio" v-model="payment_inc_ratio"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Number of Public Records -->
-                <div class="col-md-2" title="Number of Public Records">
-                    <h5>pub_rec</h5>
+                <div class="col-md-4" title="pub_rec">
+                    <h5>Number of Public Records</h5>
                     <input type="number" class="form-control" id="pub_rec" v-model="pub_rec"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Yes or No Recent Public Records -->
-                <div class="col-md-2" title="No Recent Public Records">
-                    <h5>pub_rec_zero</h5>
+                <div class="col-md-4" title="pub_rec_zero">
+                    <h5>No Recent Public Recordsp</h5>
                     <input type="number" class="form-control" id="pub_rec_zero" v-model="pub_rec_zero"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Borrowing Purpose -->
-                <div class="col-md-2">
-                    <h5>purpose</h5>
+                <div class="col-md-4" title="purpose">
+                    <h5>Borrowing Purpose</h5>
                     <input type="text" class="form-control" id="purpose" v-model="purpose"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Monthly Revolving Credit Balance -->
-                <div class="col-md-2" title="Monthly Revolving Credit Balance">
-                    <h5>revolBal</h5>
+                <div class="col-md-4" title="revolBal">
+                    <h5>Monthly Revolving Credit Balance</h5>
                     <input type="number" class="form-control" id="revolBal" v-model="revolBal"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Monthly Credit Usage to Credit Limit Ratio -->
-                <div class="col-md-2">
-                    <h5>revolUtil</h5>
+                <div class="col-md-4" title="revolUtil">
+                    <h5>Revolving Credit Ultilization</h5>
                     <input type="number" class="form-control" id="revolUtil" v-model="revolUtil"  v-on:keyup.enter="recalculateScore">
                 </div>
 
                 <!-- Total Number of Credit Accounts -->
-                <div class="col-md-2">
-                    <h5>total_acc</h5>
+                <div class="col-md-4" title="total_acc">
+                    <h5>Total number of credit accounts</h5>
                     <input type="number" class="form-control" id="total_acc" v-model="total_acc"  v-on:keyup.enter="recalculateScore">
                 </div>
 

@@ -58,8 +58,58 @@ manager.add_command('db', MigrateCommand)
 user_datastore = SQLAlchemyUserDatastore(db, AdminUser, Role)
 security = Security(app, user_datastore)
 
-# Create customized model view class
-class MyModelView(sqla.ModelView):
+
+# - Password
+# - UID
+# - Facebook Uid
+# - Facebook Access Token
+# - LinkedIn Access Token
+# - Google Uid
+# - Google Access Token
+# - Plaid Access Token
+# - Quickbooks Access Token
+# - Quickbooks Id
+
+# Create customized model view class - User View
+class UserModelView(sqla.ModelView):
+    can_delete = False
+    can_create = False
+    can_view_details = True
+    column_exclude_list = [
+        'uid',
+        'password', 
+        'facebook_uid', 
+        'facebook_access_token',
+        'google_uid',
+        'google_access_token',
+        'plaid_access_token',
+        'quickbook_id',
+        'quickbook_access_token',
+        'linkedin_access_token'
+    ]
+    def is_accessible(self):
+        if not current_user.is_active or not current_user.is_authenticated:
+            return False
+
+        if current_user.has_role('superuser'):
+            return True
+
+        return False
+
+    def _handle_view(self, name, **kwargs):
+        """
+        Override builtin _handle_view in order to redirect users when a view is not accessible.
+        """
+        if not self.is_accessible():
+            if current_user.is_authenticated:
+                # permission denied
+                abort(403)
+            else:
+                # login
+                return redirect(url_for('security.login', next=request.url))
+
+# Create customized model view class - Company View
+class CompanyModelView(sqla.ModelView):
     can_delete = False
     can_create = False
     can_view_details = True
@@ -83,7 +133,6 @@ class MyModelView(sqla.ModelView):
             else:
                 # login
                 return redirect(url_for('security.login', next=request.url))
-
 # Admin Configuration
 admin = Admin.Admin(
     app, name='Gro Capital Admin', 
@@ -91,12 +140,8 @@ admin = Admin.Admin(
     template_mode='bootstrap3'
 )
 
-class UserView(ModelView):
-    column_searchable_list = ['first_name', 'last_name', 'email', 'uid']
 
 
-class CompanyView(ModelView):
-    column_searchable_list = ['name', 'state', 'address']
 
 
 class LoanApplicants(ModelView):
@@ -185,8 +230,8 @@ class LoanApplicants(ModelView):
 
 # Get All Users from Database
 admin.add_view(LoanApplicants(User, db.session,name="Loan Applicants", endpoint='loan_applicants'))
-admin.add_view(MyModelView(User, db.session, name="Users"))
-admin.add_view(MyModelView(Company, db.session, name="Companies"))
+admin.add_view(UserModelView(User, db.session, name="Users"))
+admin.add_view(CompanyModelView(Company, db.session, name="Companies"))
 
 @security.context_processor
 def security_context_processor():

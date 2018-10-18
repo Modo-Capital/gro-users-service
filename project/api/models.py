@@ -2,13 +2,14 @@
 import datetime
 import jwt
 
+import enum
+# from enum import Enum
 from project import db, bcrypt
 from flask import current_app
 from flask_security import UserMixin, RoleMixin
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import text as sa_text
 import uuid
-
 
 # Create Client Application Model for API Keys in Database
 # class ClientApp(db.Model):
@@ -43,6 +44,19 @@ class Token(db.Model):
         self.idToken = idToken
         self.created_at = created_at
 
+# Define Company Structure Type
+class StructureType(enum.Enum):
+    S = "Sole Proprietorship"
+    GP = "General Partnership"
+    C = "C-Corporation"
+    LLC = "Limited Liability Corporation"
+    SLLC = "S-Corporation"
+
+# Define Company Industry Type
+# class IndustryType(enum.Enum):
+#     Agri = "Agriculture, Forestry, Fishing & Hunting"
+#     Manu = "Manufacturing"
+
 # Create Company Model in Database
 class Company(db.Model):
     __tablename__="companies"
@@ -50,9 +64,16 @@ class Company(db.Model):
     uid = db.Column(db.String(), primary_key=True, nullable=False)
     company_name = db.Column(db.String(256), nullable=True)
     address = db.Column(db.String(), nullable=True)
+    email_address = db.Column(db.String(), nullable=True)
+    company_phone = db.Column(db.Integer, nullable=True)
+    password = db.Column(db.String(), nullable=True)
     city = db.Column(db.String(), nullable=True)
     state = db.Column(db.String(), nullable=True)
     zipcode = db.Column(db.Integer, nullable=True)
+    structure = db.Column(db.Enum(StructureType), nullable=True)
+    # industry = db.Column(db.Enum(IndustryType), nullable=True)
+    established_date = db.Column(db.Date, nullable=True)
+    annual_revenue = db.Column(db.Integer, nullable=True)
     loan_amount_applied = db.Column(db.Integer, nullable=True)
     loan_type = db.Column(db.String(), nullable=True)
     loan_reason = db.Column(db.String(), nullable=True)

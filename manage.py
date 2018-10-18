@@ -89,7 +89,7 @@ class UserModelView(sqla.ModelView):
     ]
     def ssn_formatter(view, context, model, name):
         if model.ssn:
-           secret_ssn = "*** - ** - %s"%(str(model.ssn)[-4:])
+           secret_ssn = "###-##-%s"%(str(model.ssn)[-4:])
            return secret_ssn
         else:
            return ""

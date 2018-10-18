@@ -30,7 +30,10 @@ company = api.model('Update Company', {
     'duns':fields.Integer(description="Company DUNS Number", required=False),
     'bank_account':fields.String(description="Bank Account Information", required=False),
     'accounting_account':fields.String(description="Company DUNS Number", required=False),
-    'loan_approved':fields.Integer(description="Company DUNS Number", required=False)
+    'loan_approved':fields.Integer(description="Company DUNS Number", required=False),
+    'company_phone': fields.Integer(description="Business Phone Number", required=True),
+    'email_address':fields.String(description="Business Email Address", required=True),
+    'password':fields.String(description="Business Trade Secret ?",required=True)
 })
 
 # Adding New Company to Database
@@ -49,6 +52,9 @@ class CompaniesList(Resource):
                 'city':company.city,
                 'state':company.state,
                 'zipcode':company.zipcode,
+                'company_phone': company.company_phone,
+                'email_address': company.email_address,
+                'password':company.password,
                 'loan_amount_applied':company.loan_amount_applied,
                 'loan_type':company.loan_type,
                 'loan_reason':company.loan_reason,
@@ -80,6 +86,9 @@ class CompaniesList(Resource):
         city = post_data.get('city')
         state = post_data.get('state')
         zipcode = post_data.get('zipcode')
+        company_phone = post_data.get('company_phone'),
+        email_address = post_data.get('email_address'),
+        password = post_data.get('password')
 
         # Return fail when receiving duplicated ein
         try:
@@ -153,6 +162,9 @@ class Single_Company(Resource):
                         'city':company.city,
                         'state':company.state,
                         'zipcode':company.zipcode,
+                        'company_phone': company.company_phone,
+                        'email_address': company.email_address,
+                        'password':company.password,
                         'loan_amount_applied':company.loan_amount_applied,
                         'loan_type':company.loan_type,
                         'loan_reason':company.loan_reason,

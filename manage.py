@@ -87,6 +87,16 @@ class UserModelView(sqla.ModelView):
         'quickbook_access_token',
         'linkedin_access_token'
     ]
+    def ssn_formatter(view, context, model, name):
+        if model.ssn:
+           secret_ssn = "*** - ** - %s"%(str(model.ssn)[-4:])
+           return secret_ssn
+        else:
+           return ""
+
+    column_formatters = {
+        'ssn': ssn_formatter
+    }
     def is_accessible(self):
         if not current_user.is_active or not current_user.is_authenticated:
             return False

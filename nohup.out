@@ -1,0 +1,445 @@
+/usr/local/lib/python3.6/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+ * Restarting with stat
+/usr/local/lib/python3.6/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 295-300-310
+68.108.77.126 - - [23/Oct/2018 09:58:35] "[37mGET / HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 09:58:36] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 09:58:37] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+68.108.77.126 - - [23/Oct/2018 09:58:54] "[37mGET / HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 09:58:54] "[37mGET /companies/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 09:58:54] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 09:59:00] "[37mGET /companies/ HTTP/1.1[0m" 200 -
+61.216.152.135 - - [23/Oct/2018 10:08:41] "[33mPOST /result%3Fhl%3Den%26meta%3Dvvnwppnloxhwtqccppbyhqmrwyswqen HTTP/1.1[0m" 404 -
+138.59.100.66 - - [23/Oct/2018 10:45:31] "[37mGET / HTTP/1.1[0m" 200 -
+151.237.15.69 - - [23/Oct/2018 11:13:16] "[37mGET / HTTP/1.1[0m" 200 -
+168.121.139.54 - - [23/Oct/2018 12:02:04] "[37mGET / HTTP/1.1[0m" 200 -
+142.169.116.194 - - [23/Oct/2018 12:55:40] "[37mGET / HTTP/1.0[0m" 200 -
+209.17.96.58 - - [23/Oct/2018 14:20:16] "[37mGET / HTTP/1.1[0m" 200 -
+54.88.35.245 - - [23/Oct/2018 15:06:13] "[37mHEAD / HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:36] "[37mGET / HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:37] "[37mGET / HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/css/typography.css HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/css/reset.css HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/css/screen.css HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/object-assign-pollyfill.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery-1.8.0.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.slideto.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.wiggle.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.ba-bbq.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/handlebars-4.0.5.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/lodash.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/backbone-min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:43] "[37mGET /swaggerui/bower/swagger-ui/dist/swagger-ui.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/highlight.9.1.0.pack.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/highlight.9.1.0.pack_extended.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jsoneditor.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/marked.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.slideto.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/swagger-oauth.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.wiggle.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.ba-bbq.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/handlebars-4.0.5.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/lodash.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/backbone-min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:46] "[37mGET /swaggerui/bower/swagger-ui/dist/swagger-ui.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:47] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/highlight.9.1.0.pack.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:47] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/highlight.9.1.0.pack_extended.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:47] "[37mGET /swaggerui/bower/swagger-ui/dist/fonts/DroidSans.ttf HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:47] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jsoneditor.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:47] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/marked.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:47] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:47] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/swagger-oauth.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:47] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+73.138.174.204 - - [23/Oct/2018 15:22:48] "[37mGET /swaggerui/bower/swagger-ui/dist/fonts/DroidSans-Bold.ttf HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:22:48] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:25:59] "[32mGET /admin HTTP/1.1[0m" 301 -
+12.205.32.116 - - [23/Oct/2018 15:25:59] "[37mGET / HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:00] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:00] "[37mGET /admin/static/bootstrap/bootstrap3/css/bootstrap-theme.min.css?v=3.3.5 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:00] "[37mGET /admin/static/bootstrap/bootstrap3/swatch/default/bootstrap.min.css?v=3.3.5 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:00] "[37mGET /admin/static/admin/css/bootstrap3/admin.css?v=1.1.1 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:00] "[37mGET /admin/static/vendor/jquery.min.js?v=2.1.4 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:00] "[37mGET /admin/static/vendor/moment.min.js?v=2.9.0 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:00] "[37mGET /admin/static/vendor/select2/select2.min.js?v=3.5.2 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:00] "[37mGET /admin/static/bootstrap/bootstrap3/js/bootstrap.min.js?v=3.3.5 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:05] "[1m[35mGET /admin/login/ HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1997, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1985, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_restplus/api.py", line 557, in error_router
+    return original_handler(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1540, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_restplus/api.py", line 557, in error_router
+    return original_handler(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/decorators.py", line 230, in wrapper
+    return f(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/views.py", line 75, in login
+    form = form_class(request.form)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 212, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/forms.py", line 217, in __init__
+    super(LoginForm, self).__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/forms.py", line 94, in __init__
+    super(Form, self).__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/form.py", line 88, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 278, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 132, in process
+    field.process(formdata)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/csrf/core.py", line 43, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 134, in generate_csrf_token
+    token_key=self.meta.csrf_field_name
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 35, in generate_csrf
+    message='A secret key is required to use CSRF.'
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 121, in _get_config
+    raise KeyError(message)
+KeyError: 'A secret key is required to use CSRF.'
+73.138.174.204 - - [23/Oct/2018 15:26:05] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:05] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:06] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:06] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:06] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 15:26:06] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+69.164.199.174 - - [23/Oct/2018 15:41:24] "[37mGET / HTTP/1.1[0m" 200 -
+189.69.249.233 - - [23/Oct/2018 16:24:07] "[37mGET / HTTP/1.1[0m" 200 -
+72.208.56.211 - - [23/Oct/2018 16:49:15] "[37mGET / HTTP/1.0[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:57:37] "[37mGET / HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:57:37] "[37mGET /swaggerui/bower/swagger-ui/dist/css/typography.css HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:57:37] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/object-assign-pollyfill.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:57:37] "[37mGET /swaggerui/bower/swagger-ui/dist/css/reset.css HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:57:37] "[37mGET /swaggerui/bower/swagger-ui/dist/css/screen.css HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:57:37] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.slideto.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:57:37] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.wiggle.min.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:57:38] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:57:45] "[32mGET /admin HTTP/1.1[0m" 301 -
+73.138.174.204 - - [23/Oct/2018 16:57:45] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:57:45] "[37mGET /admin/static/bootstrap/bootstrap3/css/bootstrap-theme.min.css?v=3.3.5 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:57:45] "[37mGET /admin/static/admin/css/bootstrap3/admin.css?v=1.1.1 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:58:31] "[37mGET /admin/static/bootstrap/bootstrap3/swatch/default/bootstrap.min.css?v=3.3.5 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:58:33] "[1m[35mGET /admin/login/ HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1997, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1985, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_restplus/api.py", line 557, in error_router
+    return original_handler(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1540, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_restplus/api.py", line 557, in error_router
+    return original_handler(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/decorators.py", line 230, in wrapper
+    return f(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/views.py", line 75, in login
+    form = form_class(request.form)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 212, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/forms.py", line 217, in __init__
+    super(LoginForm, self).__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/forms.py", line 94, in __init__
+    super(Form, self).__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/form.py", line 88, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 278, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 132, in process
+    field.process(formdata)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/csrf/core.py", line 43, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 134, in generate_csrf_token
+    token_key=self.meta.csrf_field_name
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 35, in generate_csrf
+    message='A secret key is required to use CSRF.'
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 121, in _get_config
+    raise KeyError(message)
+KeyError: 'A secret key is required to use CSRF.'
+73.138.174.204 - - [23/Oct/2018 16:58:33] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:58:33] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:58:33] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:58:34] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 16:58:34] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:28] "[37mGET / HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:28] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:30] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+68.108.77.126 - - [23/Oct/2018 17:59:39] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:39] "[37mGET /admin/static/bootstrap/bootstrap3/swatch/default/bootstrap.min.css?v=3.3.5 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:39] "[37mGET /admin/static/bootstrap/bootstrap3/css/bootstrap-theme.min.css?v=3.3.5 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:40] "[37mGET /admin/static/admin/css/bootstrap3/admin.css?v=1.1.1 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:40] "[37mGET /admin/static/vendor/jquery.min.js?v=2.1.4 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:40] "[37mGET /admin/static/bootstrap/bootstrap3/js/bootstrap.min.js?v=3.3.5 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:40] "[37mGET /admin/static/vendor/moment.min.js?v=2.9.0 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:40] "[37mGET /admin/static/vendor/select2/select2.min.js?v=3.5.2 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:42] "[1m[35mGET /admin/login/ HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1997, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1985, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_restplus/api.py", line 557, in error_router
+    return original_handler(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1540, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_restplus/api.py", line 557, in error_router
+    return original_handler(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/decorators.py", line 230, in wrapper
+    return f(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/views.py", line 75, in login
+    form = form_class(request.form)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 212, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/forms.py", line 217, in __init__
+    super(LoginForm, self).__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/forms.py", line 94, in __init__
+    super(Form, self).__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/form.py", line 88, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 278, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 132, in process
+    field.process(formdata)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/csrf/core.py", line 43, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 134, in generate_csrf_token
+    token_key=self.meta.csrf_field_name
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 35, in generate_csrf
+    message='A secret key is required to use CSRF.'
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 121, in _get_config
+    raise KeyError(message)
+KeyError: 'A secret key is required to use CSRF.'
+68.108.77.126 - - [23/Oct/2018 17:59:42] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:42] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:42] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:43] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:43] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 17:59:43] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:02:15] "[37mGET /admin/loan_applicants/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:02:15] "[37mGET /admin/static/admin/js/details_filter.js?v=1.0.0 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:02:16] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:03:35] "[1m[35mGET /admin/login/ HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1997, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1985, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_restplus/api.py", line 557, in error_router
+    return original_handler(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1540, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_restplus/api.py", line 557, in error_router
+    return original_handler(e)
+  File "/usr/local/lib/python3.6/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.6/site-packages/flask/_compat.py", line 33, in reraise
+    raise value
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.6/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/decorators.py", line 230, in wrapper
+    return f(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/views.py", line 75, in login
+    form = form_class(request.form)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 212, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/forms.py", line 217, in __init__
+    super(LoginForm, self).__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_security/forms.py", line 94, in __init__
+    super(Form, self).__init__(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/form.py", line 88, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 278, in __init__
+    self.process(formdata, obj, data=data, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/form.py", line 132, in process
+    field.process(formdata)
+  File "/usr/local/lib/python3.6/site-packages/wtforms/csrf/core.py", line 43, in process
+    self.current_token = self.csrf_impl.generate_csrf_token(self)
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 134, in generate_csrf_token
+    token_key=self.meta.csrf_field_name
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 35, in generate_csrf
+    message='A secret key is required to use CSRF.'
+  File "/usr/local/lib/python3.6/site-packages/flask_wtf/csrf.py", line 121, in _get_config
+    raise KeyError(message)
+KeyError: 'A secret key is required to use CSRF.'
+68.108.77.126 - - [23/Oct/2018 18:03:35] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:03:35] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:03:35] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:03:36] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:03:36] "[37mGET /admin/login/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+ * Detected change in '/home/ec2-user/gro-users-service/project/config.py', reloading
+ * Restarting with stat
+/usr/local/lib/python3.6/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 295-300-310
+68.108.77.126 - - [23/Oct/2018 18:05:23] "[37mGET /admin/login/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:31] "[32mPOST /admin/login/ HTTP/1.1[0m" 302 -
+68.108.77.126 - - [23/Oct/2018 18:05:32] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:32] "[37mGET /admin/static/bootstrap/bootstrap3/swatch/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:33] "[37mGET /admin/loan_applicants/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:45] "[37mGET /admin/loan_applicants/details/?id=428&url=%2Fadmin%2Fuser%2F HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:45] "[37mGET /static/lib.js HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:55] "[37mGET /admin/user/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:55] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:55] "[37mGET /admin/static/vendor/select2/select2.css?v=3.5.2 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:55] "[37mGET /admin/static/vendor/select2/select2-bootstrap3.css?v=1.4.6 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:55] "[37mGET /admin/static/vendor/bootstrap-daterangepicker/daterangepicker-bs3.css?v=1.3.22 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:55] "[37mGET /admin/static/admin/js/filters.js?v=1.0.0 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:55] "[37mGET /admin/static/vendor/bootstrap-daterangepicker/daterangepicker.js?v=1.3.22 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:05:55] "[37mGET /admin/static/admin/js/form.js?v=1.0.1 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:09:19] "[37mGET / HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:09:19] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:13:37] "[37mGET / HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:13:45] "[37mGET / HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:13:45] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:13:45] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:13:50] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:13:52] "[37mGET /admin/login/ HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:14:20] "[37mPOST /admin/login/ HTTP/1.1[0m" 200 -
+ * Detected change in '/home/ec2-user/gro-users-service/project/api/companies.py', reloading
+ * Restarting with stat
+Traceback (most recent call last):
+  File "manage.py", line 13, in <module>
+    from project.api import api
+  File "/home/ec2-user/gro-users-service/project/api/__init__.py", line 7, in <module>
+    from .companies import api as companies
+  File "/home/ec2-user/gro-users-service/project/api/companies.py", line 17
+    'annual_revenue':fields.String(description="Annual Revenue", required=True)
+                   ^
+SyntaxError: invalid syntax
+/usr/local/lib/python3.6/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+ * Restarting with stat
+/usr/local/lib/python3.6/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 295-300-310
+68.108.77.126 - - [23/Oct/2018 18:23:24] "[37mGET / HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:23:25] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:23:28] "[37mGET / HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:23:28] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:23:33] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:23:34] "[37mGET /admin/static/bootstrap/bootstrap3/swatch/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:23:37] "[32mGET /admin/logout/ HTTP/1.1[0m" 302 -
+68.108.77.126 - - [23/Oct/2018 18:23:37] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:23:38] "[37mGET /admin/login/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:23:56] "[32mPOST /admin/login/ HTTP/1.1[0m" 302 -
+68.108.77.126 - - [23/Oct/2018 18:23:56] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:24:14] "[32mPOST /admin/login/ HTTP/1.1[0m" 302 -
+73.138.174.204 - - [23/Oct/2018 18:24:14] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:24:15] "[37mGET /admin/static/bootstrap/bootstrap3/swatch/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:24:15] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+73.138.174.204 - - [23/Oct/2018 18:24:18] "[37mGET /admin/loan_applicants/ HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:24:18] "[37mGET /admin/static/admin/js/details_filter.js?v=1.0.0 HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:24:19] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+73.138.174.204 - - [23/Oct/2018 18:24:25] "[37mGET /admin/loan_applicants/details/?id=390&url=%2Fadmin%2Fuser%2F HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:24:26] "[37mGET /static/lib.js HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:24:33] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+68.108.77.126 - - [23/Oct/2018 18:24:51] "[37mGET /admin/loan_applicants/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:24:53] "[37mGET /admin/loan_applicants/details/?id=400&url=%2Fadmin%2Fuser%2F HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:25:09] "[37mGET / HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:25:10] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:25:11] "[37mGET /admin/loan_applicants/ HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:25:12] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+73.138.174.204 - - [23/Oct/2018 18:25:15] "[37mGET /admin/loan_applicants/details/?id=402&url=%2Fadmin%2Fuser%2F HTTP/1.1[0m" 200 -
+73.138.174.204 - - [23/Oct/2018 18:25:16] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+68.108.77.126 - - [23/Oct/2018 18:25:17] "[37mGET /companies/ HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:39:53] "[37mGET / HTTP/1.1[0m" 200 -
+68.108.77.126 - - [23/Oct/2018 18:39:53] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+200.89.125.130 - - [23/Oct/2018 18:45:25] "[37mGET / HTTP/1.1[0m" 200 -
+60.191.38.77 - - [23/Oct/2018 19:42:44] "[37mGET / HTTP/1.1[0m" 200 -
+178.128.80.251 - - [23/Oct/2018 20:09:25] "[33mHEAD http://54.152.141.30:80/phpmyadmin/ HTTP/1.1[0m" 404 -
+81.30.5.158 - - [23/Oct/2018 20:18:52] "[37mGET / HTTP/1.1[0m" 200 -

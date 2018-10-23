@@ -11,6 +11,12 @@ api = Namespace('companies', description='Companies create, view, update, delete
 
 company_fields = api.model('New Company', {
     'company_name': fields.String(description="Company Name", required=True),
+    'structure': fields.String(description="Company Structure", required=True),
+    'industry': fields.String(description="Company Industry", required=True),
+    'established_date':fields.String(description="Date of Establishment", required=True),
+    'annual_revenue':fields.String(description="Annual Revenue", required=True),
+    'phone_number':fields.String(description="Company Phone Number", required=True),
+    'email_address':fields.String(description="Company Email Address", required=True),
     'address': fields.String(description="Company Business Address", required=True),
     'city': fields.String(description="City", required=True),
     'state':fields.String(description="State", required=True), 

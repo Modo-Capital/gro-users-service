@@ -15,7 +15,7 @@ company_fields = api.model('New Company', {
     'industry': fields.String(description="Company Industry", required=True),
     'established_date':fields.Date(description="Date of Establishment", required=True),
     'annual_revenue':fields.Integer(description="Annual Revenue", required=True),
-    'phone_number':fields.String(description="Company Phone Number", required=True),
+    'phone_number':fields.Integer(description="Company Phone Number", required=True),
     'email_address':fields.String(description="Company Email Address", required=True),
     'address': fields.String(description="Company Business Address", required=True),
     'city': fields.String(description="City", required=True),
@@ -46,9 +46,9 @@ company = api.model('Update Company', {
     'password':fields.String(description="Business Trade Secret ?",required=True)
 })
 
-# Adding New Company to Database
 @api.route('/')
 class CompaniesList(Resource):
+    # Get the list of all companies
     @api.doc('get_all_companies')
     def get(self):
         """ Get all companies """
@@ -89,6 +89,7 @@ class CompaniesList(Resource):
         response_object.status_code = 200
         return response_object
 
+    # Create a new company
     @api.doc('create_a_company')
     @api.expect(company_fields)
     def post(self):

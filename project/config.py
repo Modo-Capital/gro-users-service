@@ -29,6 +29,12 @@ class BaseConfig:
     SECURITY_SEND_REGISTER_EMAIL = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # Plaid Configuration
+    PLAID_CLIENT_ID= '5a9591e08d9239244b8063ad'
+    PLAID_SECRET='eee49e6a0701f60eea4319bbf96282' 
+    PLAID_ENV='development' 
+    PLAID_PUBLIC_KEY='02e15ef6f47e6ecb5377f4e3f26d82'
+
 
 class DevelopmentConfig(BaseConfig):
     """Development configuration"""

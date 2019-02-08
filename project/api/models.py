@@ -209,13 +209,16 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
     
-    def __init__(self, email, password, status, admin):
+    def __init__(self, email, password, status, admin, first_name, last_name, birthday):
         self.email = email
         self.password = bcrypt.generate_password_hash(password, current_app.config.get('BCRYPT_LOG_ROUNDS')).decode('utf-8') 
         self.status = status
         self.admin = admin
         self.uid = str(uuid.uuid4())
         self.created_at = datetime.datetime.utcnow()
+        self.first_name = first_name
+        self.last_name = last_name
+        self.birthday = birthday
 
     # Generate Auth Token
     def encode_auth_token(self, user_id):

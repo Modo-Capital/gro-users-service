@@ -14427,3 +14427,14 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NDk2NTUwODMsInN1YiI6IjYxZjZjNWN
  * Debugger PIN: 171-120-855
 72.227.177.239 - - [08/Feb/2019 20:15:09] "[37mGET /users/ping HTTP/1.1[0m" 200 -
 72.227.177.239 - - [08/Feb/2019 21:03:26] "[37mGET /users/ping HTTP/1.1[0m" 200 -
+ * Detected change in '/home/ec2-user/gro-users-service/project/api/auth.py', reloading
+ * Restarting with stat
+Traceback (most recent call last):
+  File "manage.py", line 13, in <module>
+    from project.api import api
+  File "/home/ec2-user/gro-users-service/project/api/__init__.py", line 5, in <module>
+    from .auth import api as auth
+  File "/home/ec2-user/gro-users-service/project/api/auth.py", line 52
+    <<<<<<< HEAD
+     ^
+SyntaxError: invalid syntax

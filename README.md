@@ -36,6 +36,11 @@
     - /social_media/google_handler
 
 ### How do I get set up? ###
+* Running inside AWS Instance
+```
+# Running from inside AWS Instance
+$ python manage.py runserver -h 0.0.0.0 -p 5000
+```
 
 * How to run and deploy with Docker
 ** Run Application on Local Host
@@ -54,7 +59,9 @@ $ . env/bin/activate
 (env)$ export APP_SETTINGS=project.config.DevelopmentConfig DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users SECRET_KEY=gradeALoan PLAID_CLIENT_ID=5a9591e08d9239244b8063ad PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 PLAID_ENV=development PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82
 
 # Spin up a Local Server and check in browser at http://127.0.0.1:5000/ 
-$ python manage.py runserver
+$ python manage.py runserver 
+
+
 
 ```
 
@@ -74,22 +81,13 @@ $ git clone https://github.com/joectuan/gro-users-service
 $ sudo yum install python3
 $ sudo python3 -m pip install -r requirements.txt
 
-# Test Run Gunicorn on Port 5000
-$ gunicorn --bind 0.0.0.0:5000 wsgi:app
-
-# Copy the groCapita.conf file to etc/init
-$ sudo cp groCapital.conf /etc/init/groCapital.conf
-
-# reload configuration files from /etc/init/*.conf
-$ sudo initctl reload-configuration
-
-# see if the new job is listed
-$ sudo initctl list
-
-# start the groCapital.conf script
-$ sudo initctl start groCapital
+# Using nodup to running app in the background and restart automatically
+$ nohup python manage.py runserver -h 0.0.0.0 -p 5000
 
 ```
+
+Now we can access the app from port 5000 of the aws instance. We need to use reverse proxy on CloudFlare to point http and https to this aws instance. 
+This is a little hacky and I am working on moving to Gunicorn and Nginx.
 
 ** Deploy on NOW
 

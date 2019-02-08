@@ -39,7 +39,7 @@ class Ping(Resource):
         """Ping tesing users endpoints"""
         return jsonify({
             'status':'success',
-            'message':'pong!'
+            'message':'ping again!'
         })
 
 # @api.route('/')

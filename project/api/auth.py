@@ -44,14 +44,15 @@ class Register(Resource):
             return response
 
         # getting username, email and password from post request
-        # username = post_data.get('username')
+        #username = post_data.get('username')
         email = post_data.get('email')
         password = post_data.get('password')
         status = 'registered'
         admin = False
-        # first_name = post_data.get('first_name')
-        # last_name  = post_data.get('last_name')
-        # company = post_data.get()
+        #first_name = post_data.get('first_name')
+        #last_name  = post_data.get('last_name')
+        #birthday = post_data.get('birthday')
+	# company = post_data.get()
 
         try:
             # checking for existing user
@@ -60,11 +61,14 @@ class Register(Resource):
             if not user:
                 # add new user to db
                 new_user = User(
-                    # username=username,
+                    #username=username,
                     admin=admin, 
                     status=status, 
                     email=email, 
-                    password=password
+                    password=password 
+		    #first_name=first_name,
+		    #last_name=last_name,
+		    #birthday=birthday
                 )
                 db.session.add(new_user)
                 db.session.commit()

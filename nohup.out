@@ -14438,3 +14438,352 @@ Traceback (most recent call last):
     <<<<<<< HEAD
      ^
 SyntaxError: invalid syntax
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 171-120-855
+12.238.33.130 - - [08/Feb/2019 21:32:07] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:07] "[37mGET /swaggerui/bower/swagger-ui/dist/css/screen.css HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:07] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery-1.8.0.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:08] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/handlebars-4.0.5.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:08] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/lodash.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:08] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/backbone-min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:08] "[37mGET /swaggerui/bower/swagger-ui/dist/swagger-ui.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:08] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/highlight.9.1.0.pack.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:08] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jsoneditor.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:08] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/marked.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:09] "[37mGET /swaggerui/bower/swagger-ui/dist/fonts/DroidSans.ttf HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:09] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:09] "[37mGET /swaggerui/bower/swagger-ui/dist/fonts/DroidSans-Bold.ttf HTTP/1.1[0m" 200 -
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 171-120-855
+12.238.33.130 - - [08/Feb/2019 21:32:31] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:31] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:32] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+12.238.33.130 - - [08/Feb/2019 21:32:33] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:33] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:34] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:32:34] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+ * Detected change in '/home/ec2-user/gro-users-service/manage.py', reloading
+ * Restarting with stat
+  File "manage.py", line 58
+    user_datastore = SQLAlchemyUserDatastore(db, AdminUser, Role)
+                 ^
+SyntaxError: invalid syntax
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 171-120-855
+12.238.33.130 - - [08/Feb/2019 21:45:05] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:45:05] "[37mGET /swaggerui/bower/swagger-ui/dist/swagger-ui.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:45:07] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+Traceback (most recent call last):
+  File "manage.py", line 300, in <module>
+    manager.run()
+  File "/usr/local/lib/python2.7/site-packages/flask_script/__init__.py", line 412, in run
+    result = self.handle(sys.argv[0], sys.argv[1:])
+  File "/usr/local/lib/python2.7/site-packages/flask_script/__init__.py", line 383, in handle
+    res = handle(*args, **config)
+  File "/usr/local/lib/python2.7/site-packages/flask_script/commands.py", line 425, in __call__
+    **self.server_options)
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 841, in run
+    run_simple(host, port, self, **options)
+  File "/usr/local/lib/python2.7/site-packages/werkzeug/serving.py", line 780, in run_simple
+    s.bind((hostname, port))
+  File "/usr/lib64/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 13] Permission denied
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 171-120-855
+12.238.33.130 - - [08/Feb/2019 21:46:18] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:46:19] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:58:00] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:58:00] "[37mGET /swaggerui/bower/swagger-ui/dist/swagger-ui.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 21:58:02] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 22:09:11] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 22:09:12] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 22:09:12] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+12.238.33.130 - - [08/Feb/2019 22:13:42] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [08/Feb/2019 22:13:43] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+ * Detected change in '/home/ec2-user/gro-users-service/manage.py', reloading
+ * Restarting with stat
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 171-120-855
+ * Detected change in '/home/ec2-user/gro-users-service/manage.py', reloading
+ * Restarting with stat
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 171-120-855
+ * Detected change in '/home/ec2-user/gro-users-service/manage.py', reloading
+ * Restarting with stat
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 171-120-855
+ * Detected change in '/home/ec2-user/gro-users-service/manage.py', reloading
+ * Restarting with stat
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 171-120-855
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+[2019-02-08 22:28:02 +0000] [11861] [INFO] Starting gunicorn 19.7.1
+[2019-02-08 22:28:02 +0000] [11861] [INFO] Listening at: http://0.0.0.0:6969 (11861)
+[2019-02-08 22:28:02 +0000] [11861] [INFO] Using worker: sync
+[2019-02-08 22:28:02 +0000] [11868] [INFO] Booting worker with pid: 11868
+[2019-02-08 22:28:02 +0000] [11869] [INFO] Booting worker with pid: 11869
+[2019-02-08 22:28:02 +0000] [11870] [INFO] Booting worker with pid: 11870
+12.238.33.130 - - [08/Feb/2019 22:28:23] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2019-02-08 22:30:45 +0000] [11871] [INFO] Booting worker with pid: 11871
+[2019-02-08 22:30:45 +0000] [11872] [INFO] Booting worker with pid: 11872
+[2019-02-08 22:30:45 +0000] [11861] [INFO] Handling signal: hup
+[2019-02-08 22:30:45 +0000] [11861] [INFO] Hang up: Master
+[2019-02-08 22:30:45 +0000] [11873] [INFO] Booting worker with pid: 11873
+[2019-02-08 22:30:45 +0000] [11871] [INFO] Worker exiting (pid: 11871)
+[2019-02-08 22:30:45 +0000] [11875] [INFO] Booting worker with pid: 11875
+[2019-02-08 22:30:45 +0000] [11874] [INFO] Booting worker with pid: 11874
+[2019-02-08 22:30:45 +0000] [11872] [INFO] Worker exiting (pid: 11872)
+72.227.177.239 - - [08/Feb/2019 22:59:08] "[37mGET /users/ping HTTP/1.1[0m" 200 -
+72.227.177.239 - - [08/Feb/2019 22:59:44] "[1m[31mPOST /auth/register HTTP/1.1[0m" 400 -
+72.227.177.239 - - [08/Feb/2019 22:59:49] "[37mPOST /auth/register HTTP/1.1[0m" 201 -
+72.227.177.239 - - [09/Feb/2019 00:35:56] "[37mGET /swaggerui/bower/swagger-ui/dist/images/throbber.gif HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 00:40:35] "[37mGET /companies/ HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 00:43:09] "[37mGET /companies/ HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 00:43:10] "[37mGET /companies/ HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 00:43:27] "[37mGET /users/ping HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 00:47:20] "[37mGET /companies/ HTTP/1.1[0m" 200 -
+--------------------------------------------------------------------------------
+ERROR in app [/usr/local/lib/python2.7/site-packages/flask/app.py:1560]:
+Exception on /accounting/authCodeHandler [GET]
+--------------------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/lib/python2.7/site-packages/flask_restplus/api.py", line 313, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/flask/views.py", line 84, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/flask_restplus/resource.py", line 44, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "/home/ec2-user/gro-users-service/project/api/accounting.py", line 137, in get
+    auth_header = 'Basic ' + stringToBase64(CLIENT_ID + ':' + CLIENT_SECRET)
+  File "/home/ec2-user/gro-users-service/project/api/accounting.py", line 39, in stringToBase64
+    return base64.b64encode(bytes(s, 'utf-8')).decode()
+TypeError: str() takes at most 1 argument (2 given)
+72.227.177.239 - - [09/Feb/2019 00:47:49] "[1m[35mGET /accounting/authCodeHandler HTTP/1.1[0m" 500 -
+--------------------------------------------------------------------------------
+ERROR in app [/usr/local/lib/python2.7/site-packages/flask/app.py:1560]:
+Exception on /accounting/connectToQuickbooks [GET]
+--------------------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/lib/python2.7/site-packages/flask_restplus/api.py", line 313, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/flask/views.py", line 84, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/flask_restplus/resource.py", line 44, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "/home/ec2-user/gro-users-service/project/api/accounting.py", line 115, in get
+    url += '?' + urllib.parse.urlencode(params)
+AttributeError: 'module' object has no attribute 'parse'
+72.227.177.239 - - [09/Feb/2019 00:48:00] "[1m[35mGET /accounting/connectToQuickbooks HTTP/1.1[0m" 500 -
+72.227.177.239 - - [09/Feb/2019 00:48:16] "[37mGET /banking/ HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 00:48:37] "[37mGET /banking/ping HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 00:49:23] "[37mGET /companies/de81029e-3c9d-4e0f-8a5a-d81ee59b8d3a HTTP/1.1[0m" 200 -
+196.52.43.84 - - [09/Feb/2019 00:58:58] "[37mGET / HTTP/1.0[0m" 200 -
+125.64.94.201 - - [09/Feb/2019 10:51:02] "[37mGET / HTTP/1.0[0m" 200 -
+107.6.150.242 - - [09/Feb/2019 13:39:18] "[37mGET / HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:05] "[37mGET / HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:05] "[37mGET /swaggerui/bower/swagger-ui/dist/css/typography.css HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:05] "[37mGET /swaggerui/bower/swagger-ui/dist/css/screen.css HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/css/reset.css HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/object-assign-pollyfill.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.slideto.min.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery-1.8.0.min.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.wiggle.min.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.ba-bbq.min.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/handlebars-4.0.5.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/lodash.min.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/backbone-min.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/swagger-ui.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/highlight.9.1.0.pack.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/highlight.9.1.0.pack_extended.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jsoneditor.min.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/marked.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/swagger-oauth.js HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/fonts/DroidSans.ttf HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+72.227.177.239 - - [09/Feb/2019 19:30:06] "[37mGET /swaggerui/bower/swagger-ui/dist/fonts/DroidSans-Bold.ttf HTTP/1.1[0m" 200 -
+54.157.31.157 - - [09/Feb/2019 19:30:24] "[37mGET / HTTP/1.1[0m" 200 -
+ * Detected change in '/home/ec2-user/gro-users-service/project/api/banking.py', reloading
+<Request 'http://ec2-54-152-141-30.compute-1.amazonaws.com:5000/auth/register' [POST]>
+<Request 'http://ec2-54-152-141-30.compute-1.amazonaws.com:5000/auth/register' [POST]>
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NDk2NjY3ODksInN1YiI6ImU5NTIyOTEyLTA3N2EtNDQzYy05NzhhLWRmNzFmMjM0YjAzZSIsImV4cCI6MTU1MjI1ODc4OX0.pkO7bX6IykOSdunqKaNQNMazDTJbn9HpbrR8KXpKsLc
+Auth Code are:None
+None
+development
+GETTING DATA on de81029e-3c9d-4e0f-8a5a-d81ee59b8d3a from database
+ * Restarting with stat
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+ * Debugger is active!
+ * Debugger PIN: 171-120-855
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/css/typography.css HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/css/reset.css HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/css/screen.css HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/object-assign-pollyfill.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.slideto.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery-1.8.0.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.wiggle.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.ba-bbq.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/handlebars-4.0.5.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/lodash.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/backbone-min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:23] "[37mGET /swaggerui/bower/swagger-ui/dist/swagger-ui.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:24] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/highlight.9.1.0.pack.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:24] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/highlight.9.1.0.pack_extended.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:24] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jsoneditor.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:24] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/marked.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:24] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/swagger-oauth.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:24] "[37mGET /swaggerui/bower/swagger-ui/dist/fonts/DroidSans.ttf HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:24] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:08:24] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+12.238.33.130 - - [12/Feb/2019 00:08:25] "[37mGET /swaggerui/bower/swagger-ui/dist/fonts/DroidSans-Bold.ttf HTTP/1.1[0m" 200 -
+/usr/local/lib/python2.7/site-packages/plaid/client.py:61: UserWarning: 
+                Development is not intended for production usage.
+                Swap out url for https://api.plaid.com
+                via Client.config before switching to production
+            
+  ''')
+Traceback (most recent call last):
+  File "manage.py", line 320, in <module>
+    manager.run()
+  File "/usr/local/lib/python2.7/site-packages/flask_script/__init__.py", line 412, in run
+    result = self.handle(sys.argv[0], sys.argv[1:])
+  File "/usr/local/lib/python2.7/site-packages/flask_script/__init__.py", line 383, in handle
+    res = handle(*args, **config)
+  File "/usr/local/lib/python2.7/site-packages/flask_script/commands.py", line 425, in __call__
+    **self.server_options)
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 841, in run
+    run_simple(host, port, self, **options)
+  File "/usr/local/lib/python2.7/site-packages/werkzeug/serving.py", line 780, in run_simple
+    s.bind((hostname, port))
+  File "/usr/lib64/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 98] Address already in use
+12.238.33.130 - - [12/Feb/2019 00:09:10] "[37mGET / HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:10] "[37mGET /swaggerui/bower/swagger-ui/dist/css/typography.css HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.slideto.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/css/reset.css HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/object-assign-pollyfill.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/css/screen.css HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery-1.8.0.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.wiggle.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jquery.ba-bbq.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/lodash.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/handlebars-4.0.5.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/backbone-min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/swagger-ui.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/highlight.9.1.0.pack.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/highlight.9.1.0.pack_extended.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/jsoneditor.min.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/marked.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:11] "[37mGET /swaggerui/bower/swagger-ui/dist/lib/swagger-oauth.js HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:12] "[37mGET /swaggerui/bower/swagger-ui/dist/fonts/DroidSans.ttf HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:12] "[37mGET /swagger.json HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:12] "[37mGET /swaggerui/bower/swagger-ui/dist/fonts/DroidSans-Bold.ttf HTTP/1.1[0m" 200 -
+12.238.33.130 - - [12/Feb/2019 00:09:12] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -

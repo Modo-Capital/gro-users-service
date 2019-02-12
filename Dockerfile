@@ -1,6 +1,6 @@
 FROM python:3
 
-EXPOSE 5000
+EXPOSE 8000
 
 # set working directory
 RUN mkdir -p /usr/src/app

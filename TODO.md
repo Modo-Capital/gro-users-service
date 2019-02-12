@@ -1,3 +1,5 @@
 # Oct 15,2018
 
-[ ] Display Readable Input 
+[X] Display Readable Input 
+[ ] Deploy Changes to AWS
+[ ] Move to QA

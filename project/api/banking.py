@@ -22,10 +22,18 @@ banking_blueprint = Blueprint('banking',__name__, static_folder='static', templa
 api = Namespace('banking', description='Connect and Get Banking Data')
 
 # Preparing for PLAID Connections
+'''
 PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
 PLAID_SECRET = os.getenv('PLAID_SECRET')
 PLAID_PUBLIC_KEY = os.getenv('PLAID_PUBLIC_KEY')
 PLAID_ENV = os.getenv('PLAID_ENV', 'development')
+'''
+PLAID_CLIENT_ID = '5a9591e08d9239244b8063ad'
+PLAID_SECRET = 'eee49e6a0701f60eea4319bbf96282'
+PLAID_PUBLIC_KEY = '02e15ef6f47e6ecb5377f4e3f26d82'
+PLAID_ENV = 'development'
+
+
 access_token = None
 client = plaid.Client(client_id = PLAID_CLIENT_ID, secret=PLAID_SECRET,
                   public_key=PLAID_PUBLIC_KEY, environment=PLAID_ENV)

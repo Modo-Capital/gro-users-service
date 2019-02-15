@@ -43,6 +43,12 @@ $ nohup python manage.py runserver -h 0.0.0.0 -p 8000
 ```
 
 * How to run and deploy with Docker
+
+```
+$ docker image build --tag $DOCKERID/gro-api-prod:1.1 .
+$ docker container run --detach --publish 8000:8000 --name gro-api-prod $DOCKERID/gro-api-prod:1.1
+```
+
 ** Run Application on Local Host
 
 ```
@@ -87,14 +93,6 @@ $ nohup python manage.py runserver -h 0.0.0.0 -p 8000
 Now we can access the app from port 5000 of the aws instance. We need to use reverse proxy on CloudFlare to point http and https to this aws instance. 
 This is a little hacky and I am working on moving to Gunicorn and Nginx.
 
-** Deploy on NOW
-
-```
-$ now
-$ now -e APP_SETTINGS=project.config.DevelopmentConfig -e DATABASE_URL=postgres://gro_admin:gradeALoan@users-db.cqpif3mugtce.us-east-1.rds.amazonaws.com:5432/users -e SECRET_KEY=gradeALoan -e PLAID_CLIENT_ID=5a9591e08d9239244b8063ad  -e PLAID_SECRET=eee49e6a0701f60eea4319bbf96282 -e PLAID_ENV=development -e PLAID_PUBLIC_KEY=02e15ef6f47e6ecb5377f4e3f26d82
-```
-
-
 * How to run tests
 ** Run test locally
 # Setting localDB variable
@@ -116,6 +114,11 @@ $ . env/bin/activate
 $ python manage.py test
 
 ```
+
+```
+Username: jack@topflightapps.com
+Password: Th1$is@Password
+``` 
 
 ### Who do I talk to? ###
 * Troy Do - troy@topflightapps.com

@@ -10,6 +10,7 @@ from .accounting import api as accounting
 from .social_media import api as social_media
 from .gro_scores import api as gro_scores
 from .applicants import api as applicants
+from .deployment import api as deployment
 from flask import url_for
 
 
@@ -35,4 +36,5 @@ api.add_namespace(accounting)
 api.add_namespace(banking)
 api.add_namespace(social_media)
 api.add_namespace(gro_scores)
+api.add_namespace(deployment)
 

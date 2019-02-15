@@ -1,4 +1,4 @@
-# project/api/views.py
+# project/api/companies.py
 
 from flask import Blueprint, jsonify, request, render_template
 from flask_restplus import Namespace, Resource, fields

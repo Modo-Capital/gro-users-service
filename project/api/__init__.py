@@ -24,8 +24,8 @@ def specs_url(self):
 ### Define API with restplus.api
 api = Api (
     version='1.1',
-    title='Gro API', 
-    description="Gro Restful API"
+    title='Growth Capital API', 
+    description="All Web App Endpoint plus Deployment Endpoint"
 )
 
 api.add_namespace(auth)

@@ -1,8 +1,8 @@
 # GROWTH CAPITAL - Users Services 
 
 ### What is this repository for? ###
-* Deployment Trigger Endpoint:
-    -/deployment
+* Deployment triggering endpoint:
+    -/deployment (Pass in App name and Password)
 * Auths Endpoints for Sign In, Sign Up, Sign Out and Status
     - /auth/signup
     - /auth/signin

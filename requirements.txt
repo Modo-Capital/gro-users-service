@@ -46,7 +46,6 @@ jmespath==0.9.3
 jsonschema==2.6.0
 Mako==1.0.7
 MarkupSafe==1.0
-numpy==1.14.4
 oauthlib==2.0.7
 passlib==1.7.1
 pathspec==0.5.5
@@ -79,3 +78,4 @@ scikit-learn==0.20.2
 scipy==1.2.1
 sklearn==0.0
 sklearn-pandas==1.8.0
+numpy==1.14.4

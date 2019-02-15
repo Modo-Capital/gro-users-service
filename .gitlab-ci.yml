@@ -7,7 +7,7 @@ build job:
     - export PYTHONPATH=.
     - apt-get update -qy
     - apt-get install -y python3-dev python3-pip
-    - pip3 install -r requirements.txt
+    - pip install -r requirements.txt
 deploy job:
   stage: deploy
   variables:
@@ -18,5 +18,4 @@ deploy job:
     - apt-get install curl -y
     - curl -d $DEPLOYMENT_DATA -H $DEPLOYMENT_DATA_TYPE -X POST http://18.233.153.200/deployment
     
-  
   

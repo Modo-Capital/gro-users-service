@@ -53,7 +53,7 @@ migrate = Migrate(app, db)
 # Manager Configuration
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
-manager.add_command('infinite_run', Server(host='0.0.0.0', port=5000))
+manager.add_command('infinite_run', Server(host='0.0.0.0', port=8000))
 # Setup Flask-Security
 user_datastore = SQLAlchemyUserDatastore(db, AdminUser, Role)
 security = Security(app, user_datastore)

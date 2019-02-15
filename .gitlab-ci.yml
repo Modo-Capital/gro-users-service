@@ -1,0 +1,21 @@
+stages:
+  - build
+  - deploy
+build job:
+  stage: build
+  script:
+    - export PYTHONPATH=.
+    - export FLASK_APP=web
+    - apt-get update -qy
+    - apt-get install -y python3-dev python3-pip
+    - pip3 install -r requirements.txt
+deploy job:
+  stage: deploy
+  script:
+    - apt-get update -qy
+    - apt-get install curl -y
+    - curl 18.233.153.200/deployment --header "Content-Type: application/json" --request POST --data '{"app_name":"Gro API","password":"SuperSecret"}' http://18.233.153.200/#!/deployment/push_code
+
+  
+  
+  

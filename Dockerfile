@@ -14,6 +14,8 @@ ADD ./requirements.txt /usr/src/app/requirements.txt
 
 # install requirements
 RUN pip install -r requirements.txt
+RUN git init
+RUN git remote add 
 
 # add app
 ADD . /usr/src/app

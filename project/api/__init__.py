@@ -25,7 +25,7 @@ def specs_url(self):
 api = Api (
     version='1.1',
     title='Growth Capital API', 
-    description="All Web App Endpoint plus Deployment Endpoint"
+    description="All Web App Endpoints plus Deployment Endpoint"
 )
 
 api.add_namespace(auth)

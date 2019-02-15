@@ -2,7 +2,7 @@
 
 ### What is this repository for? ###
 * Deployment triggering endpoint:
-    -/deployment (Pass in App name and Password)
+    - /deployment (Pass in App name and Password)
 * Auths Endpoints for Sign In, Sign Up, Sign Out and Status
     - /auth/signup
     - /auth/signin

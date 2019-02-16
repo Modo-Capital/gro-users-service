@@ -2,8 +2,7 @@ FROM python:3.7
 
 EXPOSE 8000
 
-RUN apt-get update && apt-get install -y \
-    git 
+RUN apt-get update && apt-get install -y git 
 
 # set working directory
 RUN mkdir -p /usr/src/app
@@ -15,7 +14,7 @@ ADD ./requirements.txt /usr/src/app/requirements.txt
 # install requirements
 RUN pip install -r requirements.txt
 RUN git init
-RUN git remote add 
+RUN git remote add git@gitlab.com:troydo42/gro-api.git
 
 # add app
 ADD . /usr/src/app

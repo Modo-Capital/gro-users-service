@@ -3,6 +3,7 @@
 ### What is this repository for? ###
 * Deployment triggering endpoint:
     - /deployment (Pass in App name and Password)
+    
 * Auths Endpoints for Sign In, Sign Up, Sign Out and Status
     - /auth/signup
     - /auth/signin
@@ -47,8 +48,11 @@ $ nohup python manage.py runserver -h 0.0.0.0 -p 8000
 * How to run and deploy with Docker
 
 ```
-$ docker image build --tag $DOCKERID/gro-api-prod:1.1 .
-$ docker container run --detach --publish 8000:8000 --name gro-api-prod $DOCKERID/gro-api-prod:1.1
+# Launch Docker
+$ docker-compose up -d --build
+
+# Bash session inside new container
+$ docker exec -i -t ec2-user_api_1 /bin/bash
 ```
 
 ** Run Application on Local Host
@@ -68,7 +72,6 @@ $ . env/bin/activate
 
 # Spin up a Local Server and check in browser at http://127.0.0.1:5000/ 
 $ python manage.py runserver -h 0.0.0.0 -p 8000
-
 ```
 
 ** Setting up on new EC2 Instance
@@ -89,38 +92,7 @@ $ sudo python3 -m pip install -r requirements.txt
 
 # Using nodup to running app in the background and restart automatically
 $ nohup python manage.py runserver -h 0.0.0.0 -p 8000
-
 ```
 
-Now we can access the app from port 5000 of the aws instance. We need to use reverse proxy on CloudFlare to point http and https to this aws instance. 
-This is a little hacky and I am working on moving to Gunicorn and Nginx.
-
-* How to run tests
-** Run test locally
-# Setting localDB variable
-
-```
-# Activate local enviroment
-$ . env/bin/activate
-
-# Setting APP_SETTING  to TestingConfig
-(env)$ export APP_SETTINGS=project.config.TestingConfig
-
-# Setting DATABASE_URL to local postgres users_test
-(env)$ export DATABASE_TEST_URL=postgres://postgres:postgres@localhost:5432/users_test
-
-# Setting SERCRET_KEY 
-(env)$ export SECRET_KEY=my_precious
-
-# Run Test
-$ python manage.py test
-
-```
-
-```
-Username: jack@topflightapps.com
-Password: Th1$is@Password
-``` 
-
-#### Who do I talk to? ###
+### Who do I talk to? ###
 * Troy Do - troy@topflightapps.com

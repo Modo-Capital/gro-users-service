@@ -1,21 +1,27 @@
+image: docker:latest
+services:
+  - docker:dind
+
+variables:
+  WORK_DIR: ${CI_PROJECT_NAME}
+  BRANCH: ${CI_COMMIT_REF_NAME}
+  REGISTRY: registry.gitlab.com/troydo42/gro-api
+
 stages:
   - build
   - deploy
+
 build job:
   stage: build
   script:
-    - export PYTHONPATH=.
-    - apt-get update -qy
-    - apt-get install -y python3-dev python3-pip git
-    - pip3 install -r requirements.txt
+      - docker login -u troydo42 -p $PASS registry.gitlab.com
+      - docker build -t $REGISTRY .
+      - docker push $REGISTRY
+
 deploy job:
   stage: deploy
-  variables:
-    DEPLOYMENT_DATA: '{"app_name":"Gro API", "password":"SuperSecret"}'
-    DEPLOYMENT_DATA_TYPE: "Content-Type: application/json"
   script:
-    - apt-get update -qy
-    - apt-get install curl -y
-    - curl -d $DEPLOYMENT_DATA -H $DEPLOYMENT_DATA_TYPE -X POST http://18.233.153.200/deployment
+      - docker login -u johandurancerdas -p $PASS registry.gitlab.com
+      - docker pull $REGISTRY
+      - docker run --name=$BRANCH -p 80:8080 -i $REGISTRY npm run ci
     
-  

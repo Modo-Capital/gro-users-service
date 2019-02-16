@@ -39,20 +39,24 @@
     - /social_media/google_handler
 
 ### How do I get set up? ###
-* Running inside AWS Instance
-```
-# Running from inside AWS Instance
-$ nohup python manage.py runserver -h 0.0.0.0 -p 8000
-```
 
-* How to run and deploy with Docker
+* Deploy on AWS EC2
 
 ```
-# Launch Docker
+# CD into Location of gro-apis.pem key
+$ cd .ssh
+
+# SSH into EC2 Instance
+$ ssh -i "gro-apis.pem" ec2-user@ec2-18-233-153-200.compute-1.amazonaws.com
+
+# Stop Current Dockers
+$ docker-compose down
+
+# Pull New Image
+$ docker pull registry.gitlab.com/troydo42/gro-api
+
+# Restart Dockers
 $ docker-compose up -d --build
-
-# Bash session inside new container
-$ docker exec -i -t ec2-user_api_1 /bin/bash
 ```
 
 ** Run Application on Local Host
@@ -74,25 +78,6 @@ $ . env/bin/activate
 $ python manage.py runserver -h 0.0.0.0 -p 8000
 ```
 
-** Setting up on new EC2 Instance
-
-```
-# SSH into new instance
-$ ssh -i "gro-apis.pem" ec2-user@ec2-54-165-169-138.compute-1.amazonaws.com
-
-# Install GIT
-$ sudo yum install git
-
-# Clone the sourcecode into the ec2 instance
-$ git clone https://github.com/joectuan/gro-users-service
-
-# Install python3 and other python packages
-$ sudo yum install python3
-$ sudo python3 -m pip install -r requirements.txt
-
-# Using nodup to running app in the background and restart automatically
-$ nohup python manage.py runserver -h 0.0.0.0 -p 8000
-```
 
 ### Who do I talk to? ###
 * Troy Do - troy@topflightapps.com

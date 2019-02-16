@@ -13,8 +13,6 @@ ADD ./requirements.txt /usr/src/app/requirements.txt
 
 # install requirements
 RUN pip install -r requirements.txt
-RUN git init
-RUN git remote add git@gitlab.com:troydo42/gro-api.git
 
 # add app
 ADD . /usr/src/app

@@ -14,7 +14,7 @@ stages:
 build job:
   stage: build
   script:
-      - docker login -u troydo42 -p milkyway42 registry.gitlab.com
+      - docker login -u troydo42 -p $PASSWORD registry.gitlab.com
       - docker build -t $REGISTRY .
       - docker push $REGISTRY
 
@@ -23,5 +23,5 @@ deploy job:
   script:
       - docker login -u johandurancerdas -p $PASS registry.gitlab.com
       - docker pull $REGISTRY
-      - docker run --name=$BRANCH -p 80:8080 -i $REGISTRY npm run ci
+      - docker run --name=$BRANCH -p 80:8000 -i $REGISTRY npm run ci
     

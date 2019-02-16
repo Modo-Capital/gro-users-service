@@ -3,8 +3,8 @@ services:
   - docker:dind
 
 variables:
-  WORK_DIR: ${CI_PROJECT_NAME}
-  BRANCH: ${CI_COMMIT_REF_NAME}
+  WORK_DIR: ./
+  BRANCH: staging
   REGISTRY: registry.gitlab.com/troydo42/gro-api
 
 stages:
@@ -14,7 +14,7 @@ stages:
 build job:
   stage: build
   script:
-      - docker login -u troydo42 -p $PASS registry.gitlab.com
+      - docker login -u troydo42 -p milkyway42 registry.gitlab.com
       - docker build -t $REGISTRY .
       - docker push $REGISTRY
 

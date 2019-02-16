@@ -23,5 +23,5 @@ deploy job:
   script:
       - docker login -u troydo42 -p $PASSWORD registry.gitlab.com
       - docker pull $REGISTRY
-      - docker run --name=$BRANCH -p 80:8000 -i $REGISTRY
+      - docker run --name=$BRANCH -d -p 80:8000 -i $REGISTRY 
     

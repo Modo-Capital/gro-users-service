@@ -208,6 +208,8 @@ class User(db.Model):
     documents = db.relationship("Document", backref="business_documents", cascade="all, delete-orphan", lazy='dynamic')
     created_at = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
+    dl_front = db.Column(db.String(), nullable=True, unique=True)
+    dl_back = db.Column(db.String(), nullable=True, unique=True)
     
     def __init__(self, email, password, status, admin, first_name, last_name, birthday):
         self.email = email
@@ -268,6 +270,24 @@ class User(db.Model):
             return 'Invalid token. Please login again.'
     def __repr__(self):
         return '<User %r>' % self.uid
+
+
+# Create Stakeholders
+class Stakeholders(db.Model):
+    __tablename__="stakeholders"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False)
+    percentage = db.Column(db.Float, nullable=False)
+    company_id = db.Column(db.String, db.ForeignKey('companies.uid'))
+    company = db.relationship('Company')
+
+    def __init__(self, name, percentage, company_id):
+        self.name = name
+        self.percentage = percentage
+        self.company_id = company_id
+    
+    def __repr__(self):
+        return '<Stakeholders %r>' % self.id
 
 
 # Create Documents

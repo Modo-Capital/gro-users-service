@@ -112,6 +112,51 @@ class Register(Resource):
             return response
 
 
+# Create DL API endpoint
+@api.route('/dl_upload/<string:uid>')
+class DL_Upload(Resource):
+    @api.expect(auth_fields)
+    def put(self, uid):
+        put_data = request.get_json()
+        if put_data is None:
+            response = jsonify({
+                'status': 'error',
+                'message': 'Invalid payload.'
+            })
+            response.status_code = 400
+            return response
+        user = User.query.filter_by(uid=uid).first()
+        
+        if user:
+            for key, value in put_data.items():
+                print("Updating %s with %s "%(key,value))
+                setattr(user, key, value)
+            
+            db.session.add(user)
+            try:
+                db.session.commit()
+                print("I'm here!")
+            except:
+                db.session.rollback()
+                raise
+            response = jsonify({
+                'status':'success', 
+                'message': 'Successfully update company profile',
+                'update':  put_data
+            })
+            response.status_code = 200
+            return response
+        else:
+            response = jsonify({
+                'status':'fail',
+                'message': 'Fail to pull user data',
+                'status_code': 401
+            })
+            return response
+
+        
+
+
 # Create Login API endpoint
 @api.route('/login')
 class Login(Resource):

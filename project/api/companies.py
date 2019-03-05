@@ -2,12 +2,18 @@
 
 from flask import Blueprint, jsonify, request, render_template
 from flask_restplus import Namespace, Resource, fields
-from project.api.models import Company
+from project.api.models import Company, Stakeholders
 from project import db
 from sqlalchemy import exc
 
 companies_blueprint = Blueprint('companies', __name__, template_folder='templates')
 api = Namespace('companies', description='Companies create, view, update, delete')
+
+stakeholders_fields = api.model('Stakeholders', {
+    'name': fields.String(description="Stakeholder Name", required=True),
+    'percentage': fields.Float(description="Stakeholder Percentage", required=True),
+    'company_id': fields.String(description="Company ID", required=True)
+})
 
 company_fields = api.model('New Company', {
     'company_name': fields.String(description="Company Name", required=True),
@@ -157,6 +163,169 @@ class CompaniesList(Resource):
             })
             response_object.status_code = 400
             return response_object
+
+
+@api.route('/ping')
+class Ping(Resource):
+    @api.doc('ping_pong')
+    def get(self):
+        """Ping tesing users endpoints"""
+        return jsonify({
+            'status':'success',
+            'message':'inside company ping!'
+        })
+
+# Get All Stakeholders based on Company ID
+@api.route('/stakeholders/<string:company_id>')
+@api.response(404, 'Company not found')
+@api.param('uid', 'The company unique identifier')
+class Company_Stakeholder(Resource):
+    @api.doc('Get a company stakeholders')
+    def get(self, company_id):
+        response_object = jsonify({
+            'status':'fail',
+            'message':'Company does not exist'
+        })
+
+        stakeholders = Stakeholders.query.filter_by(company_id=company_id).all()
+        stakeholders_list = []
+        for stakeholder in stakeholders:
+            stakeholder_object = {
+                'uid':stakeholder.company_id,
+                'name': stakeholder.name,
+                'percentage':stakeholder.percentage
+            }
+            stakeholders_list.append(stakeholder_object)
+
+        response_object = jsonify({
+            'status':'success',
+            'data':{    
+                'stakeholders':stakeholders_list
+            }
+        })
+        response_object.status_code = 200
+        return response_object
+
+    def post(self, company_id):
+        post_data = request.json
+
+        name = post_data.get('name')
+        percentage = post_data.get('percentage')
+
+        try:
+            stakeholder = Stakeholders.query.filter_by(company_id=company_id, name=name).first()
+            if not stakeholder:
+                # Add new companies to database
+                print("I'm here")
+                db.session.add(Stakeholders(company_id=company_id, name=name, percentage=percentage))
+                db.session.commit()
+                newStakeholder = Stakeholders.query.filter_by(company_id=company_id, name=name).first()
+
+                # Return success response status and message
+                response_object = jsonify({
+                    'status': 'success',
+                    'message': '%s was added!'%(name),
+                    'data': {
+                        "name":newStakeholder.name,
+                        "percentage":newStakeholder.percentage,
+                        "company_id":newStakeholder.company_id
+                    }
+                })
+                response_object.status_code = 201
+                return response_object
+            else :
+                response_object = jsonify({
+                    'status': 'fail',
+                    'message': 'Sorry. That company and stakeholder already exist.'
+                })
+                response_object.status_code = 400   
+                return response_object
+        except (exc.IntegrityError, ValueError) as e:
+            print(e)
+            db.session.rollback()
+            response_object = jsonify({
+                'status': 'fail',
+                'message': 'Invalid payload.',
+            })
+            response_object.status_code = 400
+            return response_object
+
+    def put(self, company_id):
+        put_data = request.get_json()
+        if put_data is None:
+            response = jsonify({
+                'status': 'error',
+                'message': 'Invalid payload.'
+            })
+            response.status_code = 400
+            return response
+        else:
+            name=put_data.get('name')
+        stakeholder = Stakeholders.query.filter_by(company_id=company_id, name=name).first()
+        
+        if stakeholder:
+            for key, value in put_data.items():
+                print("Updating %s with %s "%(key,value))
+                setattr(stakeholder, key, value)
+            
+            db.session.add(stakeholder)
+            try:
+                db.session.commit()
+                print("I'm here!")
+            except:
+                db.session.rollback()
+                raise
+            response = jsonify({
+                'status':'success', 
+                'message': 'Successfully update stakeholder profile',
+                'update':  put_data
+            })
+            response.status_code = 200
+            return response
+        else:
+            response = jsonify({
+                'status':'fail',
+                'message': 'Fail to pull user data',
+                'status_code': 401
+            })
+            return response
+
+    def delete(self, company_id):
+        delete_data = request.get_json()
+        if delete_data is None:
+            response = jsonify({
+                'status': 'error',
+                'message': 'Invalid payload.'
+            })
+            response.status_code = 400
+            return response
+        else:
+            name=delete_data.get('name')
+        stakeholder = Stakeholders.query.filter_by(company_id=company_id, name=name).first()
+        
+        if stakeholder:
+            
+            db.session.delete(stakeholder)
+            try:
+                db.session.commit()
+                print("I'm here!")
+            except:
+                db.session.rollback()
+                raise
+            response = jsonify({
+                'status':'success', 
+                'message': 'Successfully delete stakeholder profile',
+                'update':  delete_data
+            })
+            response.status_code = 200
+            return response
+        else:
+            response = jsonify({
+                'status':'fail',
+                'message': 'Fail to pull user data',
+                'status_code': 401
+            })
+            return response
 
 
 # Get Company by ID from Database

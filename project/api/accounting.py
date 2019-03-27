@@ -12,11 +12,20 @@ from flask_restplus import Namespace, Resource, reqparse, fields
 from project.api.models import Token, User, Document, Cash_Flow, Balance_Sheet, Profit_Loss
 from project import db
 
+'''
 REDIRECT_URI =  os.getenv('REDIRECT_URI')
 ACCOUNTING_SCOPE = 'com.intuit.quickbooks.accounting'
 CLIENT_ID = 'Q0LH8ItSo4cZCuka8OAiXdbdea5k5vzWRaytOSeplNroZ4jYQi'
 CLIENT_SECRET = 'E5FYXGrL85Xm0UqkqXntZQIMlU3hlP6fhvoUEJQ4'
 SANDBOX_QBO_BASEURL = 'https://sandbox-quickbooks.api.intuit.com'
+'''
+
+REDIRECT_URI = 'http://ec2-54-175-153-92.compute-1.amazonaws.com:5000/accounting/authCodeHandler'
+ACCOUNTING_SCOPE = 'com.intuit.quickbooks.accounting'
+CLIENT_ID = 'Q0qlHtvrfP8gWXQQ0y7mY9JqIaya8t3IKPkaXo5VR3GcJjKFZZ'
+CLIENT_SECRET = 'lFMCrPlH6QKirroDcTbynvZlh9J42s8Fnzc5ALiF'
+SANDBOX_QBO_BASEURL = 'https://sandbox-quickbooks.api.intuit.com'
+
 
 api = Namespace('accounting', description='Connect and Get Accounting Data')
 

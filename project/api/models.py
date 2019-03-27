@@ -87,6 +87,7 @@ class Company(db.Model):
     active = db.Column(db.Boolean(), default=True, nullable=False)
     admin = db.Column(db.Boolean(),default=False, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.String, nullable=True)
 
 
     def __init__(self, company_name, address, city, state, zipcode):
@@ -210,6 +211,7 @@ class User(db.Model):
     active = db.Column(db.Boolean(), default=True, nullable=False)
     dl_front = db.Column(db.String(), nullable=True, unique=True)
     dl_back = db.Column(db.String(), nullable=True, unique=True)
+    last_step = db.Column(db.Integer(), nullable=True, unique=False)
     
     def __init__(self, email, password, status, admin, first_name, last_name, birthday):
         self.email = email
@@ -318,15 +320,16 @@ class Bank_Account(db.Model):
     account_number = db.Column(db.Numeric, nullable=False)
     routing_number = db.Column(db.Numeric, nullable=False)
     balance = db.Column(db.Float, nullable=False)
+    uid = db.Column(db.String(), nullable=False)
     transactions = db.relationship("Transaction", backref="bank_transaction", cascade="all, delete-orphan", lazy='dynamic')
 
-    def __init__(self, user, name, account_type, account_number, routing_number, balance):
-        self.user = user
+    def __init__(self, name, account_type, account_number, routing_number, balance, uid):
         self.name = name
         self.account_type = account_type
         self.account_number = account_number
         self.routing_number = routing_number
         self.balance = balance
+        self.uid = uid
 
 class Balance_Sheet(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

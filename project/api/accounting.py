@@ -185,7 +185,7 @@ class Authorization(Resource):
                      'realmId':realmId
                  }
             })
-            print("ACCUNTING: %s"%(response_object.data))
+            print("ACCOUNTING: %s"%(response_object.data))
         access_token = data['access_token']
         return redirect('https://gro.capital/quickbooks?status=success&message=ok&access_token=%s&realmId=%s'%(access_token, realmId),code=302)
 
@@ -214,12 +214,14 @@ class companyInfo(Resource):
         response = json.loads(r.text)
         return response, status_code
 
+## Balance Sheet
 @api.route('/apiCall/BalanceSheet')
 class BalanceSheet(Resource):
     @api.expect(company_fields)
     def post(self):
         """ Making a specific API call """
         data = request.get_json()
+        print(data)
         print(data['realmId'], data['access_token'])
         route = 'https://sandbox-quickbooks.api.intuit.com/v3/company/{0}/reports/BalanceSheet?minorversion=4'.format(data['realmId'])
         print(route)
@@ -271,6 +273,8 @@ class BalanceSheet(Resource):
         response_object.status_code = 200
         return response_object
 
+
+## Cash Flow 
 @api.route('/apiCall/CashFlow')
 class CashFlow(Resource):
     @api.expect(company_fields)
@@ -326,6 +330,7 @@ class CashFlow(Resource):
         response_object.status_code = 200
         return response_object
 
+## Profit and Los
 @api.route('/apiCall/ProfitAndLoss')
 class ProfitAndLoss(Resource):
     @api.expect(company_fields)
@@ -405,6 +410,24 @@ class AllReport(Resource):
         print("HERE IS THE REQUEST CONTENT")
         print(data)
         user_id = data['user_id']
+
+        ## Pulling newest reports from Quickbook
+        our_user = User.query.filter_by(id=user_id).first()
+        uid = our_user.uid
+        access_token = our_user.quickbook_access_token
+        realmId = our_user.quickbook_id
+
+        ## 
+        def pull_quickbook_report(report_name,uid,access_token, realmId):
+            route = 'https://apis.gro.capital/accounting/apiCall/'+report_name
+            r = requests.post(route, data={'uid':uid, 'realmId':realmId, 'access_token':access_token}) 
+
+        ## Pulling Three Reports from QuickBook and Insert into DB
+        pull_quickbook_report('BalanceSheet', uid, access_token, realmId)
+        pull_quickbook_report('CashFlow', uid, access_token, realmId)
+        pull_quickbook_report('ProfitAndLoss', uid, access_token, realmId)
+
+        ## Query to DB
         balance_sheet = Balance_Sheet.query.filter_by(user_id=user_id).first()
         cash_flow = Cash_Flow.query.filter_by(user_id=user_id).first()
         profit_loss = Profit_Loss.query.filter_by(user_id=user_id).first()

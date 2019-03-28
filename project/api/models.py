@@ -314,15 +314,17 @@ class Bank_Account(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship('User')
     name = db.Column(db.String, nullable=False)
+    account_id = db.Column(db.String, nullable=True)
     account_type = db.Column(db.String, nullable=False)
     account_number = db.Column(db.Numeric, nullable=False)
     routing_number = db.Column(db.Numeric, nullable=False)
     balance = db.Column(db.Float, nullable=False)
     transactions = db.relationship("Transaction", backref="bank_transaction", cascade="all, delete-orphan", lazy='dynamic')
 
-    def __init__(self, user, name, account_type, account_number, routing_number, balance):
+    def __init__(self, user, name, account_id, account_type, account_number, routing_number, balance):
         self.user = user
         self.name = name
+        self.account_id = account_id
         self.account_type = account_type
         self.account_number = account_number
         self.routing_number = routing_number

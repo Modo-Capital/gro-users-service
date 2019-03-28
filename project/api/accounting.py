@@ -29,11 +29,22 @@ SANDBOX_QBO_BASEURL = 'https://sandbox-quickbooks.api.intuit.com'
 
 api = Namespace('accounting', description='Connect and Get Accounting Data')
 
-document_fields = api.model('Document', {
-  'uid':fields.String(description="User UID", required=True),
-  'name':fields.String(description="Document Name", required=True),
-  'link':fields.String(description="Document Name", required=True)
+report_fields = api.model('Report', {
+  'report_type': fields.String(description="Type of report among balance_sheet, income, cash_flow", required=True) , 
+  'report_id': fields.String(description="Id of the specific accounting Report", required=True)
 })
+
+document_fields = api.model('Document', {
+    'uid':fields.String(description="User UID", required=True),
+    'name':fields.String(description="Document Name", required=True),
+    'link':fields.String(description="Document Name", required=True)
+})
+
+company_reports = api.model('Reports', {
+    'user_id':fields.String(description="User ID", required=True)
+})
+
+## Switching to Company UID later
 
 company_fields = api.model('Company', {
     'uid':fields.String(description="User UID", required=True),
@@ -384,6 +395,90 @@ class ProfitAndLoss(Resource):
         })
         response_object.status_code = 200
         return response_object
+
+@api.route('/accountingReport')
+class AllReport(Resource):
+    @api.expect(company_reports)
+    def post(self):
+        """Get Request to Display All Accounting Reports Belong to An User"""
+        data = request.get_json()
+        print("HERE IS THE REQUEST CONTENT")
+        print(data)
+        user_id = data['user_id']
+        balance_sheet = Balance_Sheet.query.filter_by(user_id=user_id).first()
+        cash_flow = Cash_Flow.query.filter_by(user_id=user_id).first()
+        profit_loss = Profit_Loss.query.filter_by(user_id=user_id).first()
+        response = jsonify([
+            {
+                "report_name":balance_sheet.report_name, 
+                "start_date":balance_sheet.startPeriod, 
+                "account":balance_sheet.id
+            }, 
+            {   
+                "report_name":profit_loss.report_name, 
+                "start_date":profit_loss.startPeriod,
+                "account":profit_loss.id
+            }, 
+            {
+                "report_name":cash_flow.report_name,
+                "start_date":cash_flow.startPeriod, 
+                "account": cash_flow.id
+            }  
+        ])
+
+        return response
+
+@api.route('/deleteReport')
+class deleteReport(Resource):
+    @api.expect(report_fields)
+    def delete(self):
+        """Post Request to Delete Report by Type & ID"""
+
+        ## Parsing data from Request
+        data = request.get_json()
+        account_type = data['report_type']
+        report_id = int(data['report_id'])
+        user_pick = "Not pick yet"
+
+        # Delete from DB 
+        def delete_report(report_object):
+            if report_object:
+                db.session.delete(report_object)
+                try:
+                    db.session.commit()
+                    print("Deleted from db")
+                except:
+                    db.session.rollback()
+                    raise
+                response = jsonify({
+                    'status':'success', 
+                    'message': 'Successfully delete accounting report'
+                })
+                response.status_code = 200
+                return response
+            else:
+                response = jsonify({
+                    'status':'fail',
+                    'message': 'Fail to delete the report',
+                    'status_code': 401
+                })
+                return response
+
+        # ## Decide Which Type of Report to Delete
+        if account_type == "balance_sheet":
+            balance_sheet_report = Balance_Sheet.query.filter_by(id=report_id).first()
+            return delete_report(balance_sheet_report)
+
+        elif account_type == "income":
+            income_report = Profit_Loss.query.filter_by(id=report_id).first()
+            return delete_report(income_report)
+
+        elif account_type == "cashflow":
+            cash_flow = Cash_Flow.query.filter_by(id=report_id).first()
+            return delete_report(cash_flow)
+            
+        else:
+            user_pick = "Not correct report type please pick one from balance_sheet, cashflow, income" 
 
 # @api.route('/connected')
 # class Connected(Resource):

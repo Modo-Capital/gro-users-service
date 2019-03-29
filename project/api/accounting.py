@@ -419,7 +419,7 @@ class AllReport(Resource):
 
         ## 
         def pull_quickbook_report(report_name,uid,access_token, realmId):
-            route = 'https://apis.gro.capital/accounting/apiCall/'+report_name
+            route = 'http://ec2-54-175-153-92.compute-1.amazonaws.com:5000/accounting/apiCall/'+report_name
             r = requests.post(route, data={'uid':uid, 'realmId':realmId, 'access_token':access_token}) 
 
         ## Pulling Three Reports from QuickBook and Insert into DB

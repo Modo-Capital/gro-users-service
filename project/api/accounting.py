@@ -432,6 +432,7 @@ class AllReport(Resource):
         cash_flow = Cash_Flow.query.filter_by(user_id=user_id).first()
         profit_loss = Profit_Loss.query.filter_by(user_id=user_id).first()
 
+        response = jsonify([])
         if balance_sheet:
             response = jsonify([
                 {
@@ -440,8 +441,6 @@ class AllReport(Resource):
                     "account":balance_sheet.id
                 }
             ])
-        else:
-            jsonify([])
 
         return response
 

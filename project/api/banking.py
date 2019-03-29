@@ -152,6 +152,23 @@ class Accounts(Resource):
                 }
             })
             response.status_code = 200
+
+# Delete Account
+@api.route('/accounts/<string:account_id>')
+class DeleteAccount(Resource):
+    def delete(self, account_id):
+        removing_account = Bank_Account.query.filter_by(account_id=account_id).first()
+        db.session.delete(removing_account)
+        try:
+            db.session.commit()
+            print("Deleting account from db")
+        except:
+            db.session.rollback()
+            raise
+        response = jsonify({
+            'status':'success',
+            'message':'Successfully deleting bank_account' 
+        })
         return response
 
 # Bank Item Route

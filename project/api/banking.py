@@ -108,7 +108,7 @@ class Access_token(Resource):
         return response
 
 
-# Bank Account Route
+# Get All Accounts in a Bank
 @api.route('/accounts/<string:uid>')
 class Accounts(Resource):
     def get(self, uid):
@@ -153,56 +153,56 @@ class Accounts(Resource):
         """Getting Bank Account Information"""
         user = User.query.filter_by(uid=uid).first()
         print("UpDATING BANKING INFO FOR "+user.email)
+
         ## Getting Updated Bank Data
         access_token = user.plaid_access_token
         banking_data = client.Auth.get(access_token)
+        
         # print(banking_data)
-        if not banking_data:
+        if not banking_data['accounts']:
             response = jsonify({
                 'status':'fail',
                 'messsage':'Cant not pull users account, check access token'
             })
             response.status_code = 401
         else:
-            account = Bank_Account.query.filter_by(account_number=account_number, routing_number=routing_number).first()
-            if not account:
-                account = Bank_Account(name=account_name, user=user, account_type =account_type, account_number=account_number, routing_number=routing_number, balance=account_balance)
-                db.session.add(account)
-                db.session.commit()
-            else:
-                account.balance = account_balance
-                db.session.add(account)
-                db.session.commit()
-            response = jsonify({
-                'status':'success',
-                'message':'Successfully pull banking data',
-                'data': {
-                    'account_name':account_name,
-                    'account_type':account_type,
-                    'account_balance':account_balance,
-                    'account_number':account_number,
-                    'routing_number':routing_number
-                }
-            })
-            response.status_code = 200
+            accounts = banking_data["accounts"]
+
+            print("BANK ACCOUNTS")
+            print(len(accounts))
+
+            for n in range(len(accounts)):
+                try:
+                    number = banking_data["numbers"][n]['account']
+                    routing = banking_data["numbers"][n]['routing']
+                except Exception as e:
+                    print("This is CREDIT ACCOUNTS, no debit")
+               
+                account = banking_data["accounts"][n]
+                user_id = user.id
+                insert_bank_accounts(account,number,routing,user_id)
+
+            current_accounts = Bank_Account.query.filter_by(user_id=user.id)
+            response_data = []
+            for current_account in current_accounts:
+                response_data.append({
+                    "account_id":current_account.account_id,
+                    "name":current_account.name, 
+                    "type":current_account.account_type, 
+                    "number":current_account.account_number, 
+                    "routing":current_account.routing_number,
+                    "balance":current_account.balance
+                })
+            response = jsonify(response_data)
         return response
-        
-# Delete Account
+
 @api.route('/accounts/<string:account_id>')
 class DeleteAccount(Resource):
     def delete(self, account_id):
-        removing_account = Bank_Account.query.filter_by(account_id=account_id).first()
-        db.session.delete(removing_account)
-        try:
-            db.session.commit()
-            print("Deleting account from db")
-        except:
-            db.session.rollback()
-            raise
-        response = jsonify({
-            'status':'success',
-            'message':'Successfully deleting bank_account' 
-        })
+        return {
+            "account_id":account_id
+        }
+
 # Bank Item Route
 @api.route('/item/<string:uid>')
 class Item(Resource):
@@ -354,3 +354,25 @@ class Public_token(Resource):
 
 # Plaid Development Access Token
 # access-development-72e66b84-0096-436c-b04f-e8920241c710
+        
+# Delete Account
+@api.route('/accounts/<string:account_id>')
+class DeleteAccount(Resource):
+    def delete(self, account_id):
+        removing_account = Bank_Account.query.filter_by(account_id=account_id).first()
+        db.session.delete(removing_account)
+        try:
+            db.session.commit()
+            
+            response = jsonify({
+                'status':'success',
+                'message':'Successfully deleting bank_account' 
+            })
+            return response
+        except:
+            db.session.rollback()
+            raise
+            response = jsonify({
+                'status':'fail',
+                'message':'Account Does not exist' 
+            })

@@ -12,11 +12,20 @@ from flask_restplus import Namespace, Resource, reqparse, fields
 from project.api.models import Token, User, Document, Cash_Flow, Balance_Sheet, Profit_Loss
 from project import db
 
+'''
 REDIRECT_URI =  os.getenv('REDIRECT_URI')
 ACCOUNTING_SCOPE = 'com.intuit.quickbooks.accounting'
 CLIENT_ID = 'Q0LH8ItSo4cZCuka8OAiXdbdea5k5vzWRaytOSeplNroZ4jYQi'
 CLIENT_SECRET = 'E5FYXGrL85Xm0UqkqXntZQIMlU3hlP6fhvoUEJQ4'
 SANDBOX_QBO_BASEURL = 'https://sandbox-quickbooks.api.intuit.com'
+'''
+
+REDIRECT_URI = 'http://ec2-54-175-153-92.compute-1.amazonaws.com:5000/accounting/authCodeHandler'
+ACCOUNTING_SCOPE = 'com.intuit.quickbooks.accounting'
+CLIENT_ID = 'Q0qlHtvrfP8gWXQQ0y7mY9JqIaya8t3IKPkaXo5VR3GcJjKFZZ'
+CLIENT_SECRET = 'lFMCrPlH6QKirroDcTbynvZlh9J42s8Fnzc5ALiF'
+SANDBOX_QBO_BASEURL = 'https://sandbox-quickbooks.api.intuit.com'
+
 
 api = Namespace('accounting', description='Connect and Get Accounting Data')
 
@@ -26,10 +35,16 @@ report_fields = api.model('Report', {
 })
 
 document_fields = api.model('Document', {
-  'uid':fields.String(description="User UID", required=True),
-  'name':fields.String(description="Document Name", required=True),
-  'link':fields.String(description="Document Name", required=True)
+    'uid':fields.String(description="User UID", required=True),
+    'name':fields.String(description="Document Name", required=True),
+    'link':fields.String(description="Document Name", required=True)
 })
+
+company_reports = api.model('Reports', {
+    'user_id':fields.String(description="User ID", required=True)
+})
+
+## Switching to Company UID later
 
 company_fields = api.model('Company', {
     'uid':fields.String(description="User UID", required=True),
@@ -170,7 +185,7 @@ class Authorization(Resource):
                      'realmId':realmId
                  }
             })
-            print("ACCUNTING: %s"%(response_object.data))
+            print("ACCOUNTING: %s"%(response_object.data))
         access_token = data['access_token']
         return redirect('https://gro.capital/quickbooks?status=success&message=ok&access_token=%s&realmId=%s'%(access_token, realmId),code=302)
 
@@ -199,12 +214,14 @@ class companyInfo(Resource):
         response = json.loads(r.text)
         return response, status_code
 
+## Balance Sheet
 @api.route('/apiCall/BalanceSheet')
 class BalanceSheet(Resource):
     @api.expect(company_fields)
     def post(self):
         """ Making a specific API call """
         data = request.get_json()
+        print(data)
         print(data['realmId'], data['access_token'])
         route = 'https://sandbox-quickbooks.api.intuit.com/v3/company/{0}/reports/BalanceSheet?minorversion=4'.format(data['realmId'])
         print(route)
@@ -256,6 +273,8 @@ class BalanceSheet(Resource):
         response_object.status_code = 200
         return response_object
 
+
+## Cash Flow 
 @api.route('/apiCall/CashFlow')
 class CashFlow(Resource):
     @api.expect(company_fields)
@@ -311,6 +330,7 @@ class CashFlow(Resource):
         response_object.status_code = 200
         return response_object
 
+## Profit and Los
 @api.route('/apiCall/ProfitAndLoss')
 class ProfitAndLoss(Resource):
     @api.expect(company_fields)
@@ -381,11 +401,61 @@ class ProfitAndLoss(Resource):
         response_object.status_code = 200
         return response_object
 
+@api.route('/accountingReport')
+class AllReport(Resource):
+    @api.expect(company_reports)
+    def post(self):
+        """Get Request to Display All Accounting Reports Belong to An User"""
+        data = request.get_json()
+        print("HERE IS THE REQUEST CONTENT")
+        print(data)
+        user_id = data['user_id']
+
+        ## Pulling newest reports from Quickbook
+        our_user = User.query.filter_by(id=user_id).first()
+        uid = our_user.uid
+        access_token = our_user.quickbook_access_token
+        realmId = our_user.quickbook_id
+
+        ## 
+        def pull_quickbook_report(report_name,uid,access_token, realmId):
+            route = 'https://apis.gro.capital/accounting/apiCall/'+report_name
+            r = requests.post(route, data={'uid':uid, 'realmId':realmId, 'access_token':access_token}) 
+
+        ## Pulling Three Reports from QuickBook and Insert into DB
+        pull_quickbook_report('BalanceSheet', uid, access_token, realmId)
+        pull_quickbook_report('CashFlow', uid, access_token, realmId)
+        pull_quickbook_report('ProfitAndLoss', uid, access_token, realmId)
+
+        ## Query to DB
+        balance_sheet = Balance_Sheet.query.filter_by(user_id=user_id).first()
+        cash_flow = Cash_Flow.query.filter_by(user_id=user_id).first()
+        profit_loss = Profit_Loss.query.filter_by(user_id=user_id).first()
+        response = jsonify([
+            {
+                "report_name":balance_sheet.report_name, 
+                "start_date":balance_sheet.startPeriod, 
+                "account":balance_sheet.id
+            }, 
+            {   
+                "report_name":profit_loss.report_name, 
+                "start_date":profit_loss.startPeriod,
+                "account":profit_loss.id
+            }, 
+            {
+                "report_name":cash_flow.report_name,
+                "start_date":cash_flow.startPeriod, 
+                "account": cash_flow.id
+            }  
+        ])
+
+        return response
+
 @api.route('/deleteReport')
 class deleteReport(Resource):
     @api.expect(report_fields)
-    def post(self):
-        """Post Request to Delete Report by ID"""
+    def delete(self):
+        """Post Request to Delete Report by Type & ID"""
 
         ## Parsing data from Request
         data = request.get_json()
@@ -399,7 +469,7 @@ class deleteReport(Resource):
                 db.session.delete(report_object)
                 try:
                     db.session.commit()
-                    print("I'm here!")
+                    print("Deleted from db")
                 except:
                     db.session.rollback()
                     raise
@@ -412,7 +482,7 @@ class deleteReport(Resource):
             else:
                 response = jsonify({
                     'status':'fail',
-                    'message': 'Fail to pull user data',
+                    'message': 'Fail to delete the report',
                     'status_code': 401
                 })
                 return response
@@ -420,15 +490,15 @@ class deleteReport(Resource):
         # ## Decide Which Type of Report to Delete
         if account_type == "balance_sheet":
             balance_sheet_report = Balance_Sheet.query.filter_by(id=report_id).first()
-            delete_report(balance_sheet_report)
+            return delete_report(balance_sheet_report)
 
         elif account_type == "income":
             income_report = Profit_Loss.query.filter_by(id=report_id).first()
-            delete_report(income_report)
+            return delete_report(income_report)
 
         elif account_type == "cashflow":
             cash_flow = Cash_Flow.query.filter_by(id=report_id).first()
-            delete_report(cash_flow)
+            return delete_report(cash_flow)
             
         else:
             user_pick = "Not correct report type please pick one from balance_sheet, cashflow, income" 

@@ -21,7 +21,8 @@ user = api.model('User', {
     'birthday':fields.DateTime(description="User birthday", required=False),
     'driverLicense':fields.String(description="User driver license", required=False),
     'ssn':fields.Integer(description="User Social Security Number", required=False),
-    'company':fields.String(description='Company UID', required=False)
+    'company':fields.String(description='Company UID', required=False),
+    'last_step':fields.Integer(description="Onboarding Step", required=False)
 })
 
 new_user = api.model('New User', {
@@ -41,6 +42,7 @@ class Ping(Resource):
             'status':'success',
             'message':'ping again!'
         })
+
 
 # @api.route('/')
 # class UsersList(Resource):
@@ -159,7 +161,8 @@ class Single_User(Resource):
                             'driver_license':userData.driverLicense,
                             'ssn':userData.ssn,
                             'birthday':userData.birthday.strftime("%Y-%m-%d"),
-                            'company':userData.company
+                            'company':userData.company,
+                            'last_step':userData.last_step
                         },
                         'status_code': 200
                     })    
@@ -185,15 +188,19 @@ class Single_User(Resource):
     def put(self, uid):
         auth_header = request.headers.get('Auth-Token')
         put_data = request.get_json()
+        email = put_data.get('email')
         print("REQUEST DATA: %s"%(put_data))
+        print(auth_header)
         if auth_header: 
             auth_token = auth_header
             print("AUTH TOKEN: %s"%(auth_token))
             resp = User.decode_auth_token(auth_token)
             print("RESP : %s"%(resp))
             if resp == uid:
+                print("I am here!")
                 """ Getting single user details """
                 userData = User.query.filter_by(uid=uid).first()
+                emailData = User.query.filter_by(email=email).first()
                 if not userData:
                     response = jsonify({
                         'status':'fail',
@@ -201,7 +208,7 @@ class Single_User(Resource):
                         'status_code': 401
                     })
                     return response
-                else:
+                elif not emailData:
                     print("Setting email for %s"%(uid))
                     for key, value in put_data.items():
                         print("Updating %s with %s "%(key,value))
@@ -222,5 +229,13 @@ class Single_User(Resource):
                         'update':  put_data
                     })
                     response.status_code = 201
+                    return response
+                else:
+                    response = jsonify({
+                        'status':'fail',
+                        'message':'Duplicate email address found',
+                        'status_code': 401
+                    })
+                    response.status_code = 401
                     return response
 

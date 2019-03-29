@@ -108,7 +108,7 @@ class Access_token(Resource):
         return response
 
 
-# Bank Account Route
+# Get All Accounts in a Bank
 @api.route('/accounts/<string:uid>')
 class Accounts(Resource):
     def get(self, uid):
@@ -176,6 +176,7 @@ class Accounts(Resource):
             response_data = []
             for current_account in current_accounts:
                 response_data.append({
+                    "account_id":current_account.account_id,
                     "name":current_account.name, 
                     "type":current_account.account_type, 
                     "number":current_account.account_number, 
@@ -184,6 +185,13 @@ class Accounts(Resource):
                 })
             response = jsonify(response_data)
         return response
+
+@api.route('/accounts/<string:account_id>')
+class DeleteAccount(Resource):
+    def delete(self, account_id):
+        return {
+            "account_id":account_id
+        }
 
 # Bank Item Route
 @api.route('/item/<string:uid>')

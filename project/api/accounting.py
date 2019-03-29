@@ -431,23 +431,17 @@ class AllReport(Resource):
         balance_sheet = Balance_Sheet.query.filter_by(user_id=user_id).first()
         cash_flow = Cash_Flow.query.filter_by(user_id=user_id).first()
         profit_loss = Profit_Loss.query.filter_by(user_id=user_id).first()
-        response = jsonify([
-            {
-                "report_name":balance_sheet.report_name, 
-                "start_date":balance_sheet.startPeriod, 
-                "account":balance_sheet.id
-            }, 
-            {   
-                "report_name":profit_loss.report_name, 
-                "start_date":profit_loss.startPeriod,
-                "account":profit_loss.id
-            }, 
-            {
-                "report_name":cash_flow.report_name,
-                "start_date":cash_flow.startPeriod, 
-                "account": cash_flow.id
-            }  
-        ])
+
+        if balance_sheet:
+            response = jsonify([
+                {
+                    "report_name":balance_sheet.report_name, 
+                    "start_date":balance_sheet.startPeriod, 
+                    "account":balance_sheet.id
+                }
+            ])
+        else:
+            jsonify([])
 
         return response
 

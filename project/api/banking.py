@@ -112,18 +112,51 @@ class Access_token(Resource):
 @api.route('/accounts/<string:uid>')
 class Accounts(Resource):
     def get(self, uid):
+        ## Update Bank Account
+        def insert_bank_accounts(account, number, routing, user_id):
+            account_id = account['account_id']
+            account_name = account['name']
+            account_type = account['subtype']
+            account_balance = account['balances']['current']
+            account_number = number
+            routing_number = routing
+            print(account_id)
+            
+            ## Checking if the account exist
+            bank_account = Bank_Account.query.filter_by(account_id=account_id).first()
+            if not bank_account:
+                ## If does not exist then create a new account record
+                print('CREATING NEW ACCOUNT')
+                new_account = Bank_Account(
+                    user_id=user_id,
+                    name=account_name, 
+                    account_type=account_type,
+                    account_number=account_number,
+                    routing_number=routing_number,
+                    balance=account_balance,
+                    account_id = account_id
+                )
+                print('ADDING NEW DATA TO DB')
+                db.session.add(new_account)
+                try:
+                    db.session.commit()
+                    print("I'm here!")
+                except:
+                    db.session.rollback()
+                    raise
+            else:
+                ## Update with new balance
+                print('UPDATING CURRENT ACCOUNT')
+                bank_account.balance = account_balance
+                db.session.commit()
+                
         """Getting Bank Account Information"""
         user = User.query.filter_by(uid=uid).first()
+        print("UpDATING BANKING INFO FOR "+user.email)
+        ## Getting Updated Bank Data
         access_token = user.plaid_access_token
         banking_data = client.Auth.get(access_token)
-        print(banking_data)
-        account_name = banking_data["accounts"][0]['name']
-        account_type = banking_data["accounts"][0]['subtype']
-        account_balance = banking_data["accounts"][0]['balances']['current']
-        account_number =  banking_data["numbers"][0]['account']
-        routing_number =  banking_data["numbers"][0]['routing']
-        print("YOUR ACCOUNT: %s - %s"%(account_name, account_type))
-        print("YOUR BALANCE: %s"%(account_balance))
+        # print(banking_data)
         if not banking_data:
             response = jsonify({
                 'status':'fail',
@@ -152,7 +185,8 @@ class Accounts(Resource):
                 }
             })
             response.status_code = 200
-
+        return response
+        
 # Delete Account
 @api.route('/accounts/<string:account_id>')
 class DeleteAccount(Resource):
@@ -169,8 +203,6 @@ class DeleteAccount(Resource):
             'status':'success',
             'message':'Successfully deleting bank_account' 
         })
-        return response
-
 # Bank Item Route
 @api.route('/item/<string:uid>')
 class Item(Resource):
@@ -189,7 +221,6 @@ class Item(Resource):
         })
         response.status_code = 200
         return response
-
 
 # Bank Transaction Route@app.route("/accounts", methods=['GET'])
 @api.route('/transactions/<string:uid>')

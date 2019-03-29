@@ -312,21 +312,23 @@ class Bank_Account(db.Model):
     __tablename__ = "bank_accounts"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship('User')
+    # user = db.relationship('User')
     name = db.Column(db.String, nullable=False)
+    account_id = db.Column(db.String, nullable=False)
     account_type = db.Column(db.String, nullable=False)
     account_number = db.Column(db.Numeric, nullable=False)
     routing_number = db.Column(db.Numeric, nullable=False)
     balance = db.Column(db.Float, nullable=False)
     transactions = db.relationship("Transaction", backref="bank_transaction", cascade="all, delete-orphan", lazy='dynamic')
 
-    def __init__(self, user, name, account_type, account_number, routing_number, balance):
-        self.user = user
+    def __init__(self,user_id,name,account_type, account_number,routing_number, balance,account_id):
+        self.user_id = user_id
         self.name = name
         self.account_type = account_type
         self.account_number = account_number
         self.routing_number = routing_number
         self.balance = balance
+        self.account_id = account_id
 
 class Balance_Sheet(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

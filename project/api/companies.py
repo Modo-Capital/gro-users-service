@@ -372,7 +372,8 @@ class Single_Company(Resource):
                         'duns': company.duns,
                         'bank_account':company.bank_account,
                         'accounting_account':company.accounting_account,
-                        'created_at':company.created_at
+                        'created_at':company.created_at,
+                        'date':company.date
                     }
                 })
                 response_object.status_code = 200

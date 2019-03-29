@@ -307,6 +307,23 @@ class Document(db.Model):
     def __repr__(self):
         return '<Document %r>' % self.id
 
+## Banking Token
+class BankingToken(db.Model):
+    __tablename__="banking_tokens"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    item_id = db.Column(db.String, nullable=False)
+    institution_id = db.Column(db.String, nullable=False)
+    institution_name = db.Column(db.String, nullable=False)
+    access_token = db.Column(db.String, nullable=False)
+
+    def __init__(self, user_id, item_id,institution_id, institution_name, access_token):
+        self.user_id = user_id
+        self.item_id = item_id
+        self.institution_id = institution_id
+        self.institution_name = institution_name
+        self.access_token = access_token
+
 # Create Banking Accounts
 class Bank_Account(db.Model):
     __tablename__ = "bank_accounts"
@@ -377,7 +394,6 @@ class Cash_Flow(db.Model):
         self.operatingNetCash = operatingNetCash
         self.investingNetCash = investingNetCash
         self.financingNetCash = financingNetCash
-
 
 class Profit_Loss(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

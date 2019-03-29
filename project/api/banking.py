@@ -154,35 +154,40 @@ class Accounts(Resource):
         user = User.query.filter_by(uid=uid).first()
         print("UpDATING BANKING INFO FOR "+user.email)
 
-        ## Getting Updated Bank Data
-        access_token = user.plaid_access_token
-        banking_data = client.Auth.get(access_token)
-        
-        # print(banking_data)
-        if not banking_data['accounts']:
-            response = jsonify({
-                'status':'fail',
-                'messsage':'Cant not pull users account, check access token'
-            })
-            response.status_code = 401
-        else:
-            accounts = banking_data["accounts"]
 
-            print("BANK ACCOUNTS")
-            print(len(accounts))
+        ## Getting Updated Banking Data from Plaid
+        def pullPlaidData():
+            access_token = user.plaid_access_token
+            banking_data = client.Auth.get(access_token)
+            
+            if not banking_data['accounts']:
+                response = jsonify({
+                    'status':'fail',
+                    'messsage':'Cant not pull users account, check access token'
+                })
+                response.status_code = 401
+            else:
+                accounts = banking_data["accounts"]
 
-            for n in range(len(accounts)):
-                try:
-                    number = banking_data["numbers"][n]['account']
-                    routing = banking_data["numbers"][n]['routing']
-                except Exception as e:
-                    print("This is CREDIT ACCOUNTS, no debit")
-               
-                account = banking_data["accounts"][n]
-                user_id = user.id
-                insert_bank_accounts(account,number,routing,user_id)
+                print("BANK ACCOUNTS")
+                print(len(accounts))
 
+                for n in range(len(accounts)):
+                    try:
+                        number = banking_data["numbers"][n]['account']
+                        routing = banking_data["numbers"][n]['routing']
+                    except Exception as e:
+                        print("This is CREDIT ACCOUNTS, no debit")
+                   
+                    account = banking_data["accounts"][n]
+                    user_id = user.id
+                    insert_bank_accounts(account,number,routing,user_id)
+
+        current_accounts = Bank_Account.query.filter_by(user_id=user.id)
+        if not current_accounts: 
+            pullPlaidData()
             current_accounts = Bank_Account.query.filter_by(user_id=user.id)
+        else:
             response_data = []
             for current_account in current_accounts:
                 response_data.append({
@@ -194,7 +199,7 @@ class Accounts(Resource):
                     "balance":current_account.balance
                 })
             response = jsonify(response_data)
-        return response
+            return response
 
 # Delete Account
 @api.route('/accounts/<string:account_id>')

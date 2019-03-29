@@ -196,12 +196,27 @@ class Accounts(Resource):
             response = jsonify(response_data)
         return response
 
+# Delete Account
 @api.route('/accounts/<string:account_id>')
 class DeleteAccount(Resource):
     def delete(self, account_id):
-        return {
-            "account_id":account_id
-        }
+        removing_account = Bank_Account.query.filter_by(account_id=account_id).first()
+        db.session.delete(removing_account)
+        try:
+            db.session.commit()
+            
+            response = jsonify({
+                'status':'success',
+                'message':'Successfully deleting bank_account' 
+            })
+            return response
+        except:
+            db.session.rollback()
+            raise
+            response = jsonify({
+                'status':'fail',
+                'message':'Account Does not exist' 
+            })
 
 # Bank Item Route
 @api.route('/item/<string:uid>')
@@ -355,24 +370,4 @@ class Public_token(Resource):
 # Plaid Development Access Token
 # access-development-72e66b84-0096-436c-b04f-e8920241c710
         
-# Delete Account
-@api.route('/accounts/<string:account_id>')
-class DeleteAccount(Resource):
-    def delete(self, account_id):
-        removing_account = Bank_Account.query.filter_by(account_id=account_id).first()
-        db.session.delete(removing_account)
-        try:
-            db.session.commit()
-            
-            response = jsonify({
-                'status':'success',
-                'message':'Successfully deleting bank_account' 
-            })
-            return response
-        except:
-            db.session.rollback()
-            raise
-            response = jsonify({
-                'status':'fail',
-                'message':'Account Does not exist' 
-            })
+

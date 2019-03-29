@@ -441,6 +441,8 @@ class AllReport(Resource):
                     "account":balance_sheet.id
                 }
             ])
+        print('RESPONSE-------')
+        print(response)
 
         return response
 

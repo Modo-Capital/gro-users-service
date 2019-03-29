@@ -221,6 +221,7 @@ class BalanceSheet(Resource):
     def post(self):
         """ Making a specific API call """
         data = request.get_json()
+        print('BALANCE SHEET---------------')
         print(data)
         print(data['realmId'], data['access_token'])
         route = 'https://sandbox-quickbooks.api.intuit.com/v3/company/{0}/reports/BalanceSheet?minorversion=4'.format(data['realmId'])
@@ -432,6 +433,7 @@ class AllReport(Resource):
         cash_flow = Cash_Flow.query.filter_by(user_id=user_id).first()
         profit_loss = Profit_Loss.query.filter_by(user_id=user_id).first()
 
+        print('BEFORE RESPONSE----')
         response = jsonify([])
         if balance_sheet:
             response = jsonify([

@@ -184,22 +184,21 @@ class Accounts(Resource):
                     insert_bank_accounts(account,number,routing,user_id)
 
         current_accounts = Bank_Account.query.filter_by(user_id=user.id)
-        if not current_accounts: 
+        if current_accounts.count() == 0:
             pullPlaidData()
             current_accounts = Bank_Account.query.filter_by(user_id=user.id)
-        else:
-            response_data = []
-            for current_account in current_accounts:
-                response_data.append({
-                    "account_id":current_account.account_id,
-                    "name":current_account.name, 
-                    "type":current_account.account_type, 
-                    "number":current_account.account_number, 
-                    "routing":current_account.routing_number,
-                    "balance":current_account.balance
-                })
-            response = jsonify(response_data)
-            return response
+        response_data = []
+        for current_account in current_accounts:
+            response_data.append({
+                "account_id":current_account.account_id,
+                "name":current_account.name, 
+                "type":current_account.account_type, 
+                "number":current_account.account_number, 
+                "routing":current_account.routing_number,
+                "balance":current_account.balance
+            })
+        response = jsonify(response_data)
+        return response
 
 # Delete Account
 @api.route('/accounts/<string:account_id>')

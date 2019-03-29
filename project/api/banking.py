@@ -1,4 +1,4 @@
-# project/api/banking.py
+    # project/api/banking.py
 
 import os               # Importing local variable via os later
 import datetime         # Importing datetime for 
@@ -13,7 +13,7 @@ from flask import Flask, Blueprint, render_template, request, jsonify
 # Importing Restplus for API features
 from flask_restplus import Namespace, Resource, fields
 from project import db
-from project.api.models import DailyTransaction, User, Bank_Account, Transaction
+from project.api.models import DailyTransaction, User, Bank_Account, BankingToken, Transaction
 
 # Creating banking routing
 banking_blueprint = Blueprint('banking',__name__, static_folder='static', template_folder="template")
@@ -70,7 +70,6 @@ class Banking(Resource):
         }
     )
 
-
 # Get Access Token Route
 @api.route('/send_public_token')
 @api.response(404, 'Invalid public token')
@@ -91,13 +90,57 @@ class Access_token(Resource):
             response.status_code = 401
         else:
             exchange_response = client.Item.public_token.exchange(public_token)
+            
+            ### Viewing the full Plaid Response
+            print(exchange_response)
+            
             print('public_token: '+public_token)
             print('access_token: '+ exchange_response['access_token'])
             print('item ID' + exchange_response['item_id'])
+            item_id = exchange_response['item_id']
             access_token = exchange_response['access_token']
+
+            ## Getting Institution Name and Id
+            item_response = client.Item.get(access_token)
+            institution_id = item_response['item']['institution_id']
+            institution_response = client.Institutions.get_by_id(institution_id)
+            institution_name = institution_response['institution']['name']
+
+
+            ## Get User Id
             user = User.query.filter_by(uid=uid).first()
+            user_id = user.id
             user.plaid_access_token = access_token
-            db.session.add(user)
+
+            banking_token = BankingToken(
+                user_id=user_id, 
+                item_id=item_id, 
+                institution_id=institution_id, 
+                institution_name= institution_name, 
+                access_token=access_token
+            )
+
+            db.session.add(banking_tokens)
+            db.sesson.commit()
+
+            # class BankingToken(db.Model):
+            # __tablename__="banking_tokens"
+            # id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+            # user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+            # item_id = db.Column(db.String, nullable=False)
+            # institution_id = db.Column(db.String, nullable=False)
+            # institution_name = db.Column(db.String, nullable=False)
+            # access_token = db.Column(db.String, nullable=False)
+
+            # def __init__(self, user_id, item_id,institution_id, institution_name, access_token):
+            #     self.user_id = user_id
+            #     self.item_id = item_id
+            #     self.institution_id = institution_id
+            #     self.institution_name = institution_name
+            #     self.access_token = access_token
+            ## Save Token 
+            
+            # db.session.add(user)
             db.session.commit()
             response = jsonify({
                 'status':'success',
@@ -106,7 +149,6 @@ class Access_token(Resource):
             })
             response.status_code = 200 
         return response
-
 
 # Get All Accounts in a Bank
 @api.route('/accounts/<string:uid>')

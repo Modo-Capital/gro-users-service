@@ -210,8 +210,9 @@ class User(db.Model):
     active = db.Column(db.Boolean(), default=True, nullable=False)
     dl_front = db.Column(db.String(), nullable=True, unique=True)
     dl_back = db.Column(db.String(), nullable=True, unique=True)
+    last_step = db.Column(db.Integer(), nullable=True)
     
-    def __init__(self, email, password, status, admin, first_name, last_name, birthday):
+    def __init__(self, email, password, status, admin, first_name, last_name, birthday, last_step):
         self.email = email
         self.password = bcrypt.generate_password_hash(password, current_app.config.get('BCRYPT_LOG_ROUNDS')).decode('utf-8') 
         self.status = status
@@ -221,6 +222,7 @@ class User(db.Model):
         self.first_name = first_name
         self.last_name = last_name
         self.birthday = birthday
+        self.last_step = last_step
 
     # Generate Auth Token
     def encode_auth_token(self, user_id):

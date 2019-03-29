@@ -412,7 +412,7 @@ class AllReport(Resource):
         uid = data['user_id']
 
         ## Pulling newest reports from Quickbook
-        our_user = User.query.filter_by(uid=user_id).first()
+        our_user = User.query.filter_by(uid=uid).first()
         user_id = our_user.id
         access_token = our_user.quickbook_access_token
         realmId = our_user.quickbook_id

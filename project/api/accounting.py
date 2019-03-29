@@ -261,7 +261,7 @@ class BalanceSheet(Resource):
         db.session.add(balance_sheet_report)
         db.session.commit()
         response_object = jsonify({
-            'user_id':data['uid'],
+            'account': data['realmId'],
             'report_name': report_name,
             'startPeriod': startPeriod,
             'endPeriod':endPeriod,

@@ -164,27 +164,45 @@ class Accounts(Resource):
             })
             response.status_code = 401
         else:
-            accounts = banking_data["accounts"]
-            for n in range(len(accounts)):
-                number = banking_data["numbers"][n]['account']
-                routing = banking_data["numbers"][n]['routing']
-                account = banking_data["accounts"][n]
-                user_id = user.id
-                insert_bank_accounts(account,number,routing,user_id)
-
-            current_accounts = Bank_Account.query.filter_by(user_id=user.id)
-            response_data = []
-            for current_account in current_accounts:
-                response_data.append({
-                    "name":current_account.name, 
-                    "type":current_account.account_type, 
-                    "number":current_account.account_number, 
-                    "routing":current_account.routing_number,
-                    "balance":current_account.balance
-                })
-            response = jsonify(response_data)
+            account = Bank_Account.query.filter_by(account_number=account_number, routing_number=routing_number).first()
+            if not account:
+                account = Bank_Account(name=account_name, user=user, account_type =account_type, account_number=account_number, routing_number=routing_number, balance=account_balance)
+                db.session.add(account)
+                db.session.commit()
+            else:
+                account.balance = account_balance
+                db.session.add(account)
+                db.session.commit()
+            response = jsonify({
+                'status':'success',
+                'message':'Successfully pull banking data',
+                'data': {
+                    'account_name':account_name,
+                    'account_type':account_type,
+                    'account_balance':account_balance,
+                    'account_number':account_number,
+                    'routing_number':routing_number
+                }
+            })
+            response.status_code = 200
         return response
-
+        
+# Delete Account
+@api.route('/accounts/<string:account_id>')
+class DeleteAccount(Resource):
+    def delete(self, account_id):
+        removing_account = Bank_Account.query.filter_by(account_id=account_id).first()
+        db.session.delete(removing_account)
+        try:
+            db.session.commit()
+            print("Deleting account from db")
+        except:
+            db.session.rollback()
+            raise
+        response = jsonify({
+            'status':'success',
+            'message':'Successfully deleting bank_account' 
+        })
 # Bank Item Route
 @api.route('/item/<string:uid>')
 class Item(Resource):

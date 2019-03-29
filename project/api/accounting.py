@@ -409,11 +409,11 @@ class AllReport(Resource):
         data = request.get_json()
         print("HERE IS THE REQUEST CONTENT")
         print(data)
-        user_id = data['user_id']
+        uid = data['user_id']
 
         ## Pulling newest reports from Quickbook
         our_user = User.query.filter_by(uid=user_id).first()
-        uid = our_user.uid
+        user_id = our_user.id
         access_token = our_user.quickbook_access_token
         realmId = our_user.quickbook_id
 

@@ -111,6 +111,37 @@ class Upload(Resource):
         return response_object
 
 
+# Get documents
+@api.route('/documents/<string:uid>')
+class Documents(Resource):
+    def get(self, uid):
+        user = User.query.filter_by(uid=uid).first()
+        return Document.query.filter_by(user_id=user.id)
+
+
+# Delete Account
+@api.route('/documents/<string:id>')
+class DeleteDocument(Resource):
+    def delete(self, id):
+        document = Document.query.get(id)
+        db.session.delete(document)
+        try:
+            db.session.commit()
+            
+            response = jsonify({
+                'status':'success',
+                'message':'Successfully deleted document'
+            })
+            return response
+        except:
+            db.session.rollback()
+            raise
+            response = jsonify({
+                'status':'fail',
+                'message':'Document does not exist'
+            })
+
+
 # @api.route('/recon')
 # class Recon(Resource):
 #     def get(self):

@@ -228,7 +228,7 @@ class Authorization(Resource):
             })
             print("ACCOUNTING: %s"%(response_object.data))
         access_token = data['access_token']
-        return redirect('http://localhost:3000/quickbooks?status=success&message=ok&access_token=%s&realmId=%s'%(access_token, realmId),code=302)
+        return redirect('http://ec2-54-172-36-185.compute-1.amazonaws.com/quickbooks?status=success&message=ok&access_token=%s&realmId=%s'%(access_token, realmId),code=302)
 
 @api.route('/apiCall/companyInfo')
 class companyInfo(Resource):

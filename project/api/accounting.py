@@ -116,7 +116,17 @@ class Upload(Resource):
 class Documents(Resource):
     def get(self, uid):
         user = User.query.filter_by(uid=uid).first()
-        return Document.query.filter_by(user_id=user.id)
+        documents = Document.query.filter_by(user_id=user.id)
+        response_data = []
+        for document in documents:
+            response_data.append({
+                "id":document.id,
+                "user_id":document.user_id,
+                "name":document.name,
+                "link":document.link
+            })
+        response = jsonify(response_data)
+        return response
 
 
 # Delete Account

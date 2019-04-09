@@ -77,7 +77,8 @@ class Register(Resource):
                     password=password,
                     first_name = first_name,
                     last_name = last_name,
-                    birthday = birthday
+                    birthday = birthday,
+                    last_step=0,
                 )
                 db.session.add(new_user)
                 db.session.commit()

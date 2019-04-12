@@ -176,12 +176,11 @@ class Accounts(Resource):
                     try:
                         number = banking_data["numbers"][n]['account']
                         routing = banking_data["numbers"][n]['routing']
+                        account = banking_data["accounts"][n]
+                        user_id = user.id
+                        insert_bank_accounts(account,number,routing,user_id)
                     except Exception as e:
                         print("This is CREDIT ACCOUNTS, no debit")
-                   
-                    account = banking_data["accounts"][n]
-                    user_id = user.id
-                    insert_bank_accounts(account,number,routing,user_id)
 
         current_accounts = Bank_Account.query.filter_by(user_id=user.id)
         if current_accounts.count() == 0:

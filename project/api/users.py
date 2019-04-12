@@ -208,7 +208,7 @@ class Single_User(Resource):
                         'status_code': 401
                     })
                     return response
-                elif not emailData:
+                else:
                     print("Setting email for %s"%(uid))
                     for key, value in put_data.items():
                         print("Updating %s with %s "%(key,value))
@@ -229,13 +229,5 @@ class Single_User(Resource):
                         'update':  put_data
                     })
                     response.status_code = 201
-                    return response
-                else:
-                    response = jsonify({
-                        'status':'fail',
-                        'message':'Duplicate email address found',
-                        'status_code': 401
-                    })
-                    response.status_code = 401
                     return response
 

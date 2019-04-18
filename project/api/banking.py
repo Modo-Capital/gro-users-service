@@ -209,7 +209,9 @@ class DeleteAccount(Resource):
         db.session.delete(removing_account)
         try:
             db.session.commit()
-            
+            remaining_accounts = Bank_Account.query.filter_by(account_id=account_id)
+            print('------------------')
+            print(remaining_accounts)
             response = jsonify({
                 'status':'success',
                 'message':'Successfully deleting bank_account' 

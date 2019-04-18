@@ -158,7 +158,7 @@ class Single_User(Resource):
                             'profile':userData.profile,
                             'ssn':userData.ssn, 
                             'created_at':userData.created_at,
-                            'driver_license':userData.driverLicense,
+                            'driverLicense':userData.driverLicense,
                             'ssn':userData.ssn,
                             'birthday':userData.birthday.strftime("%Y-%m-%d"),
                             'company':userData.company,

@@ -158,6 +158,8 @@ class Accounts(Resource):
         ## Getting Updated Banking Data from Plaid
         def pullPlaidData():
             access_token = user.plaid_access_token
+            if access_token == None:
+                return
             banking_data = client.Auth.get(access_token)
             
             if not banking_data['accounts']:
@@ -208,10 +210,16 @@ class DeleteAccount(Resource):
         removing_account = Bank_Account.query.filter_by(account_id=account_id).first()
         db.session.delete(removing_account)
         try:
-            db.session.commit()
-            remaining_accounts = Bank_Account.query.filter_by(account_id=account_id)
+            remaining_accounts = Bank_Account.query.filter_by(user_id=removing_account.user_id)
             print('------------------')
-            print(remaining_accounts)
+            print(removing_account.user_id)
+            print(remaining_accounts.count())
+            if remaining_accounts.count() == 0:
+                print('---removing plaid access token--')
+                user = User.query.filter_by(id=removing_account.user_id).first()
+                user.plaid_access_token = None
+                db.session.add(user)
+            db.session.commit()
             response = jsonify({
                 'status':'success',
                 'message':'Successfully deleting bank_account' 

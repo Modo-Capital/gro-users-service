@@ -159,10 +159,11 @@ class Single_User(Resource):
                             'ssn':userData.ssn, 
                             'created_at':userData.created_at,
                             'driverLicense':userData.driverLicense,
-                            'ssn':userData.ssn,
                             'birthday':userData.birthday.strftime("%Y-%m-%d"),
                             'company':userData.company,
-                            'last_step':userData.last_step
+                            'last_step':userData.last_step,
+                            'dl_front':userData.dl_front,
+                            'dl_back':userData.dl_back,
                         },
                         'status_code': 200
                     })    

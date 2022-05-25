@@ -52,7 +52,7 @@ pathspec==0.5.5
 plaid-python==2.2.0
 psycopg2==2.7.1
 pycparser==2.18
-PyJWT==1.5.0
+PyJWT==2.4.0
 python-dateutil==2.7.2
 python-editor==1.0.3
 python-quickbooks==0.7.4
